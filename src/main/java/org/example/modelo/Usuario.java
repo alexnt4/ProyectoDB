@@ -2,7 +2,7 @@ package org.example.modelo;
 
 public class Usuario {
 
-        private int idUsuario;
+        private String idUsuario;
         private String nombreUsuario;
         private String passwordUsuario;
         private String tipoUsuario;
@@ -11,18 +11,18 @@ public class Usuario {
 
         }
 
-        public Usuario(int idUsuario, String nombreUsuario, String passwordUsuario, String tipoUsuario) {
+        public Usuario(String idUsuario, String nombreUsuario, String passwordUsuario, String tipoUsuario) {
             this.idUsuario = idUsuario;
             this.nombreUsuario = nombreUsuario;
             this.passwordUsuario = passwordUsuario;
             this.tipoUsuario = tipoUsuario;
         }
 
-        public int getIdUsuario() {
+        public String getIdUsuario() {
             return idUsuario;
         }
 
-        public void setIdUsuario(int idUsuario) {
+        public void setIdUsuario(String idUsuario) {
             this.idUsuario = idUsuario;
         }
 

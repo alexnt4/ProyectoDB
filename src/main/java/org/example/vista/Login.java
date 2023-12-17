@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionEvent;
 import org.example.controlador.controlador;
+import org.example.controlador.controladorLogin;
 import org.example.modelo.pedido;
 
 
@@ -96,9 +97,12 @@ public class Login extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == listo) {
-            pantallaPrincipal = new PantallaPrincipal("admin");
-            pantallaPrincipal.setVisible(true);
-            this.dispose();
+            controladorLogin control = new controladorLogin();
+            String idUser = T_usuario.getText();
+            String pass = T_password.getText();
+            if(controladorLogin.loginController(idUser, pass) == true){
+                dispose();
+            };
         }
     }
 
