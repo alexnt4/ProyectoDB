@@ -16,15 +16,18 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
     JTextArea tituloVentana;
     JLabel label;
     JButton B_cliente,B_colegio,B_inventario_materiales,B_pedido,B_prenda_vestir,B_prodterm_X_pedido,
-    B_producto_terminado, B_proveedor,B_uniforme,B_informe;
+    B_producto_terminado, B_proveedor,B_uniforme,B_informe,B_usuario;
 
     //Declarar las otras vistas
     colegio Colegio;
     cliente Cliente;
     inventario_materiales Inventario_Materiales;
+    Usuario usuario;
+    String tipo;
 
     //Construccion
-    public PantallaPrincipal (){
+    public PantallaPrincipal (String cargo){
+        
         super("Base Of Data");
         setSize(950,700);
         getContentPane().setBackground(new Color(0, 191, 255));
@@ -33,6 +36,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
         setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.tipo = cargo;
         GenerarGui();
         repaint();//Forzar repintura
 
@@ -44,6 +48,9 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         Inventario_Materiales = new inventario_materiales();
         add(Inventario_Materiales);
+
+        usuario = new Usuario();
+        add(usuario);
 
     }
 
@@ -173,6 +180,18 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
         B_informe.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
         panel_principal.add(B_informe);
 
+        if(tipo == "admin"){
+            B_usuario = new JButton("USUARIO");
+            B_usuario.setBounds(10, 550,320,40);
+            B_usuario.addActionListener(this);
+            B_usuario.setBorder(new LineBorder(Color.gray));
+            B_usuario.setFont(new Font("cooper black",1,20));
+            B_usuario.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
+            B_usuario.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
+            B_usuario.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
+            panel_principal.add(B_usuario);
+        }
+
     }
 
     public void actionPerformed(ActionEvent e){
@@ -202,7 +221,17 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Cliente.setVisible(false);
             cliente.vaciarCampos();
             Inventario_Materiales.setVisible(true);
+        }
 
+        if(e.getSource() == B_usuario){
+            panel_segundario.setVisible(false);
+            Colegio.setVisible(false);
+            colegio.vaciarCampos();
+            Cliente.setVisible(false);
+            cliente.vaciarCampos();
+            Inventario_Materiales.setVisible(false);
+            inventario_materiales.vaciarCampos();
+            usuario.setVisible(true);
         }
 
     }

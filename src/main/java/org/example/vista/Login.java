@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionEvent;
 import org.example.controlador.controlador;
+import org.example.modelo.pedido;
 
 
 
@@ -23,7 +24,7 @@ public class Login extends JFrame implements ActionListener {
     JTextArea tituloVentana;
 
     controlador controlador = new controlador();
-    PantallaPrincipal pantallaPrincipal = new PantallaPrincipal();
+    PantallaPrincipal pantallaPrincipal;
 
     public Login(){
         super("Login");
@@ -61,12 +62,12 @@ public class Login extends JFrame implements ActionListener {
         T_usuarioTitulo.setEditable(false);
         T_usuarioTitulo.setBorder(new LineBorder(Color.gray));
         T_usuarioTitulo.setBounds(35,110,100,25);
-        add(T_usuarioTitulo);
+        panel.add(T_usuarioTitulo);
 
         T_usuario = new JTextField();
         T_usuario.setBounds(35,140,280,30);
         T_usuario.setBorder(new LineBorder(Color.gray));
-        add(T_usuario);
+        panel.add(T_usuario);
 
         T_passwordTitulo = new JTextField();
         T_passwordTitulo.setText(" Contraseña");
@@ -74,12 +75,12 @@ public class Login extends JFrame implements ActionListener {
         T_passwordTitulo.setEditable(false);
         T_passwordTitulo.setBorder(new LineBorder(Color.gray));
         T_passwordTitulo.setBounds(35,180,100,25);
-        add(T_passwordTitulo);
+        panel.add(T_passwordTitulo);
 
         T_password = new JTextField();
         T_password.setBounds(35,210,280,30);
         T_password.setBorder(new LineBorder(Color.gray));
-        add(T_password);
+        panel.add(T_password);
 
         listo = new JButton("LISTO");
         listo.setBounds(100,280,150,30);
@@ -95,18 +96,10 @@ public class Login extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == listo) {
+            pantallaPrincipal = new PantallaPrincipal("admin");
             pantallaPrincipal.setVisible(true);
             this.dispose();
-
-            //controlador.validarPasswordEmpleado(T_usuario.getText(), T_password.getText());
-            /*if (controlador.validarPasswordEmpleado(T_usuario.getText(), T_password.getText()) == true){
-                pantallaPrincipal.setVisible(true);
-                this.dispose();
-            }*/}
-            else {
-                System.out.println("Contraseña incorrecta");
-            }
-
+        }
     }
 
 }
