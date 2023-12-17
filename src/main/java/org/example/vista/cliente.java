@@ -1,6 +1,8 @@
 package org.example.vista;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Objects;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,8 +28,10 @@ public class cliente extends JPanel{
     JRadioButton consultar;
     JRadioButton actualizar;
     JRadioButton eliminar;
+    String tipo;
 
-    public cliente(){
+    public cliente(String cargo){
+        this.tipo = cargo;
         Gui();
         vaciarCampos();
     }
@@ -99,15 +103,16 @@ public class cliente extends JPanel{
         add(listo);
 
         insertar = new JRadioButton("Insertar");
-        insertar.setBounds(30, 330, 115, 30);
+        insertar.setBounds(30, 230, 115, 30);
         insertar.setFont(new Font("arial",1,15));
         insertar.setContentAreaFilled(true); //Le quito el fondo
         insertar.setFocusPainted(false); //Que no quede seleccionada
         insertar.setBorder(new LineBorder(Color.gray));
+        insertar.setEnabled(false);
         add(insertar);
 
         consultar = new JRadioButton("consultar");
-        consultar.setBounds(160, 330, 115, 30);
+        consultar.setBounds(160, 230, 115, 30);
         consultar.setFont(new Font("arial",1,15));
         consultar.setBorderPainted(false);
         consultar.setFocusPainted(false); //Que no quede seleccionada
@@ -116,21 +121,23 @@ public class cliente extends JPanel{
         add(consultar);
 
         actualizar = new JRadioButton("actualizar");
-        actualizar.setBounds(285, 330, 115, 30);
+        actualizar.setBounds(285, 230, 115, 30);
         actualizar.setFont(new Font("arial",1,15));
         actualizar.setBorderPainted(false);
         actualizar.setFocusPainted(false); //Que no quede seleccionada
         actualizar.setContentAreaFilled(true); //Le quito el fondo
         actualizar.setBorder(new LineBorder(Color.gray));
+        actualizar.setEnabled(false); //Desactivarlos
         add(actualizar);
 
         eliminar = new JRadioButton("eliminar");
-        eliminar.setBounds(415, 330, 115, 30);
+        eliminar.setBounds(415, 230, 115, 30);
         eliminar.setFont(new Font("arial",1,15));
         eliminar.setBorderPainted(false);
         eliminar.setFocusPainted(false); //Que no quede seleccionada
         eliminar.setContentAreaFilled(true); //Le quito el fondo
         eliminar.setBorder(new LineBorder(Color.gray));
+        eliminar.setEnabled(false);
         add(eliminar);
 
         bg = new ButtonGroup();
@@ -146,6 +153,12 @@ public class cliente extends JPanel{
         barraDesplazamiento.setBounds(30,380,503,250);
         barraDesplazamiento.setBorder(new LineBorder(Color.gray));
         add(barraDesplazamiento);
+
+        if(Objects.equals(tipo, "administrador")){
+            eliminar.setEnabled(true);
+            actualizar.setEnabled(true); //activarlos
+            insertar.setEnabled(true); //Desactivarlos
+        }
     }
 
     public static void vaciarCampos() {

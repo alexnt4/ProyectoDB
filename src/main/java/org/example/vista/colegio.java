@@ -2,6 +2,7 @@ package org.example.vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Objects;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -33,12 +34,15 @@ public class colegio extends JPanel{
     JRadioButton actualizar;
     JRadioButton eliminar;
 
-    public colegio(){
-        GuiColegio(); //Funcion que genera la vista
+    String tipo;
+
+    public colegio(String cargo){
+        this.tipo = cargo;
+        Gui(); //Funcion que genera la vista
         vaciarCampos();
     }
 
-    public void GuiColegio(){
+    public void Gui(){
         setLayout(null);
         setBounds(350,5,580,650);
         setBackground(new Color(0, 191, 255));
@@ -137,6 +141,7 @@ public class colegio extends JPanel{
         insertar.setContentAreaFilled(true); //Le quito el fondo
         insertar.setFocusPainted(false); //Que no quede seleccionada
         insertar.setBorder(new LineBorder(Color.gray));
+        insertar.setEnabled(false);
         add(insertar);
 
         consultar = new JRadioButton("consultar");
@@ -155,6 +160,7 @@ public class colegio extends JPanel{
         actualizar.setFocusPainted(false); //Que no quede seleccionada
         actualizar.setContentAreaFilled(true); //Le quito el fondo
         actualizar.setBorder(new LineBorder(Color.gray));
+        actualizar.setEnabled(false); //Desactivarlos
         add(actualizar);
 
         eliminar = new JRadioButton("eliminar");
@@ -164,6 +170,7 @@ public class colegio extends JPanel{
         eliminar.setFocusPainted(false); //Que no quede seleccionada
         eliminar.setContentAreaFilled(true); //Le quito el fondo
         eliminar.setBorder(new LineBorder(Color.gray));
+        eliminar.setEnabled(false);
         add(eliminar);
 
         bg = new ButtonGroup();
@@ -179,6 +186,12 @@ public class colegio extends JPanel{
         barraDesplazamiento.setBounds(30,380,503,250);
         barraDesplazamiento.setBorder(new LineBorder(Color.gray));
         add(barraDesplazamiento);
+
+        if(Objects.equals(tipo, "administrador")){
+            eliminar.setEnabled(true);
+            actualizar.setEnabled(true); //activarlos
+            insertar.setEnabled(true); //Desactivarlos
+        }
     }
 
     public static void vaciarCampos() {

@@ -2,12 +2,15 @@ package org.example.controlador;
 
 import org.example.DAO.DAOusuario;
 import org.example.modelo.Usuario;
+import org.example.vista.Login;
 import org.example.vista.PantallaPrincipal;
 
 import javax.swing.*;
 
 public class controladorLogin {
     //valida si el password ingresado por usuario es igual que el password guardado en base de datos
+
+    Login login;
     public static boolean validarPasswordUsuario(String idUser, String pass) {
         boolean result = false;
         DAOusuario daoUsuario = new DAOusuario();
@@ -32,10 +35,10 @@ public class controladorLogin {
                 PantallaPrincipal userUI = new PantallaPrincipal(cargoUsuario);
                 userUI.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(null, "Datos erróneos.");
+                Login.textoErroneo();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Ingrese los datos.");
+            Login.textoIngreseData();
         }
         return valor;
     }
