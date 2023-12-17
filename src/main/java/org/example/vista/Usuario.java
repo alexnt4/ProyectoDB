@@ -184,5 +184,6 @@ public class Usuario extends JPanel{
         T_nom.setText("");
         Tablero.setText("");
         bg.clearSelection();
+        bg1.clearSelection();
     }
 }
