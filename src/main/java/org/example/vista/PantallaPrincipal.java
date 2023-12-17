@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -180,7 +181,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
         B_informe.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
         panel_principal.add(B_informe);
 
-        if(tipo == "admin"){
+        if(Objects.equals(tipo, "administrador")){
             B_usuario = new JButton("USUARIO");
             B_usuario.setBounds(10, 550,320,40);
             B_usuario.addActionListener(this);
