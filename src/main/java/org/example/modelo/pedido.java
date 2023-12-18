@@ -1,15 +1,17 @@
 package org.example.modelo;
 
+import java.util.Date;
+
 public class pedido {
     private int numPedido;
-    private int fechaEncargado;
-    private String abono;
-    private int fechaEntrega;
+    private Date fechaEncargado;
+    private Double abono;
+    private Date fechaEntrega;
     private String medPersona;
     private String estado;
-    private String docCliente;
-    private String facVenta;
-    private String montoTotal;
+    private int docCliente;
+    private int facVenta;
+    private Double montoTotal;
 
 
     public pedido() {
@@ -19,7 +21,7 @@ public class pedido {
 
 
 
-    public pedido(int numPedido, int fechaEncargado, String abono, int fechaEntrega, String medPersona, String estado, String docCliente, String facVenta, String montoTotal) {
+    public pedido(int numPedido, Date fechaEncargado, Double abono, Date fechaEntrega, String medPersona, String estado, int docCliente, int facVenta, Double montoTotal) {
         this.numPedido = numPedido;
         this.fechaEncargado = fechaEncargado;
         this.abono = abono;
@@ -48,42 +50,42 @@ public class pedido {
 
 
 
-    public int getFechaEncargado() {
+    public Date getFechaEncargado() {
         return fechaEncargado;
     }
 
 
 
 
-    public void setFechaEncargado(int fechaEncargado) {
+    public void setFechaEncargado(Date fechaEncargado) {
         this.fechaEncargado = fechaEncargado;
     }
 
 
 
 
-    public String getAbono() {
+    public Double getAbono() {
         return abono;
     }
 
 
 
     
-    public void setAbono(String abono) {
+    public void setAbono(Double abono) {
         this.abono = abono;
     }
 
 
 
 
-    public int getFechaEntrega() {
+    public Date getFechaEntrega() {
         return fechaEntrega;
     }
 
 
 
 
-    public void setFechaEntrega(int fechaEntrega) {
+    public void setFechaEntrega(Date fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
 
@@ -118,42 +120,42 @@ public class pedido {
     
 
 
-    public String getDocCliente() {
+    public int getDocCliente() {
         return docCliente;
     }
 
 
 
 
-    public void setDocCliente(String docCliente) {
+    public void setDocCliente(int docCliente) {
         this.docCliente = docCliente;
     }
 
 
 
 
-    public String getFacVenta() {
+    public int getFacVenta() {
         return facVenta;
     }
 
 
 
 
-    public void setFacVenta(String facVenta) {
+    public void setFacVenta(int facVenta) {
         this.facVenta = facVenta;
     }
 
 
 
 
-    public String getMontoTotal() {
+    public Double getMontoTotal() {
         return montoTotal;
     }
 
 
 
 
-    public void setMontoTotal(String montoTotal) {
+    public void setMontoTotal(Double montoTotal) {
         this.montoTotal = montoTotal;
     }
 
