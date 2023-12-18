@@ -1,11 +1,8 @@
 package org.example.controlador;
 
 
-import org.example.DAO.DAOcliente;
+import org.example.DAO.*;
 
-import org.example.DAO.DAOpedido;
-
-import org.example.DAO.DAOproveedor;
 import org.example.modelo.Usuario;
 import org.example.modelo.cliente;
 import org.example.modelo.pedido;
@@ -20,6 +17,8 @@ import java.util.Date;
 
 import static org.example.DAO.DAOpedido.tablapedidoid;
 import static org.example.DAO.DAOproveedor.tablaproveedorNIT;
+import static org.example.DAO.DAOuniforme.tablauniformeID;
+import static org.example.DAO.DAOusuario.tablaUsuarioID;
 
 public class controlador {
 
@@ -62,15 +61,36 @@ public class controlador {
 
     public static void eliminarProveedor(int nitProveedor){DAOproveedor.eliminarProveedor(nitProveedor);}
 
+    public static void agregarUniforme(int idPrenda, String caracEspecial, int idColegio, JTable tabla){
+        org.example.modelo.uniforme NuevoUniforme = new org.example.modelo.uniforme(idPrenda, caracEspecial, idColegio);
+        DAOuniforme.agregarUniforme(NuevoUniforme);
+        tablauniformeID(idPrenda, tabla);
+    }
 
 
+    public static void actualizarUniforme(int idprenda, String carac, int idcolegio, JTable tablero) {
+        org.example.modelo.uniforme UniformeActualizado = new org.example.modelo.uniforme(idprenda, carac, idcolegio);
+        DAOuniforme.actualizarUniforme(UniformeActualizado);
+        tablauniformeID(idprenda,tablero);
+    }
 
+    public static void consultarUniforme(int idprenda, JTable tabla){tablauniformeID(idprenda, tabla);}
 
+    public static void eliminarUniforme(int idprenda){DAOuniforme.eliminarUniforme(idprenda);}
 
+    public static void agregarUsuario(String idUsuario, String nombreUsuario, String passwordUsuario, String tipoUsuario, JTable tablero){
+        org.example.modelo.Usuario NuevoUsuario = new org.example.modelo.Usuario(idUsuario, nombreUsuario, passwordUsuario, tipoUsuario);
+        DAOusuario.AgregarUsuario(NuevoUsuario);
+        tablaUsuarioID(idUsuario, tablero);
+    }
 
+    public static void actualizarUsuario(String idUsuario, String nombreUsuario, String passwordUsuario, String tipoUsuario, JTable tablero){
+        org.example.modelo.Usuario UsuarioActualizado = new org.example.modelo.Usuario(idUsuario, nombreUsuario, passwordUsuario, tipoUsuario);
+        DAOusuario.actualizarUsuario(UsuarioActualizado);
+        tablaUsuarioID(idUsuario,tablero);
+    }
 
+    public static void consultarUsuario(String idUsuario, JTable tablero){tablaUsuarioID(idUsuario, tablero);}
 
-
-
-
+    public static void eliminarUsuario(String idUsuario){DAOusuario.eliminarUsuario(idUsuario);}
 }
