@@ -1,5 +1,7 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -85,12 +87,10 @@ public class uniforme extends JPanel implements ActionListener{
         T_caractTitulo.setEditable(false);
         T_caractTitulo.setBorder(new LineBorder(Color.gray));
         T_caractTitulo.setBounds(15,130,250,30);
-        add(T_caractTitulo);
 
         T_caract = new JTextField();
         T_caract.setBounds(285,130,220,31);
         T_caract.setBorder(new LineBorder(Color.gray));
-        add(T_caract);
 
         T_idColegioTitulo = new JTextField();
         T_idColegioTitulo.setText(" ID COLEGIO");
@@ -98,12 +98,10 @@ public class uniforme extends JPanel implements ActionListener{
         T_idColegioTitulo.setBorder(new LineBorder(Color.gray));
         T_idColegioTitulo.setEditable(false);
         T_idColegioTitulo.setBounds(15,180,250,30);
-        add(T_idColegioTitulo);
 
         T_idColegio = new JTextField();
         T_idColegio.setBounds(285,180,220,31);
         T_idColegio.setBorder(new LineBorder(Color.gray));
-        add(T_idColegio);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -118,6 +116,14 @@ public class uniforme extends JPanel implements ActionListener{
         add(listo);
 
         if(Objects.equals(tipo, "administrador")){
+            add(T_caractTitulo);
+            add(T_caract);
+            add(T_idColegioTitulo);
+            add(T_idColegio);
+
+
+
+
             listo.setText("Listo ");
 
             insertar = new JRadioButton("insertar");
@@ -233,6 +239,36 @@ public class uniforme extends JPanel implements ActionListener{
            if(Objects.equals(tipo, "administrador")){  
             //Si es admin evalua los dos campos
             validarCampos();
+               if (insertar.isSelected()){
+                   int IDprenda = Integer.parseInt(T_id.getText());
+                   String carac = T_caract.getText();
+                   int IDcolegio = Integer.parseInt(T_idColegio.getText());
+                   controlador control = new controlador();
+                   controlador.agregarUniforme(IDprenda, carac, IDcolegio, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("               DATO INSERTADO");
+               } else if (actualizar.isSelected()) {
+                   int IDprenda = Integer.parseInt(T_id.getText());
+                   String carac = T_caract.getText();
+                   int  IDcolegio = T_idColegio.getText().isEmpty() ? 0 : Integer.parseInt(T_idColegio.getText());
+                   controlador control = new controlador();
+                   controlador.actualizarUniforme(IDprenda, carac, IDcolegio, Tablero);
+                   validar.setForeground(new Color(0,128,0));
+                   validar.setText("                DATO ACTUALIZADO");
+               } else if (consultar.isSelected()) {
+                   int ID = Integer.parseInt(T_id.getText());
+                   controlador.consultarUniforme(ID, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("                RESULTADO DE CONSULTA");
+               } else if (eliminar.isSelected()) {
+                   int ID = Integer.parseInt(T_id.getText());
+                   controlador.eliminarUniforme(ID);
+                   validar.setForeground(new Color(75, 0, 130));
+                   validar.setText("               ELIMINADO");
+               } else {
+                   validar.setForeground(Color.red);
+                   validar.setText("ESCOJA UNA OPCION");
+               }
         }else{//Es vendedor y solo evalua llave primaria
 
             if (T_id.getText().isEmpty()) {
@@ -240,6 +276,8 @@ public class uniforme extends JPanel implements ActionListener{
                 validar.setText("LLENAR EL CAMPO ID PRENDA!");
             }else{
                 //En llave primaria hay algo
+                int ID = Integer.parseInt(T_id.getText());
+                controlador.consultarUniforme(ID, Tablero);
                 validar.setForeground(Color.black);
                 validar.setText("RESULTADO DE LA CONSULTA");
             }

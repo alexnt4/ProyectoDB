@@ -3,18 +3,22 @@ package org.example.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 import org.example.modelo.*;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import static org.example.Util.Constantes.*;
 
 public class DAOusuario {
 
-        PreparedStatement ps;
+        static PreparedStatement ps;
         ResultSet rs;
-        Connection conn;
-        ConexionBD conectar = new ConexionBD();
+        static Connection conn;
+        static ConexionBD conectar = new ConexionBD();
         Usuario u = new Usuario();
 
         /*public List<usuario> obtenerUsuarios(){
@@ -27,7 +31,7 @@ public class DAOusuario {
         public static int AgregarUsuario(Usuario usuario){
                 String sql_guardar;
                 sql_guardar="INSERT INTO " +
-                        "Usuario (idUsuario, nombreUsuario, passwordUsuario, tipoUsuario) " +
+                        "Usuario (id_Usuario, nombre, contrasena, cargo) " +
                         "VALUES (?, ?, ?, ?)";
 
                 int filasAfectadas = 0;
@@ -87,52 +91,6 @@ public class DAOusuario {
                 return usuarios;
         }
 
-        public static boolean actualizarUsuario(Usuario usuarioModificado) {
-                boolean isUpdated = false;
-
-                // Sentencia SQL para actualizar el estudiante
-
-                String sql_actualizar = "UPDATE Usuario SET idUsuario = ?, nombre = ?, passwordUsuario= ?, tipoUsuario= ?";
-
-                // Obtener la conexión
-                ConexionBD conexion = new ConexionBD();
-                conexion.openConnection();
-                Connection connection = conexion.getConnection();
-
-                if (connection != null) {
-                        try (PreparedStatement statement = connection.prepareStatement(sql_actualizar)) {
-                                // Obtener los nuevos valores del estudiante que se actualizarán
-                                String id_usuario = usuarioModificado.getIdUsuario();
-                                String nombre = usuarioModificado.getNombreUsuario();
-                                String pass = usuarioModificado.getPasswordUsuario();
-                                String car = usuarioModificado.getTipoUsuario();
-
-
-                                // Establecer los valores de los parámetros en la sentencia SQL
-                                statement.setString(1,id_usuario);
-                                statement.setString(2,nombre);
-                                statement.setString(3,pass);
-
-
-                                // Ejecutar la actualización
-                                int filasActualizadas = statement.executeUpdate();
-
-                                if (filasActualizadas > 0) {
-                                        isUpdated = true;
-                                        // System.out.println("El Estudiante con Id_usiario " + Id_usuario + " ha sido actualizado correctamente.");
-                                } else {
-                                        System.out.println("No se encontró el Estudiante con Id_usuario "  + id_usuario+ " en la base de datos.");
-                                }
-                        } catch (SQLException e) {
-                                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
-                        } finally {
-                                // Cerrar la conexión
-                                conexion.closeConnection();
-                        }
-                }
-
-                return isUpdated;
-        }
 
         public Usuario obtenerUsuarioPorID(String idUsuario) {
                 Usuario usuario = new Usuario();
@@ -244,6 +202,141 @@ public class DAOusuario {
                 return tipoUsuario;
         }
 
+        public static void tablaUsuarioID(String ID, JTable tabla) {
+                try {
+                        String q;
+                        if (!Objects.equals(ID, "Todo")) {
+                                q = "SELECT * FROM usuario WHERE ID_USUARIO = ?";
+                        } else {
+                                q = "SELECT * FROM usuario";
+                        }
+
+                        ConexionBD conexion = new ConexionBD();
+                        conexion.openConnection();
+                        Connection connection = conexion.getConnection();
+
+                        if (connection != null) {
+                                PreparedStatement statement = connection.prepareStatement(q);
+
+                                if (!Objects.equals(ID, "Todo")) {
+                                        statement.setString(1, ID);
+                                }
+
+                                ResultSet rs = statement.executeQuery();
+
+                                DefaultTableModel model = new DefaultTableModel();
+                                model.addColumn("ID_USUARIO");
+                                model.addColumn("NOMBRE");
+                                model.addColumn("CONTRASENA");
+                                model.addColumn("CARGO");
 
 
+                                while (rs.next()) {
+                                        Object[] rowData = {
+                                                rs.getString("ID_USUARIO"),
+                                                rs.getString("NOMBRE"),
+                                                rs.getString("CONTRASENA"),
+                                                rs.getString("CARGO")
+                                        };
+                                        model.addRow(rowData);
+                                }
+
+                                tabla.setModel(model);
+                                conexion.closeConnection();
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+                        }
+                } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+        }
+
+        public static boolean actualizarUsuario(Usuario usuarioModificado) {
+                boolean isUpdated = false;
+
+                String sqlActualizar = "UPDATE usuario SET ";
+                String whereClause = " WHERE ID_USUARIO = ?";
+                ArrayList<String> updates = new ArrayList<>();
+                ArrayList<Object> values = new ArrayList<>();
+
+                if (!usuarioModificado.getNombreUsuario().isEmpty()) {
+                        updates.add("NOMBRE = ?");
+                        values.add(usuarioModificado.getNombreUsuario());
+                }
+
+                if (!usuarioModificado.getPasswordUsuario().isEmpty()) {
+                        updates.add("CONTRASENA = ?");
+                        values.add(usuarioModificado.getPasswordUsuario());
+                }
+                if (!usuarioModificado.getTipoUsuario().isEmpty()) {
+                        updates.add("CARGO = ?");
+                        values.add(usuarioModificado.getTipoUsuario());
+                }
+
+                if (!updates.isEmpty()) {
+                        sqlActualizar += String.join(", ", updates) + whereClause;
+
+                        ConexionBD conexion = new ConexionBD();
+                        conexion.openConnection();
+                        Connection connection = conexion.getConnection();
+
+                        if (connection != null) {
+                                try (PreparedStatement statement = connection.prepareStatement(sqlActualizar)) {
+                                        int index = 1;
+
+                                        for (Object value : values) {
+                                                if (value instanceof Date) {
+                                                        statement.setDate(index++, (Date) value);
+                                                } else if (value instanceof Double) {
+                                                        statement.setDouble(index++, (Double) value);
+                                                } else if (value instanceof Integer) {
+                                                        statement.setInt(index++, (Integer) value);
+                                                } else if (value instanceof String) {
+                                                        statement.setString(index++, (String) value);
+                                                }
+                                        }
+
+                                        statement.setString(index, usuarioModificado.getIdUsuario());
+
+                                        int rowsUpdated = statement.executeUpdate();
+
+                                        if (rowsUpdated > 0) {
+                                                isUpdated = true;
+                                                System.out.println("Pedido actualizado correctamente");
+                                        } else {
+                                                System.out.println("No se encontró el pedido con el número: " + usuarioModificado.getIdUsuario());
+                                        }
+                                } catch (SQLException e) {
+                                        System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                                } finally {
+                                        conexion.closeConnection();
+                                }
+                        }
+                } else {
+                        System.out.println("No se han proporcionado datos para actualizar.");
+                }
+
+                return isUpdated;
+        }
+
+
+        public static int eliminarUsuario(String idPrenda) {
+                int r = 0;
+                String sql = "DELETE FROM USUARIO WHERE ID_USUARIO = ?;";
+                try {
+                        conectar.openConnection();
+                        conn = conectar.getConnection();
+                        ps = conn.prepareStatement(sql);
+                        ps.setString(1, idPrenda);
+                        r = ps.executeUpdate();
+                        if (r == 1) {
+                                r = 1;
+                        } else {
+                                r = 0;
+                        }
+                } catch (Exception e) {
+                        System.out.println("Error al eliminar el uniforme: " + e.getMessage());
+                }
+                return r;
+        }
 }

@@ -1,5 +1,7 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -129,7 +131,7 @@ public class Usuario extends JPanel implements ActionListener{
         add(T_rolTitulo);
 
 
-        administrador = new JRadioButton("Administrador");
+        administrador = new JRadioButton("administrador");
         administrador.setBounds(475,130, 150, 30);
         administrador.setFont(new Font("arial",1,15));
         administrador.setContentAreaFilled(true); //Le quito el fondo
@@ -138,7 +140,7 @@ public class Usuario extends JPanel implements ActionListener{
         administrador.setBackground(Color.white);
         add(administrador);
 
-        vendedor = new JRadioButton("Vendedor");
+        vendedor = new JRadioButton("vendedor");
         vendedor.setBounds(645,130, 150, 30);
         vendedor.setFont(new Font("arial",1,15));
         vendedor.setContentAreaFilled(true); //Le quito el fondo
@@ -259,6 +261,44 @@ public class Usuario extends JPanel implements ActionListener{
         if (e.getSource() == listo) {
             //Validar
             validarCampos();
+            if (insertar.isSelected()){
+                String ID = T_id.getText();
+                String Nombre = T_nom.getText();
+                String Contra = T_contra.getText();
+                String Cargo = " ";
+                if(administrador.isSelected()){
+                    Cargo = administrador.getText();
+                } else {Cargo = vendedor.getText();}
+                controlador control = new controlador();
+                controlador.agregarUsuario(ID, Nombre, Contra, Cargo, Tablero);
+                validar.setForeground(Color.black);
+                validar.setText("               DATO INSERTADO");
+            } else if (actualizar.isSelected()) {
+                String ID = T_id.getText();
+                String Nombre = T_nom.getText();
+                String Contra = T_contra.getText();
+                String Cargo = " ";
+                if(administrador.isSelected()){
+                    Cargo = administrador.getText();
+                } else {Cargo = vendedor.getText();}
+                controlador control = new controlador();
+                controlador.actualizarUsuario(ID, Nombre, Contra, Cargo, Tablero);
+                validar.setForeground(new Color(0,128,0));
+                validar.setText("                DATO ACTUALIZADO");
+            } else if (consultar.isSelected()) {
+                String ID = T_id.getText();
+                controlador.consultarUsuario(ID, Tablero);
+                validar.setForeground(Color.black);
+                validar.setText("                RESULTADO DE CONSULTA");
+            } else if (eliminar.isSelected()) {
+                String ID = T_id.getText();
+                controlador.eliminarUsuario(ID);
+                validar.setForeground(new Color(75, 0, 130));
+                validar.setText("               ELIMINADO");
+            } else {
+                validar.setForeground(Color.red);
+                validar.setText("ESCOJA UNA OPCION");
+            }
         }
     }
 }
