@@ -296,8 +296,22 @@ public class producto_terminado extends JPanel implements ActionListener{
         public void actionPerformed(ActionEvent e) {
         validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
-            //Validar
+           //Validar si es admin
+           if(Objects.equals(tipo, "administrador")){  
+            //Si es admin evalua los dos campos
             validarCampos();
+        }else{//Es vendedor y solo evalua llave primaria
+
+            if (T_cod.getText().isEmpty()) {
+                validar.setForeground(Color.red);
+                validar.setText("LLENAR EL CAMPO CODIGO P.T!");
+            }else{
+                //En llave primaria hay algo
+                validar.setForeground(Color.black);
+                validar.setText("RESULTADO DE LA CONSULTA");
+            }
+            
+        }
         }
     }
 }
