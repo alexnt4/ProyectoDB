@@ -1,4 +1,5 @@
 package org.example.vista;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,31 +19,42 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class cliente extends JPanel implements ActionListener{
-    JTextField T_idTitulo;
-    static JTextField T_id;
-    JTextField T_nomTitulo;
-    static JTextField T_nom;
-    JTextField T_telefonoTitulo;
-    static JTextField T_telefono;
+
+public class producto_terminado extends JPanel implements ActionListener{
+    JTextField T_codTitulo;
+    static JTextField T_cod;
+    JTextField T_idPrendaTitulo;
+    static JTextField T_idPrenda;
+    JTextField T_codMaterialTitulo;
+    static JTextField T_codMaterial ;
+    JTextField T_descTitulo;
+    static JTextField T_desc;
+    JTextField T_precioTitulo;
+    static JTextField T_precio;
+    JTextField T_encarTitulo;
+    static JTextField T_encar;
+    JTextField T_cantTitulo;
+    static JTextField T_cant;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTable Tablero;
     JScrollPane barraDesplazamiento;
+    static JLabel validar;
     JButton listo;
     JTextArea tituloVentana;
     JRadioButton insertar;
     JRadioButton consultar;
     JRadioButton actualizar;
     JRadioButton eliminar;
-    static JLabel validar;
+
+
     static String tipo;
 
-
-    public cliente(String cargo){
-        cliente.tipo = cargo;
-        Gui();
+    public producto_terminado (String cargo){
+        producto_terminado.tipo = cargo;
+        Gui(); //Funcion que genera la vista
         vaciarCampos();
     }
+
     public void Gui(){
         setLayout(null);
         setBounds(350,5,920,650);
@@ -51,9 +63,9 @@ public class cliente extends JPanel implements ActionListener{
         setVisible(false);
 
         tituloVentana = new JTextArea();
-        tituloVentana.setText("                               TABLA CLIENTE                                 ");
+        tituloVentana.setText("                        PRODUCTO TERMINADO                                 ");
         tituloVentana.setFocusable(false);
-        tituloVentana.setFont(new Font("arial", 3, 33));
+        tituloVentana.setFont(new Font("arial", 3, 30));
         tituloVentana.setEditable(false);
         tituloVentana.setBorder(new LineBorder(Color.gray));
         tituloVentana.setBounds(15,15,705,40);
@@ -65,44 +77,96 @@ public class cliente extends JPanel implements ActionListener{
         validar.setFont(new Font("arial",1,30));
         add(validar);
 
-        T_idTitulo = new JTextField();
-        T_idTitulo.setText(" ID CLIENTE *");
-        T_idTitulo.setFont(new Font("arial", 3, 17));
-        T_idTitulo.setEditable(false);
-        T_idTitulo.setBorder(new LineBorder(Color.gray));
-        T_idTitulo.setBounds(15,80,190,30);
-        add(T_idTitulo);
+        T_codTitulo = new JTextField();
+        T_codTitulo.setText(" CODIGO P.T *");
+        T_codTitulo.setFont(new Font("arial", 3, 17));
+        T_codTitulo.setEditable(false);
+        T_codTitulo.setBorder(new LineBorder(Color.gray));
+        T_codTitulo.setBounds(15,80,190,30);
+        add(T_codTitulo);
 
-        T_id = new JTextField();
-        T_id.setBounds(225,80,220,31);
-        T_id.setBorder(new LineBorder(Color.gray));
-        add(T_id);
+        T_cod  = new JTextField();
+        T_cod.setBounds(225,80,220,31);
+        T_cod.setBorder(new LineBorder(Color.gray));
+        add(T_cod );
 
-        T_nomTitulo = new JTextField();
-        T_nomTitulo.setText(" NOMBRE CLIENTE");
-        T_nomTitulo.setFont(new Font("arial", 3, 17));
-        T_nomTitulo.setEditable(false);
-        T_nomTitulo.setBorder(new LineBorder(Color.gray));
-        T_nomTitulo.setBounds(15,130,190,30);
-        add(T_nomTitulo);
+        T_idPrendaTitulo = new JTextField();
+        T_idPrendaTitulo.setText(" ID PRENDA ");
+        T_idPrendaTitulo.setFont(new Font("arial", 3, 15));
+        T_idPrendaTitulo.setEditable(false);
+        T_idPrendaTitulo.setBorder(new LineBorder(Color.gray));
+        T_idPrendaTitulo.setBounds(15,130,190,30);
+        add(T_idPrendaTitulo);
 
-        T_nom = new JTextField();
-        T_nom.setBounds(225,130,220,31);
-        T_nom.setBorder(new LineBorder(Color.gray));
-        add(T_nom);
+        T_idPrenda = new JTextField();
+        T_idPrenda.setBounds(225,130,220,31);
+        T_idPrenda.setBorder(new LineBorder(Color.gray));
+        add( T_idPrenda);
 
-        T_telefonoTitulo = new JTextField();
-        T_telefonoTitulo.setText(" TELEFONO CLIENTE");
-        T_telefonoTitulo.setFont(new Font("arial", 3, 15));
-        T_telefonoTitulo.setBorder(new LineBorder(Color.gray));
-        T_telefonoTitulo.setEditable(false);
-        T_telefonoTitulo.setBounds(15,180,190,30);
-        add(T_telefonoTitulo);
+        T_codMaterialTitulo = new JTextField();
+        T_codMaterialTitulo.setText(" CODIGO MATERIAL");
+        T_codMaterialTitulo.setFont(new Font("arial", 3, 15));
+        T_codMaterialTitulo.setBorder(new LineBorder(Color.gray));
+        T_codMaterialTitulo.setEditable(false);
+        T_codMaterialTitulo.setBounds(15,180,190,30);
+        add(T_codMaterialTitulo);
 
-        T_telefono = new JTextField();
-        T_telefono.setBounds(225,180,220,31);
-        T_telefono.setBorder(new LineBorder(Color.gray));
-        add(T_telefono);
+        T_codMaterial = new JTextField();
+        T_codMaterial.setBounds(225,180,220,31);
+        T_codMaterial.setBorder(new LineBorder(Color.gray));
+        add(T_codMaterial);
+
+        T_descTitulo = new JTextField();
+        T_descTitulo.setText(" DESCRIPCION ");
+        T_descTitulo.setFont(new Font("arial", 3, 15));
+        T_descTitulo.setBorder(new LineBorder(Color.gray));
+        T_descTitulo.setEditable(false);
+        T_descTitulo.setBounds(15,230,190,30);
+        add(T_descTitulo);
+
+        T_desc = new JTextField();
+        T_desc.setBounds(225,230,220,30);
+        T_desc.setBorder(new LineBorder(Color.gray));
+        add(T_desc);
+
+        T_precioTitulo = new JTextField();
+        T_precioTitulo.setText(" PRECIO");
+        T_precioTitulo.setFont(new Font("arial", 3, 15));
+        T_precioTitulo.setBorder(new LineBorder(Color.gray));
+        T_precioTitulo.setEditable(false);
+        T_precioTitulo.setBounds(475,80,190,30);
+        add(T_precioTitulo);
+
+        T_precio = new JTextField();
+        T_precio.setBounds(685,80,220,30);
+        T_precio.setBorder(new LineBorder(Color.gray));
+        add(T_precio);
+
+        T_encarTitulo = new JTextField();
+        T_encarTitulo.setText(" ENCARGADO");
+        T_encarTitulo.setFont(new Font("arial", 3, 15));
+        T_encarTitulo.setBorder(new LineBorder(Color.gray));
+        T_encarTitulo.setEditable(false);
+        T_encarTitulo.setBounds(475,130,190,30);
+        add(T_encarTitulo);
+
+        T_encar = new JTextField();
+        T_encar.setBounds(685,130,220,30);
+        T_encar.setBorder(new LineBorder(Color.gray));
+        add(T_encar);
+
+        T_cantTitulo = new JTextField();
+        T_cantTitulo.setText(" CANT. TERMINADOS ");
+        T_cantTitulo.setFont(new Font("arial", 3, 15));
+        T_cantTitulo.setBorder(new LineBorder(Color.gray));
+        T_cantTitulo.setEditable(false);
+        T_cantTitulo.setBounds(475,180,190,30);
+        add(T_cantTitulo);
+
+        T_cant = new JTextField();
+        T_cant.setBounds(685,180,220,30);
+        T_cant.setBorder(new LineBorder(Color.gray));
+        add(T_cant);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -111,14 +175,14 @@ public class cliente extends JPanel implements ActionListener{
         listo.setForeground(Color.BLACK); //Color de la letra
         listo.setFont(new Font("cooper black",2,25));
         listo.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
-        listo.setContentAreaFilled(true); //Establece si el área sde contenido del botón debe ser dibujada o no.
+        listo.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
         listo.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
        
         add(listo);
 
         if(Objects.equals(tipo, "administrador")){
             listo.setText("Listo ");
-
+    
             insertar = new JRadioButton("insertar");
             insertar.setBounds(15, 280, 115, 30);
             insertar.setFont(new Font("arial",1,15));
@@ -158,14 +222,15 @@ public class cliente extends JPanel implements ActionListener{
             eliminar.setBackground(Color.WHITE);
             add(eliminar);
     
-
             bg = new ButtonGroup();
             bg.add(insertar);
             bg.add(actualizar);
             bg.add(consultar);
             bg.add(eliminar);
-        }
-        
+
+            }
+
+
         Tablero = new JTable();
         Tablero.setFont(new Font("arial", 2, 15));
         Tablero.setEnabled(false);
@@ -189,29 +254,34 @@ public class cliente extends JPanel implements ActionListener{
         barraDesplazamiento.setPreferredSize(new Dimension(880, 240)); // Ajusta estos valores según tus necesidades
 
         add(barraDesplazamiento);
-
-    }
-
-    public static void vaciarCampos() {
-        T_id.setText("");
-        T_nom.setText("");
-        T_telefono.setText("");
-        DefaultTableModel modeloVacio = new DefaultTableModel(); // Crea un nuevo modelo vacío
-        Tablero.setModel(modeloVacio); 
-        validar.setText("");
-        if(Objects.equals(tipo, "administrador")){
-            bg.clearSelection();
+    
         }
-    }
+    
+        public static void vaciarCampos() {
+            T_cod.setText("");
+            T_desc.setText("");
+            T_codMaterial.setText("");
+            T_idPrenda.setText("");
+            T_precio .setText("");
+            T_cant.setText("");
+            T_encar.setText("");
+            validar.setText("");
+            DefaultTableModel modeloVacio = new DefaultTableModel(); // Crea un nuevo modelo vacío
+            Tablero.setModel(modeloVacio); 
+            if(Objects.equals(tipo, "administrador")){
+                bg.clearSelection();
+            }
+        }
 
-    public void validarCampos(){
+
+        public void validarCampos(){
         validar.setText("");
         validar.setForeground(Color.red);
-        if (T_id.getText().isEmpty()) {
-            validar.setText("LLENAR EL CAMPO ID CLIENTE");
+        if (T_cod.getText().isEmpty()) {
+            validar.setText("LLENAR EL CAMPO CODIGO DE P.T");
         } else {
             try {
-                int numeroPedido = Integer.parseInt(T_id.getText());
+                int numeroPedido = Integer.parseInt(T_cod.getText());
     
                 // Resto de tu lógica para validar otros campos si es necesario
                 if (!eliminar.isSelected() && !actualizar.isSelected() && !consultar.isSelected() && !insertar.isSelected()) {
@@ -219,12 +289,11 @@ public class cliente extends JPanel implements ActionListener{
                 }
             } catch (NumberFormatException e) {
                 validar.setText("EL CAMPO NUMERO DE PEDIDO DEBE SER UN NÚMERO ENTERO!");
-            }
+                }
+            }  
+        }
 
-        } 
-    }
-
-    public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
         validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
             //Validar

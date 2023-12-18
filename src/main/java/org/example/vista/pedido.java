@@ -14,6 +14,7 @@ import org.example.DAO.DAOpedido;
 import org.example.controlador.controlador;
 
 import static org.example.DAO.DAOpedido.tablapedidoid;
+import static org.example.Util.Constantes.VALIDAR_CAMPOS;
 
 public class pedido extends JPanel implements ActionListener{
     JTextField T_numTitulo;
@@ -36,6 +37,7 @@ public class pedido extends JPanel implements ActionListener{
     static JTextField T_doc;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTable Tablero;
+    static JLabel validar;
     JScrollPane barraDesplazamiento;
     JButton listo;
     JTextArea tituloVentana;
@@ -66,7 +68,7 @@ public class pedido extends JPanel implements ActionListener{
         add(tituloVentana);
 
         T_numTitulo = new JTextField();
-        T_numTitulo.setText(" NUMERO PEDIDO");
+        T_numTitulo.setText(" NUMERO PEDIDO *");
         T_numTitulo.setFont(new Font("arial", 3, 17));
         T_numTitulo.setEditable(false);
         T_numTitulo.setBorder(new LineBorder(Color.gray));
@@ -194,6 +196,12 @@ public class pedido extends JPanel implements ActionListener{
        
         add(listo);
 
+        validar = new JLabel();
+        validar.setText("");
+        validar.setBounds(160, 610, 660, 30);
+        validar.setFont(new Font("arial",1,30));
+        add(validar);
+
         insertar = new JRadioButton("insertar");
         insertar.setBounds(15, 280, 100, 30);
         insertar.setFont(new Font("arial",1,15));
@@ -266,6 +274,25 @@ public class pedido extends JPanel implements ActionListener{
 
     }
 
+    public void validarCampos(){
+        validar.setText("");
+        validar.setForeground(Color.red);
+        if (T_num.getText().isEmpty()) {
+            validar.setText("LLENAR EL CAMPO NUMERO DE PEDIDO!");
+        } else {
+            try {
+                int numeroPedido = Integer.parseInt(T_num.getText());
+    
+                // Resto de tu lógica para validar otros campos si es necesario
+                if (!eliminar.isSelected() && !actualizar.isSelected() && !consultar.isSelected() && !insertar.isSelected()) {
+                    validar.setText("       ESCOJA UN CAMPO!");
+                }
+            } catch (NumberFormatException e) {
+                validar.setText("EL CAMPO NUMERO DE PEDIDO DEBE SER UN NÚMERO ENTERO!");
+            }
+        }  
+    }
+
     public static void vaciarCampos() {
         T_num.setText("");
         T_abono.setText("");
@@ -276,12 +303,17 @@ public class pedido extends JPanel implements ActionListener{
         T_fecha_entrega.setText("");
         T_medida.setText("");
         T_doc.setText("");
-        //Tablero.setText("");
+        validar.setText("");
+        DefaultTableModel modeloVacio = new DefaultTableModel(); // Crea un nuevo modelo vacío
+        Tablero.setModel(modeloVacio); 
         bg.clearSelection();
     }
 
     public void actionPerformed(ActionEvent e) {
+        validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
+            //Validar
+            validarCampos();
             try {
                 if (insertar.isSelected()){
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -296,24 +328,30 @@ public class pedido extends JPanel implements ActionListener{
                     Date fechaEntrega = new Date(sdf.parse(T_fecha_entrega.getText()).getTime());
                     controlador control = new controlador();
                     controlador.agregarPedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, DocCliente, facVenta, MontoTotal);
-                    System.out.println("insertar");
+                    validar.setForeground(Color.black);
+                    validar.setText("               DATO INSERTADO");
                 } else if (actualizar.isSelected()) {
-                    System.out.println("actualizar");
+                    validar.setForeground(new Color(0,128,0));
+                    validar.setText("                DATO ACTUALIZADO");
                 } else if (consultar.isSelected()) {
                     int numPedido = Integer.parseInt(T_num.getText());
                     controlador.consultarPedido(numPedido, Tablero);
                     System.out.println("consultar");
                     //controlador.consultarPedido(numPedido);
-                    System.out.println("consultar");
+                    validar.setForeground(Color.black);
+                    validar.setText("                RESULTADO DE CONSULTA");
                 } else if (eliminar.isSelected()) {
-                    System.out.println("eliminar");
+                    validar.setForeground(new Color(75, 0, 130));
+                    validar.setText("               ELIMINADO");
                 } else {
-                    System.out.println("Escoja una opción.");
+                    //validar.setForeground(Color.red);
+                    //validar.setText("ECOJA UNA OPCION");
                 }
 
             } catch (ParseException f) {
                 f.printStackTrace();
             }
+
         }
     }
 }

@@ -28,11 +28,11 @@ public class controladorLogin {
             if (validarPasswordUsuario(idUser, pass)) {
                 DAOusuario daoUsuario = new DAOusuario();
                 Usuario usuario = daoUsuario.obtenerUsuarioPorID(String.valueOf(idUser));
-                String nombreUsuario = usuario.getPasswordUsuario();
+                String nombreUsuario = usuario.getNombreUsuario();
                 String cargoUsuario = usuario.getTipoUsuario();
                 JOptionPane.showMessageDialog(null, "BIENVENIDO " + nombreUsuario);
                 valor = true;
-                PantallaPrincipal userUI = new PantallaPrincipal(cargoUsuario);
+                PantallaPrincipal userUI = new PantallaPrincipal(cargoUsuario,nombreUsuario);
                 userUI.setVisible(true);
             } else {
                 Login.textoErroneo();

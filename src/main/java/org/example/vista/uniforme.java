@@ -1,4 +1,5 @@
 package org.example.vista;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,13 +19,13 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class cliente extends JPanel implements ActionListener{
+public class uniforme extends JPanel implements ActionListener{
     JTextField T_idTitulo;
     static JTextField T_id;
-    JTextField T_nomTitulo;
-    static JTextField T_nom;
-    JTextField T_telefonoTitulo;
-    static JTextField T_telefono;
+    JTextField T_caractTitulo;
+    static JTextField T_caract;
+    JTextField T_idColegioTitulo;
+    static JTextField T_idColegio;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTable Tablero;
     JScrollPane barraDesplazamiento;
@@ -34,12 +35,12 @@ public class cliente extends JPanel implements ActionListener{
     JRadioButton consultar;
     JRadioButton actualizar;
     JRadioButton eliminar;
-    static JLabel validar;
     static String tipo;
+    static JLabel validar;
 
 
-    public cliente(String cargo){
-        cliente.tipo = cargo;
+    public uniforme(String cargo){
+        uniforme.tipo = cargo;
         Gui();
         vaciarCampos();
     }
@@ -51,7 +52,7 @@ public class cliente extends JPanel implements ActionListener{
         setVisible(false);
 
         tituloVentana = new JTextArea();
-        tituloVentana.setText("                               TABLA CLIENTE                                 ");
+        tituloVentana.setText("                            TABLA UNIFORME                                 ");
         tituloVentana.setFocusable(false);
         tituloVentana.setFont(new Font("arial", 3, 33));
         tituloVentana.setEditable(false);
@@ -66,43 +67,43 @@ public class cliente extends JPanel implements ActionListener{
         add(validar);
 
         T_idTitulo = new JTextField();
-        T_idTitulo.setText(" ID CLIENTE *");
+        T_idTitulo.setText(" ID PRENDA *");
         T_idTitulo.setFont(new Font("arial", 3, 17));
         T_idTitulo.setEditable(false);
         T_idTitulo.setBorder(new LineBorder(Color.gray));
-        T_idTitulo.setBounds(15,80,190,30);
+        T_idTitulo.setBounds(15,80,250,30);
         add(T_idTitulo);
 
         T_id = new JTextField();
-        T_id.setBounds(225,80,220,31);
+        T_id.setBounds(285,80,220,31);
         T_id.setBorder(new LineBorder(Color.gray));
         add(T_id);
 
-        T_nomTitulo = new JTextField();
-        T_nomTitulo.setText(" NOMBRE CLIENTE");
-        T_nomTitulo.setFont(new Font("arial", 3, 17));
-        T_nomTitulo.setEditable(false);
-        T_nomTitulo.setBorder(new LineBorder(Color.gray));
-        T_nomTitulo.setBounds(15,130,190,30);
-        add(T_nomTitulo);
+        T_caractTitulo = new JTextField();
+        T_caractTitulo.setText(" CARACTERISTICA ESPECIAL");
+        T_caractTitulo.setFont(new Font("arial", 3, 17));
+        T_caractTitulo.setEditable(false);
+        T_caractTitulo.setBorder(new LineBorder(Color.gray));
+        T_caractTitulo.setBounds(15,130,250,30);
+        add(T_caractTitulo);
 
-        T_nom = new JTextField();
-        T_nom.setBounds(225,130,220,31);
-        T_nom.setBorder(new LineBorder(Color.gray));
-        add(T_nom);
+        T_caract = new JTextField();
+        T_caract.setBounds(285,130,220,31);
+        T_caract.setBorder(new LineBorder(Color.gray));
+        add(T_caract);
 
-        T_telefonoTitulo = new JTextField();
-        T_telefonoTitulo.setText(" TELEFONO CLIENTE");
-        T_telefonoTitulo.setFont(new Font("arial", 3, 15));
-        T_telefonoTitulo.setBorder(new LineBorder(Color.gray));
-        T_telefonoTitulo.setEditable(false);
-        T_telefonoTitulo.setBounds(15,180,190,30);
-        add(T_telefonoTitulo);
+        T_idColegioTitulo = new JTextField();
+        T_idColegioTitulo.setText(" ID COLEGIO");
+        T_idColegioTitulo.setFont(new Font("arial", 3, 15));
+        T_idColegioTitulo.setBorder(new LineBorder(Color.gray));
+        T_idColegioTitulo.setEditable(false);
+        T_idColegioTitulo.setBounds(15,180,250,30);
+        add(T_idColegioTitulo);
 
-        T_telefono = new JTextField();
-        T_telefono.setBounds(225,180,220,31);
-        T_telefono.setBorder(new LineBorder(Color.gray));
-        add(T_telefono);
+        T_idColegio = new JTextField();
+        T_idColegio.setBounds(285,180,220,31);
+        T_idColegio.setBorder(new LineBorder(Color.gray));
+        add(T_idColegio);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -166,6 +167,8 @@ public class cliente extends JPanel implements ActionListener{
             bg.add(eliminar);
         }
         
+
+
         Tablero = new JTable();
         Tablero.setFont(new Font("arial", 2, 15));
         Tablero.setEnabled(false);
@@ -189,13 +192,12 @@ public class cliente extends JPanel implements ActionListener{
         barraDesplazamiento.setPreferredSize(new Dimension(880, 240)); // Ajusta estos valores según tus necesidades
 
         add(barraDesplazamiento);
-
     }
 
     public static void vaciarCampos() {
         T_id.setText("");
-        T_nom.setText("");
-        T_telefono.setText("");
+        T_caract.setText("");
+        T_idColegio.setText("");
         DefaultTableModel modeloVacio = new DefaultTableModel(); // Crea un nuevo modelo vacío
         Tablero.setModel(modeloVacio); 
         validar.setText("");
@@ -204,11 +206,12 @@ public class cliente extends JPanel implements ActionListener{
         }
     }
 
-    public void validarCampos(){
+
+        public void validarCampos(){
         validar.setText("");
         validar.setForeground(Color.red);
         if (T_id.getText().isEmpty()) {
-            validar.setText("LLENAR EL CAMPO ID CLIENTE");
+            validar.setText("LLENAR EL CAMPO ID PRENDA");
         } else {
             try {
                 int numeroPedido = Integer.parseInt(T_id.getText());
@@ -219,12 +222,11 @@ public class cliente extends JPanel implements ActionListener{
                 }
             } catch (NumberFormatException e) {
                 validar.setText("EL CAMPO NUMERO DE PEDIDO DEBE SER UN NÚMERO ENTERO!");
-            }
+                }
+            }  
+        }
 
-        } 
-    }
-
-    public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
         validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
             //Validar
