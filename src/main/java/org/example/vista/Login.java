@@ -3,6 +3,8 @@ package org.example.vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,6 +42,10 @@ public class Login extends JFrame implements ActionListener {
     }
 
     public void crearGui(){
+
+        ImageIcon icono = new ImageIcon(getClass().getResource("/icono1.png")); //icono de la ventana
+        //ImageIcon iconoScalada =  new ImageIcon(iconoOriginal.getImage().getScaledInstance(500,500,Image.SCALE_SMOOTH));
+        setIconImage(icono.getImage());
         panel = new JPanel();
         panel.setBackground(new Color(0, 191, 255));
         //panel.setBackground(new Color(220, 220, 220)); //Activelo cuando quiera ver el panel
