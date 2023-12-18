@@ -1,12 +1,16 @@
 package org.example.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.example.modelo.*;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import static org.example.Util.Constantes.ERROR_ACTUALIZACION;
+
 public class DAOproveedor {
 
         static PreparedStatement ps;
@@ -104,30 +108,84 @@ public class DAOproveedor {
         }
 
 
-        public static int actualizarProveedor(proveedor proveedor) {
-            int r = 0;
-            String sql = "UPDATE PROVEEDOR SET NOM_PROVEEDOR = ?, DIR_PROVEEDOR = ?, CON_PROVEEDOR = ?, PRODUCTO = ?, CODIGO_MATERIAL = ? WHERE NIT_PROVEEDOR = ?;";
-            try {
-                conectar.openConnection();
-                conn = conectar.getConnection();
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, proveedor.getNombreProveedor());
-                ps.setString(2, proveedor.getDireccionProveedor());
-                ps.setString(3, proveedor.getContacto());
-                ps.setString(4, proveedor.getProducto());
-                ps.setInt(5, proveedor.getCodMaterial());
-                ps.setInt(6, proveedor.getNitProveedor());
-                r = ps.executeUpdate();
-                if (r == 1) {
-                    r = 1;
-                } else {
-                    r = 0;
-                }
-            } catch (Exception e) {
-                System.out.println("Error al actualizar el proveedor: " + e.getMessage());
-            }
-            return r;
+    public static boolean actualizarProveedor(proveedor proveedorModificado) {
+        boolean isUpdated = false;
+
+        String sqlActualizar = "UPDATE Proveedor SET ";
+        String whereClause = " WHERE NIT_PROVEEDOR = ?";
+        ArrayList<String> updates = new ArrayList<>();
+        ArrayList<Object> values = new ArrayList<>();
+
+        if (!proveedorModificado.getNombreProveedor().isEmpty()) {
+            updates.add("NOM_PROVEEDOR = ?");
+            values.add(proveedorModificado.getNombreProveedor());
         }
+
+        if (!proveedorModificado.getDireccionProveedor().isEmpty()){
+            updates.add("DIR_PROVEEDOR = ?");
+            values.add(proveedorModificado.getDireccionProveedor());
+        }
+
+        if (!proveedorModificado.getContacto().isEmpty()) {
+            updates.add("CON_PROVEEDOR = ?");
+            values.add(proveedorModificado.getContacto());
+        }
+
+        if (!proveedorModificado.getProducto().isEmpty()) {
+            updates.add("PRODUCTO = ?");
+            values.add(proveedorModificado.getProducto());
+        }
+
+        if (proveedorModificado.getCodMaterial() > 0) {
+            updates.add("CODIGO_MATERIAL = ?");
+            values.add(proveedorModificado.getCodMaterial());
+        }
+
+        if (!updates.isEmpty()) {
+            sqlActualizar += String.join(", ", updates) + whereClause;
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                try (PreparedStatement statement = connection.prepareStatement(sqlActualizar)) {
+                    int index = 1;
+
+                    for (Object value : values) {
+                        if (value instanceof Date) {
+                            statement.setDate(index++, (Date) value);
+                        } else if (value instanceof Double) {
+                            statement.setDouble(index++, (Double) value);
+                        } else if (value instanceof Integer) {
+                            statement.setInt(index++, (Integer) value);
+                        } else if (value instanceof String) {
+                            statement.setString(index++, (String) value);
+                        }
+                    }
+
+                    statement.setInt(index, proveedorModificado.getNitProveedor());
+
+                    int rowsUpdated = statement.executeUpdate();
+
+                    if (rowsUpdated > 0) {
+                        isUpdated = true;
+                        System.out.println("Pedido actualizado correctamente");
+                    } else {
+                        System.out.println("No se encontró el pedido con el número: " + proveedorModificado.getNitProveedor());
+                    }
+                } catch (SQLException e) {
+                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                } finally {
+                    conexion.closeConnection();
+                }
+            }
+        } else {
+            System.out.println("No se han proporcionado datos para actualizar.");
+        }
+
+        return isUpdated;
+    }
 
         public static int eliminarProveedor(int nitProveedor) {
             int r = 0;
@@ -148,4 +206,56 @@ public class DAOproveedor {
             }
             return r;
         }
+
+    public static void tablaproveedorNIT(int NIT, JTable tabla) {
+        try {
+            String q;
+            if (NIT != 0) {
+                q = "SELECT * FROM proveedor WHERE NIT_PROVEEDOR = ?";
+            } else {
+                q = "SELECT * FROM proveedor";
+            }
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                PreparedStatement statement = connection.prepareStatement(q);
+
+                if (NIT != 0) {
+                    statement.setInt(1, NIT);
+                }
+
+                ResultSet rs = statement.executeQuery();
+
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("NIT_PROVEEDOR");
+                model.addColumn("NOM_PROVEEDOR");
+                model.addColumn("DIR_PROVEEDOR");
+                model.addColumn("CON_PROVEEDOR");
+                model.addColumn("PRODUCTO");
+                model.addColumn("CODIGO_MATERIAL");
+
+                while (rs.next()) {
+                    Object[] rowData = {
+                            rs.getInt("NIT_PROVEEDOR"),
+                            rs.getString("NOM_PROVEEDOR"),
+                            rs.getString("DIR_PROVEEDOR"),
+                            rs.getString("CON_PROVEEDOR"),
+                            rs.getString("PRODUCTO"),
+                            rs.getInt("CODIGO_MATERIAL"),
+                    };
+                    model.addRow(rowData);
+                }
+
+                tabla.setModel(model);
+                conexion.closeConnection();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
 }
