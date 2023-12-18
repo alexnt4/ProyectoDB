@@ -92,41 +92,98 @@ public class DAOpedido {
     public static boolean actualizarPedido(pedido pedidoModificado) {
         boolean isUpdated = false;
 
-        String sqlActualizar = "UPDATE Pedido SET FEC_ENCARGADO = ?, ABONO = ?, FEC_ENTREGA = ?, MED_PERSONA = ?, ESTADO = ?, DOC_CLIENTE = ?, FACTURA_VENTA = ?, MONTO_TOTAL = ? WHERE NUM_PED = ?";
+        String sqlActualizar = "UPDATE Pedido SET ";
+        String whereClause = " WHERE NUM_PED = ?";
+        ArrayList<String> updates = new ArrayList<>();
+        ArrayList<Object> values = new ArrayList<>();
 
-        ConexionBD conexion = new ConexionBD();
-        conexion.openConnection();
-        Connection connection = conexion.getConnection();
+        if (pedidoModificado.getFechaEncargado() != null) {
+            updates.add("FEC_ENCARGADO = ?");
+            values.add(new java.sql.Date(pedidoModificado.getFechaEncargado().getTime()));
+        }
 
-        if (connection != null) {
-            try (PreparedStatement statement = connection.prepareStatement(sqlActualizar)) {
-                statement.setDate(1, new java.sql.Date(pedidoModificado.getFechaEncargado().getTime())); // Cambio aquí
-                statement.setDouble(2, pedidoModificado.getAbono());
-                statement.setDate(3, new java.sql.Date(pedidoModificado.getFechaEntrega().getTime())); // Cambio aquí
-                statement.setString(4, pedidoModificado.getMedPersona());
-                statement.setString(5, pedidoModificado.getEstado());
-                statement.setInt(6, pedidoModificado.getDocCliente());
-                statement.setInt(7, pedidoModificado.getFacVenta());
-                statement.setDouble(8, pedidoModificado.getMontoTotal());
-                statement.setInt(9, pedidoModificado.getNumPedido());
+        if (pedidoModificado.getAbono() != null && pedidoModificado.getAbono() > 0) {
+            updates.add("ABONO = ?");
+            values.add(pedidoModificado.getAbono());
+        }
 
-                int rowsUpdated = statement.executeUpdate();
+        if (pedidoModificado.getFechaEntrega() != null) {
+            updates.add("FEC_ENTREGA = ?");
+            values.add(new java.sql.Date(pedidoModificado.getFechaEntrega().getTime()));
+        }
 
-                if (rowsUpdated > 0) {
-                    isUpdated = true;
-                    System.out.println("Pedido actualizado correctamente");
-                } else {
-                    System.out.println("No se encontró el pedido con el número: " + pedidoModificado.getNumPedido());
+        if (!pedidoModificado.getMedPersona().isEmpty()) {
+            updates.add("MED_PERSONA = ?");
+            values.add(pedidoModificado.getMedPersona());
+        }
+
+        if (!pedidoModificado.getEstado().isEmpty()) {
+            updates.add("ESTADO = ?");
+            values.add(pedidoModificado.getEstado());
+        }
+
+        if (pedidoModificado.getDocCliente() > 0) {
+            updates.add("DOC_CLIENTE = ?");
+            values.add(pedidoModificado.getDocCliente());
+        }
+
+        if (pedidoModificado.getFacVenta() > 0) {
+            updates.add("FACTURA_VENTA = ?");
+            values.add(pedidoModificado.getFacVenta());
+        }
+
+        if (pedidoModificado.getMontoTotal() != null && pedidoModificado.getMontoTotal() > 0) {
+            updates.add("MONTO_TOTAL = ?");
+            values.add(pedidoModificado.getMontoTotal());
+        }
+
+        if (!updates.isEmpty()) {
+            sqlActualizar += String.join(", ", updates) + whereClause;
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                try (PreparedStatement statement = connection.prepareStatement(sqlActualizar)) {
+                    int index = 1;
+
+                    for (Object value : values) {
+                        if (value instanceof Date) {
+                            statement.setDate(index++, (java.sql.Date) value);
+                        } else if (value instanceof Double) {
+                            statement.setDouble(index++, (Double) value);
+                        } else if (value instanceof Integer) {
+                            statement.setInt(index++, (Integer) value);
+                        } else if (value instanceof String) {
+                            statement.setString(index++, (String) value);
+                        }
+                    }
+
+                    statement.setInt(index, pedidoModificado.getNumPedido());
+
+                    int rowsUpdated = statement.executeUpdate();
+
+                    if (rowsUpdated > 0) {
+                        isUpdated = true;
+                        System.out.println("Pedido actualizado correctamente");
+                    } else {
+                        System.out.println("No se encontró el pedido con el número: " + pedidoModificado.getNumPedido());
+                    }
+                } catch (SQLException e) {
+                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                } finally {
+                    conexion.closeConnection();
                 }
-            } catch (SQLException e) {
-                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
-            } finally {
-                conexion.closeConnection();
             }
+        } else {
+            System.out.println("No se han proporcionado datos para actualizar.");
         }
 
         return isUpdated;
     }
+
+
 
     public static boolean eliminarPedido(int numPedido) {
         boolean isDeleted = false;
@@ -158,6 +215,7 @@ public class DAOpedido {
 
         return isDeleted;
     }
+
 
     public static pedido obtenerPedidoPorNumero(int numPedido) {
         pedido pedidoEncontrado = null;
@@ -254,9 +312,6 @@ public class DAOpedido {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-
-
-
 
 
 

@@ -321,16 +321,41 @@ public class pedido extends JPanel implements ActionListener{
                     Double abono = Double.valueOf(T_abono.getText());
                     String medPersona = T_medida.getText();
                     String estado = T_estado.getText();
-                    int DocCliente = Integer.parseInt(T_docTitulo.getText());
+                    int DocCliente = Integer.parseInt(T_doc.getText());
                     int facVenta = Integer.parseInt(T_factura.getText());
                     Double MontoTotal = Double.valueOf(T_monto.getText());
                     Date fechaEncargo = new Date(sdf.parse(T_fecha_encargo.getText()).getTime());
                     Date fechaEntrega = new Date(sdf.parse(T_fecha_entrega.getText()).getTime());
                     controlador control = new controlador();
-                    controlador.agregarPedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, DocCliente, facVenta, MontoTotal);
+                    controlador.agregarPedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, DocCliente, facVenta, MontoTotal, Tablero);
                     validar.setForeground(Color.black);
                     validar.setText("               DATO INSERTADO");
                 } else if (actualizar.isSelected()) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    int numPedido = Integer.parseInt(T_num.getText());
+                    Double abono = T_abono.getText().isEmpty() ? 0.0 : Double.valueOf(T_abono.getText());
+                    String medPersona = T_medida.getText();
+                    String estado = T_estado.getText();
+                    int DocCliente = T_doc.getText().isEmpty() ? 0 : Integer.parseInt(T_doc.getText());
+                    int facVenta = T_factura.getText().isEmpty() ? 0 : Integer.parseInt(T_factura.getText());
+                    Double MontoTotal = T_monto.getText().isEmpty() ? 0.0 : Double.valueOf(T_monto.getText());
+
+                    Date fechaEncargo = null;
+                    Date fechaEntrega = null;
+
+                    try {
+                        if (!T_fecha_encargo.getText().isEmpty()) {
+                            fechaEncargo = new Date(sdf.parse(T_fecha_encargo.getText()).getTime());
+                        }
+                        if (!T_fecha_entrega.getText().isEmpty()) {
+                            fechaEntrega = new Date(sdf.parse(T_fecha_entrega.getText()).getTime());
+                        }
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    controlador control = new controlador();
+                    controlador.actualizarPedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, DocCliente, facVenta, MontoTotal, Tablero);
                     validar.setForeground(new Color(0,128,0));
                     validar.setText("                DATO ACTUALIZADO");
                 } else if (consultar.isSelected()) {
@@ -341,6 +366,8 @@ public class pedido extends JPanel implements ActionListener{
                     validar.setForeground(Color.black);
                     validar.setText("                RESULTADO DE CONSULTA");
                 } else if (eliminar.isSelected()) {
+                    int numPedido = Integer.parseInt(T_num.getText());
+                    controlador.eliminarPedido(numPedido);
                     validar.setForeground(new Color(75, 0, 130));
                     validar.setText("               ELIMINADO");
                 } else {
