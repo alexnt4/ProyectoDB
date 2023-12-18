@@ -247,6 +247,8 @@ public class prenda_vestir extends JPanel{
             barraDesplazamiento.setBorder(new LineBorder(Color.gray));
             add(barraDesplazamiento);
     
+
+            //j
         }
     
         public static void vaciarCampos() {
