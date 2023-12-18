@@ -10,9 +10,15 @@ import java.sql.SQLException;
  */
 public class ConexionBD {
     private Connection conn;
+
+    private final String url = "jdbc:postgresql://localhost:5432/store";
+    private final String username = "postgres";
+    private final String password = "newpassword";
+
     private final String url = "jdbc:postgresql://localhost:5432/ProyectoFinal";
     private final String username = "postgres";
     private final String password = "bbcita";
+
 
     public void openConnection() {
         try {

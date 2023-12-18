@@ -9,19 +9,17 @@ import java.util.List;
 
 
 import org.example.modelo.*;
-
 import static org.example.Util.Constantes.*;
 
-
-
+//import static org.example.Util.Constantes.ERROR_ACTUALIZACION;
 
 public class DAOcliente {
 
-    PreparedStatement ps;
-    ResultSet rs;
-    Connection conn;
-    ConexionBD conectar = new ConexionBD();
-    cliente c = new cliente();
+    static PreparedStatement ps;
+    static ResultSet rs;
+    static Connection conn;
+    static ConexionBD conectar = new ConexionBD();
+    static cliente c = new cliente();
 
     public List<cliente> obtenerClientes(){
         List<cliente> clientes = new ArrayList<>();
@@ -50,7 +48,7 @@ public class DAOcliente {
         return clientes;
     }
 
-    public cliente obtenerCliente(int idCliente){
+    public static cliente obtenerCliente(int idCliente){
         try {
             // hago la conexion y ejecuto la instruccion para obtener todos los datos
             // almacenandolos en un resultset
@@ -72,6 +70,86 @@ public class DAOcliente {
 
         return c;
     }
+
+    public static int agregarCliente(cliente cliente) {
+        String sqlGuardar = "INSERT INTO cliente (DOC_CLIENTE, NOM_CLIENTE) " +
+                "VALUES (?, ?)";
+
+        int filasAfectadas = 0;
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sqlGuardar)) {
+                statement.setInt(1, cliente.getIdCliente());
+                statement.setString(2, cliente.getNombreCliente());
+
+
+                filasAfectadas = statement.executeUpdate();
+                System.out.println("Filas afectadas al agregar pedido: " + filasAfectadas);
+            } catch (SQLException e) {
+                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+            } finally {
+                conexion.closeConnection();
+            }
+        }
+        return filasAfectadas;
+    }
+
+    public static int actualizarCliente(cliente cliente) {
+        String sqlActualizar = "UPDATE cliente SET DOC_CLIENTE = ?, NOM_CLIENTE = ? WHERE idCliente = ?";
+
+        int filasAfectadas = 0;
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sqlActualizar)) {
+                statement.setInt(1, cliente.getIdCliente());
+                statement.setString(2, cliente.getNombreCliente());
+                statement.setInt(3, cliente.getIdCliente());
+
+                filasAfectadas = statement.executeUpdate();
+                System.out.println("Filas afectadas al actualizar pedido: " + filasAfectadas);
+            } catch (SQLException e) {
+                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+            } finally {
+                conexion.closeConnection();
+            }
+        }
+        return filasAfectadas;
+    }
+
+    public static int eliminarCliente(int idCliente) {
+        String sqlEliminar = "DELETE FROM cliente WHERE idCliente = ?";
+
+        int filasAfectadas = 0;
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sqlEliminar)) {
+                statement.setInt(1, idCliente);
+
+                filasAfectadas = statement.executeUpdate();
+                System.out.println("Filas afectadas al eliminar pedido: " + filasAfectadas);
+            } catch (SQLException e) {
+                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+            } finally {
+                conexion.closeConnection();
+            }
+        }
+        return filasAfectadas;
+    }
+
+
+
 
 
 

@@ -1,11 +1,22 @@
 package org.example.controlador;
 
+
+import org.example.DAO.DAOcliente;
+
 import org.example.DAO.DAOpedido;
+
 import org.example.modelo.Usuario;
+import org.example.modelo.cliente;
+
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+
 
 import java.util.Date;
 
 public class controlador {
+
+
 
 
     public static void agregarPedido(int numPedido, java.sql.Date fechaEncargo, Double abono, java.sql.Date fechaEntrega, String medPersona, String estado, int docCliente, int facVenta, Double montoTotal) {
@@ -26,6 +37,11 @@ public class controlador {
 
 
 
-    
-    
+
+
+
+
+
+
+
 }

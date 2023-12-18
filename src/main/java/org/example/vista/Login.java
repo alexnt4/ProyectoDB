@@ -48,7 +48,11 @@ public class Login extends JFrame implements ActionListener {
         add(panel);
 
         tituloVentana = new JTextArea();
+
+        tituloVentana.setText(" INICIAR SESION " );
+
         tituloVentana.setText(" INICIAR SESIÓN " );
+
         tituloVentana.setFocusable(false);
         tituloVentana.setFont(new Font("arial", 3, 33));
         tituloVentana.setEditable(false);
@@ -82,8 +86,13 @@ public class Login extends JFrame implements ActionListener {
         T_password.setBorder(new LineBorder(Color.gray));
         panel.add(T_password);
 
+
+        listo = new JButton("INGRESAR");
+        listo.setBounds(100,280,150,30);
+
         listo = new JButton("LISTO");
         listo.setBounds(90,290,150,30);
+
         listo.addActionListener(this);
         listo.setBorder(new LineBorder(Color.gray));
         listo.setFont(new Font("cooper black",2,25));
