@@ -1,9 +1,7 @@
 package org.example.vista;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.util.Objects;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -234,12 +232,12 @@ public class prenda_vestir extends JPanel{
             eliminar.setBackground(Color.WHITE);
             add(eliminar);
     
-    
-                bg = new ButtonGroup();
-                bg.add(insertar);
-                bg.add(actualizar);
-                bg.add(consultar);
-                bg.add(eliminar);
+            bg = new ButtonGroup();
+            bg.add(insertar);
+            bg.add(actualizar);
+            bg.add(consultar);
+            bg.add(eliminar);
+
             }
             Tablero = new JTextArea();
             Tablero.setFont(new Font("arial", 2, 15));
@@ -259,6 +257,8 @@ public class prenda_vestir extends JPanel{
             T_diselo .setText("");
             T_diselo.setText("");
             T_pieza.setText("");
+            T_talla.setText("");
+            bg1.clearSelection();
             
             if(Objects.equals(tipo, "administrador")){
                 bg.clearSelection();

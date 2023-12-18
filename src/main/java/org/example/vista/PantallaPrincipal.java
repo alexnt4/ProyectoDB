@@ -293,7 +293,6 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             inventario_materiales.vaciarCampos();
             usuario.setVisible(false);
             Pedido.setVisible(true);
-            pedido.vaciarCampos();
             Prenda_vestir.setVisible(false);
             prenda_vestir.vaciarCampos();
         }
