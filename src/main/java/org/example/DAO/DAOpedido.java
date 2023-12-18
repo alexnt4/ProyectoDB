@@ -1,6 +1,9 @@
 package org.example.DAO;
 
 import org.example.modelo.pedido;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -193,6 +196,67 @@ public class DAOpedido {
 
         return pedidoEncontrado;
     }
+
+    public static void tablapedidoid(int numPedido, JTable tabla) {
+        try {
+            String q;
+            if (numPedido != 0) {
+                q = "SELECT * FROM pedido WHERE NUM_PED = ?";
+            } else {
+                q = "SELECT * FROM pedido";
+            }
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                PreparedStatement statement = connection.prepareStatement(q);
+
+                if (numPedido != 0) {
+                    statement.setInt(1, numPedido);
+                }
+
+                ResultSet rs = statement.executeQuery();
+
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("NUM_PED");
+                model.addColumn("FEC_ENCARGADO");
+                model.addColumn("ABONO");
+                model.addColumn("FEC_ENTREGA");
+                model.addColumn("MED_PERSONA");
+                model.addColumn("ESTADO");
+                model.addColumn("DOC_CLIENTE");
+                model.addColumn("FACTURA_VENTA");
+                model.addColumn("MONTO_TOTAL");
+
+                while (rs.next()) {
+                    Object[] rowData = {
+                            rs.getInt("NUM_PED"),
+                            rs.getDate("FEC_ENCARGADO"),
+                            rs.getDouble("ABONO"),
+                            rs.getDate("FEC_ENTREGA"),
+                            rs.getString("MED_PERSONA"),
+                            rs.getString("ESTADO"),
+                            rs.getInt("DOC_CLIENTE"),
+                            rs.getInt("FACTURA_VENTA"),
+                            rs.getDouble("MONTO_TOTAL")
+                    };
+                    model.addRow(rowData);
+                }
+
+                tabla.setModel(model);
+                conexion.closeConnection();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+
+
 
 
 

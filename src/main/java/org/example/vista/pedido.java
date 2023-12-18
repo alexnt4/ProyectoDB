@@ -1,22 +1,19 @@
 package org.example.vista;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
+import org.example.DAO.DAOpedido;
 import org.example.controlador.controlador;
+
+import static org.example.DAO.DAOpedido.tablapedidoid;
 
 public class pedido extends JPanel implements ActionListener{
     JTextField T_numTitulo;
@@ -38,7 +35,7 @@ public class pedido extends JPanel implements ActionListener{
     JTextField T_docTitulo;
     static JTextField T_doc;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
-    static JTextArea Tablero;
+    static JTable Tablero;
     JScrollPane barraDesplazamiento;
     JButton listo;
     JTextArea tituloVentana;
@@ -242,13 +239,31 @@ public class pedido extends JPanel implements ActionListener{
         bg.add(consultar);
         bg.add(eliminar);
 
-        Tablero = new JTextArea();
+        Tablero = new JTable();
         Tablero.setFont(new Font("arial", 2, 15));
-        Tablero.setEditable(true);
+        Tablero.setEnabled(false);
+        // Ajustar el tamaño de la fuente en la tabla
+        Font font = new Font("Arial", Font.PLAIN, 12); // Cambia el tamaño de la fuente según tus preferencias
+        Tablero.setFont(font);
+
+// Ajustar la altura de las filas
+        Tablero.setRowHeight(30); // Cambia la altura de las filas según tus preferencias
+
+// Ajustar el tamaño de la tabla (ancho y alto)
+        int anchoTabla = 800; // Ajusta el ancho de la tabla según tus preferencias
+        int altoTabla = 400; // Ajusta la altura de la tabla según tus preferencias
+        Tablero.setPreferredScrollableViewportSize(new Dimension(anchoTabla, altoTabla));
+
         barraDesplazamiento = new JScrollPane(Tablero);
-        barraDesplazamiento.setBounds(15,340,890,250);
-        barraDesplazamiento.setBorder(new LineBorder(Color.gray));
+        barraDesplazamiento = new JScrollPane(Tablero);
+        barraDesplazamiento.setBounds(15, 340, 890, 250);
+
+// Establecer tamaño preferido para mostrar la tabla correctamente
+        barraDesplazamiento.setPreferredSize(new Dimension(880, 240)); // Ajusta estos valores según tus necesidades
+
         add(barraDesplazamiento);
+
+
     }
 
     public static void vaciarCampos() {
@@ -261,20 +276,20 @@ public class pedido extends JPanel implements ActionListener{
         T_fecha_entrega.setText("");
         T_medida.setText("");
         T_doc.setText("");
-        Tablero.setText("");
+        //Tablero.setText("");
         bg.clearSelection();
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == listo) {
             try {
-                if (insertar.isSelected()) {
+                if (insertar.isSelected()){
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     int numPedido = Integer.parseInt(T_num.getText());
                     Double abono = Double.valueOf(T_abono.getText());
                     String medPersona = T_medida.getText();
                     String estado = T_estado.getText();
-                    int DocCliente = 10001;
+                    int DocCliente = Integer.parseInt(T_docTitulo.getText());
                     int facVenta = Integer.parseInt(T_factura.getText());
                     Double MontoTotal = Double.valueOf(T_monto.getText());
                     Date fechaEncargo = new Date(sdf.parse(T_fecha_encargo.getText()).getTime());
@@ -282,10 +297,13 @@ public class pedido extends JPanel implements ActionListener{
                     controlador control = new controlador();
                     controlador.agregarPedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, DocCliente, facVenta, MontoTotal);
                     System.out.println("insertar");
-                    Tablero.setText("Usuario agregado");
                 } else if (actualizar.isSelected()) {
                     System.out.println("actualizar");
                 } else if (consultar.isSelected()) {
+                    int numPedido = Integer.parseInt(T_num.getText());
+                    controlador.consultarPedido(numPedido, Tablero);
+                    System.out.println("consultar");
+                    //controlador.consultarPedido(numPedido);
                     System.out.println("consultar");
                 } else if (eliminar.isSelected()) {
                     System.out.println("eliminar");
