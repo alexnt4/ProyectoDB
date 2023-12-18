@@ -14,16 +14,16 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 public class inventario_materiales extends JPanel{
-    JTextField T_idTitulo;
-    static JTextField T_id;
-    JTextField T_nomTitulo;
-    static JTextField T_nom;
-    JTextField T_dirTitulo;
-    static JTextField T_dir ;
-    JTextField T_contactoTitulo;
-    static JTextField T_contacto;
-    JTextField T_telefonoTitulo;
-    static JTextField T_telefono;
+    JTextField T_codigoTitulo;
+    static JTextField T_codigo;
+    JTextField T_descTitulo;
+    static JTextField T_desc;
+    JTextField T_tipoTitulo;
+    static JTextField T_tipo ;
+    JTextField T_medidaTitulo;
+    static JTextField T_medida;
+    JTextField T_cantidadTitulo;
+    static JTextField T_cantidad;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTextArea Tablero;
     JScrollPane barraDesplazamiento;
@@ -34,97 +34,97 @@ public class inventario_materiales extends JPanel{
     JRadioButton actualizar;
     JRadioButton eliminar;
 
-    String tipo;
+    static String tipo;
 
     public inventario_materiales(String cargo){
-        this.tipo = cargo;
+        inventario_materiales.tipo = cargo;
         Gui(); //Funcion que genera la vista
         vaciarCampos();
     }
 
     public void Gui(){
         setLayout(null);
-        setBounds(350,5,580,650);
+        setBounds(350,5,920,650);
         setBackground(new Color(0, 191, 255));
         //setBackground(new Color(220, 220, 220)); //Activelo cuando quiera ver el panel
         setVisible(false);
 
         tituloVentana = new JTextArea();
-        tituloVentana.setText(" TABLA INVENTARIO");
+        tituloVentana.setText("                              TABLA INVENTARIO                                 ");
         tituloVentana.setFocusable(false);
         tituloVentana.setFont(new Font("arial", 3, 30));
         tituloVentana.setEditable(false);
         tituloVentana.setBorder(new LineBorder(Color.gray));
-        tituloVentana.setBounds(30,15,310,40);
+        tituloVentana.setBounds(15,15,705,40);
         add(tituloVentana);
 
-        T_idTitulo = new JTextField();
-        T_idTitulo.setText(" CODIGO MATERIAL");
-        T_idTitulo.setFont(new Font("arial", 3, 17));
-        T_idTitulo.setEditable(false);
-        T_idTitulo.setBorder(new LineBorder(Color.gray));
-        T_idTitulo.setBounds(30,80,190,30);
-        add(T_idTitulo);
+        T_codigoTitulo = new JTextField();
+        T_codigoTitulo.setText(" CODIGO MATERIAL");
+        T_codigoTitulo.setFont(new Font("arial", 3, 17));
+        T_codigoTitulo.setEditable(false);
+        T_codigoTitulo.setBorder(new LineBorder(Color.gray));
+        T_codigoTitulo.setBounds(15,80,190,30);
+        add(T_codigoTitulo);
 
-        T_id  = new JTextField();
-        T_id .setBounds(240,80,290,31);
-        T_id .setBorder(new LineBorder(Color.gray));
-        add(T_id );
+        T_codigo  = new JTextField();
+        T_codigo .setBounds(225,80,220,31);
+        T_codigo .setBorder(new LineBorder(Color.gray));
+        add(T_codigo );
 
-         T_nomTitulo = new JTextField();
-         T_nomTitulo.setText(" DESCRIPCION MATERIAL ");
-         T_nomTitulo.setFont(new Font("arial", 3, 15));
-         T_nomTitulo.setEditable(false);
-         T_nomTitulo.setBorder(new LineBorder(Color.gray));
-         T_nomTitulo.setBounds(30,130,190,30);
-        add( T_nomTitulo);
+        T_descTitulo = new JTextField();
+        T_descTitulo.setText(" DESCRIPCION MATERIAL ");
+        T_descTitulo.setFont(new Font("arial", 3, 15));
+        T_descTitulo.setEditable(false);
+        T_descTitulo.setBorder(new LineBorder(Color.gray));
+        T_descTitulo.setBounds(15,130,190,30);
+        add(T_descTitulo);
 
-         T_nom = new JTextField();
-         T_nom.setBounds(240,130,290,31);
-         T_nom.setBorder(new LineBorder(Color.gray));
-        add( T_nom);
+        T_desc = new JTextField();
+        T_desc.setBounds(225,130,220,31);
+        T_desc.setBorder(new LineBorder(Color.gray));
+        add( T_desc);
 
-        T_dirTitulo = new JTextField();
-        T_dirTitulo.setText(" TIPO MATERIAL");
-        T_dirTitulo.setFont(new Font("arial", 3, 15));
-        T_dirTitulo.setBorder(new LineBorder(Color.gray));
-        T_dirTitulo.setEditable(false);
-        T_dirTitulo.setBounds(30,180,190,30);
-        add(T_dirTitulo);
+        T_tipoTitulo = new JTextField();
+        T_tipoTitulo.setText(" TIPO MATERIAL");
+        T_tipoTitulo.setFont(new Font("arial", 3, 15));
+        T_tipoTitulo.setBorder(new LineBorder(Color.gray));
+        T_tipoTitulo.setEditable(false);
+        T_tipoTitulo.setBounds(15,180,190,30);
+        add(T_tipoTitulo);
 
-        T_dir = new JTextField();
-        T_dir.setBounds(240,180,290,31);
-        T_dir.setBorder(new LineBorder(Color.gray));
-        add(T_dir);
+        T_tipo = new JTextField();
+        T_tipo.setBounds(225,180,220,31);
+        T_tipo.setBorder(new LineBorder(Color.gray));
+        add(T_tipo);
 
-        T_contactoTitulo = new JTextField();
-        T_contactoTitulo.setText(" UNIDAD DE MEDIDA");
-        T_contactoTitulo.setFont(new Font("arial", 3, 15));
-        T_contactoTitulo.setBorder(new LineBorder(Color.gray));
-        T_contactoTitulo.setEditable(false);
-        T_contactoTitulo.setBounds(30,230,190,30);
-        add(T_contactoTitulo);
+        T_medidaTitulo = new JTextField();
+        T_medidaTitulo.setText(" UNIDAD DE MEDIDA");
+        T_medidaTitulo.setFont(new Font("arial", 3, 15));
+        T_medidaTitulo.setBorder(new LineBorder(Color.gray));
+        T_medidaTitulo.setEditable(false);
+        T_medidaTitulo.setBounds(15,230,190,30);
+        add(T_medidaTitulo);
 
-        T_contacto = new JTextField();
-        T_contacto.setBounds(240,230,290,30);
-        T_contacto.setBorder(new LineBorder(Color.gray));
-        add(T_contacto);
+        T_medida = new JTextField();
+        T_medida.setBounds(225,230,220,30);
+        T_medida.setBorder(new LineBorder(Color.gray));
+        add(T_medida);
 
-        T_telefonoTitulo = new JTextField();
-        T_telefonoTitulo.setText(" CANTIDAD");
-        T_telefonoTitulo.setFont(new Font("arial", 3, 15));
-        T_telefonoTitulo.setBorder(new LineBorder(Color.gray));
-        T_telefonoTitulo.setEditable(false);
-        T_telefonoTitulo.setBounds(30,280,190,30);
-        add(T_telefonoTitulo);
+        T_cantidadTitulo = new JTextField();
+        T_cantidadTitulo.setText(" CANTIDAD");
+        T_cantidadTitulo.setFont(new Font("arial", 3, 15));
+        T_cantidadTitulo.setBorder(new LineBorder(Color.gray));
+        T_cantidadTitulo.setEditable(false);
+        T_cantidadTitulo.setBounds(475,80,190,30);
+        add(T_cantidadTitulo);
 
-        T_telefono = new JTextField();
-        T_telefono.setBounds(240,280,290,30);
-        T_telefono.setBorder(new LineBorder(Color.gray));
-        add(T_telefono);
+        T_cantidad = new JTextField();
+        T_cantidad.setBounds(685,80,220,30);
+        T_cantidad.setBorder(new LineBorder(Color.gray));
+        add(T_cantidad);
 
-        listo = new JButton("Listo ");
-        listo.setBounds(360,15,165,40);
+        listo = new JButton("Consultar ");
+        listo.setBounds(740,15,165,40);
         //listo.addActionListener(this);
         listo.setBorder(new LineBorder(Color.gray));
         listo.setForeground(Color.BLACK); //Color de la letra
@@ -135,72 +135,74 @@ public class inventario_materiales extends JPanel{
        
         add(listo);
 
-        insertar = new JRadioButton("Insertar");
-        insertar.setBounds(30, 330, 115, 30);
-        insertar.setFont(new Font("arial",1,15));
-        insertar.setContentAreaFilled(true); //Le quito el fondo
-        insertar.setFocusPainted(false); //Que no quede seleccionada
-        insertar.setBorder(new LineBorder(Color.gray));
-        insertar.setEnabled(false);
-        add(insertar);
-
-        consultar = new JRadioButton("consultar");
-        consultar.setBounds(160, 330, 115, 30);
-        consultar.setFont(new Font("arial",1,15));
-        consultar.setBorderPainted(false);
-        consultar.setFocusPainted(false); //Que no quede seleccionada
-        consultar.setContentAreaFilled(true); //Le quito el fondo
-        consultar.setBorder(new LineBorder(Color.gray));
-        add(consultar);
-
-        actualizar = new JRadioButton("actualizar");
-        actualizar.setBounds(285, 330, 115, 30);
-        actualizar.setFont(new Font("arial",1,15));
-        actualizar.setBorderPainted(false);
-        actualizar.setFocusPainted(false); //Que no quede seleccionada
-        actualizar.setContentAreaFilled(true); //Le quito el fondo
-        actualizar.setBorder(new LineBorder(Color.gray));
-        actualizar.setEnabled(false); //Desactivarlos
-        add(actualizar);
-
-        eliminar = new JRadioButton("eliminar");
-        eliminar.setBounds(415, 330, 115, 30);
-        eliminar.setFont(new Font("arial",1,15));
-        eliminar.setBorderPainted(false);
-        eliminar.setFocusPainted(false); //Que no quede seleccionada
-        eliminar.setContentAreaFilled(true); //Le quito el fondo
-        eliminar.setBorder(new LineBorder(Color.gray));
-        eliminar.setEnabled(false);
-        add(eliminar);
-
-        bg = new ButtonGroup();
-        bg.add(insertar);
-        bg.add(actualizar);
-        bg.add(consultar);
-        bg.add(eliminar);
-
-        Tablero = new JTextArea();
-        Tablero.setFont(new Font("arial", 2, 15));
-        Tablero.setEditable(true);
-        barraDesplazamiento = new JScrollPane(Tablero);
-        barraDesplazamiento.setBounds(30,380,503,250);
-        barraDesplazamiento.setBorder(new LineBorder(Color.gray));
-        add(barraDesplazamiento);
-
         if(Objects.equals(tipo, "administrador")){
-            eliminar.setEnabled(true);
-            actualizar.setEnabled(true); //activarlos
-            insertar.setEnabled(true); //Desactivarlos
+            listo.setText("Listo ");
+    
+            insertar = new JRadioButton("insertar");
+            insertar.setBounds(15, 280, 115, 30);
+            insertar.setFont(new Font("arial",1,15));
+            insertar.setContentAreaFilled(true); //Le quito el fondo
+            insertar.setFocusPainted(false); //Que no quede seleccionada
+            insertar.setBorder(new LineBorder(Color.gray));
+            insertar.setBackground(Color.WHITE);
+            add(insertar);
+    
+            consultar = new JRadioButton("consultar");
+            consultar.setBounds(150, 280, 115, 30);
+            consultar.setFont(new Font("arial",1,15));
+            consultar.setBorderPainted(false);
+            consultar.setFocusPainted(false); //Que no quede seleccionada
+            consultar.setContentAreaFilled(true); //Le quito el fondo
+            consultar.setBorder(new LineBorder(Color.gray));
+            consultar.setBackground(Color.WHITE);
+            add(consultar);
+    
+            actualizar = new JRadioButton("actualizar");
+            actualizar.setBounds(285, 280, 115, 30);
+            actualizar.setFont(new Font("arial",1,15));
+            actualizar.setBorderPainted(false);
+            actualizar.setFocusPainted(false); //Que no quede seleccionada
+            actualizar.setContentAreaFilled(true); //Le quito el fondo
+            actualizar.setBorder(new LineBorder(Color.gray));
+            actualizar.setBackground(Color.WHITE);
+            add(actualizar);
+    
+            eliminar = new JRadioButton("eliminar");
+            eliminar.setBounds(420, 280, 115, 30);
+            eliminar.setFont(new Font("arial",1,15));
+            eliminar.setBorderPainted(false);
+            eliminar.setFocusPainted(false); //Que no quede seleccionada
+            eliminar.setContentAreaFilled(true); //Le quito el fondo
+            eliminar.setBorder(new LineBorder(Color.gray));
+            eliminar.setBackground(Color.WHITE);
+            add(eliminar);
+    
+    
+                bg = new ButtonGroup();
+                bg.add(insertar);
+                bg.add(actualizar);
+                bg.add(consultar);
+                bg.add(eliminar);
+            }
+            Tablero = new JTextArea();
+            Tablero.setFont(new Font("arial", 2, 15));
+            Tablero.setEditable(true);
+            barraDesplazamiento = new JScrollPane(Tablero);
+            barraDesplazamiento.setBounds(15,340,890,250);
+            barraDesplazamiento.setBorder(new LineBorder(Color.gray));
+            add(barraDesplazamiento);
+    
         }
-    }
-
-    public static void vaciarCampos() {
-        T_id.setText("");
-        T_contacto.setText("");
-        T_dir.setText("");
-         T_nom.setText("");
-        T_telefono.setText("");
-        Tablero.setText("");
-        bg.clearSelection();
-    }
+    
+        public static void vaciarCampos() {
+            T_codigo.setText("");
+            T_medida.setText("");
+            T_tipo.setText("");
+            T_desc.setText("");
+            T_cantidad.setText("");
+            if(Objects.equals(tipo, "administrador")){
+                bg.clearSelection();
+            }
+        }
 }
+
