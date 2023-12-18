@@ -1,10 +1,15 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 import javax.swing.ButtonGroup;
@@ -23,7 +28,7 @@ public class proveedor extends JPanel implements ActionListener{
     JTextField T_nitTitulo;
     static JTextField T_nit;
     JTextField T_idPrendaTitulo;
-    static JTextField T_idPrenda;
+    static JTextField T_nombre;
     JTextField T_dirTitulo;
     static JTextField T_dir ;
     JTextField T_contactTitulo;
@@ -93,12 +98,10 @@ public class proveedor extends JPanel implements ActionListener{
         T_idPrendaTitulo.setEditable(false);
         T_idPrendaTitulo.setBorder(new LineBorder(Color.gray));
         T_idPrendaTitulo.setBounds(15,130,190,30);
-        add(T_idPrendaTitulo);
 
-        T_idPrenda = new JTextField();
-        T_idPrenda.setBounds(225,130,220,31);
-        T_idPrenda.setBorder(new LineBorder(Color.gray));
-        add( T_idPrenda);
+        T_nombre = new JTextField();
+        T_nombre.setBounds(225,130,220,31);
+        T_nombre.setBorder(new LineBorder(Color.gray));
 
         T_dirTitulo = new JTextField();
         T_dirTitulo.setText(" DIRECCIÓN");
@@ -106,12 +109,10 @@ public class proveedor extends JPanel implements ActionListener{
         T_dirTitulo.setBorder(new LineBorder(Color.gray));
         T_dirTitulo.setEditable(false);
         T_dirTitulo.setBounds(15,180,190,30);
-        add(T_dirTitulo);
 
         T_dir = new JTextField();
         T_dir.setBounds(225,180,220,31);
         T_dir.setBorder(new LineBorder(Color.gray));
-        add(T_dir);
 
         T_contactTitulo = new JTextField();
         T_contactTitulo.setText(" CONTACTO");
@@ -119,12 +120,10 @@ public class proveedor extends JPanel implements ActionListener{
         T_contactTitulo.setBorder(new LineBorder(Color.gray));
         T_contactTitulo.setEditable(false);
         T_contactTitulo.setBounds(15,230,190,30);
-        add(T_contactTitulo);
 
         T_contact = new JTextField();
         T_contact.setBounds(225,230,220,30);
         T_contact.setBorder(new LineBorder(Color.gray));
-        add(T_contact);
 
         T_prodTitulo = new JTextField();
         T_prodTitulo.setText(" PRODUCTO");
@@ -132,12 +131,10 @@ public class proveedor extends JPanel implements ActionListener{
         T_prodTitulo.setBorder(new LineBorder(Color.gray));
         T_prodTitulo.setEditable(false);
         T_prodTitulo.setBounds(475,80,190,30);
-        add(T_prodTitulo);
 
         T_prod = new JTextField();
         T_prod.setBounds(685,80,220,30);
         T_prod.setBorder(new LineBorder(Color.gray));
-        add(T_prod);
 
         T_codMaterialTitulo = new JTextField();
         T_codMaterialTitulo.setText(" CODIGO MATERIAL");
@@ -145,12 +142,10 @@ public class proveedor extends JPanel implements ActionListener{
         T_codMaterialTitulo.setBorder(new LineBorder(Color.gray));
         T_codMaterialTitulo.setEditable(false);
         T_codMaterialTitulo.setBounds(475,130,190,30);
-        add(T_codMaterialTitulo);
 
         T_codMaterial = new JTextField();
         T_codMaterial.setBounds(685,130,220,30);
         T_codMaterial.setBorder(new LineBorder(Color.gray));
-        add(T_codMaterial);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -165,6 +160,18 @@ public class proveedor extends JPanel implements ActionListener{
         add(listo);
 
         if(Objects.equals(tipo, "administrador")){
+            add(T_idPrendaTitulo);
+            add(T_nombre);
+            add(T_dirTitulo);
+            add(T_dir);
+            add(T_contactTitulo);
+            add(T_contact);
+            add(T_prodTitulo);
+            add(T_prod);
+            add(T_codMaterialTitulo);
+            add(T_codMaterial);
+
+
             listo.setText("Listo ");
     
             insertar = new JRadioButton("insertar");
@@ -246,7 +253,7 @@ public class proveedor extends JPanel implements ActionListener{
             T_nit.setText("");
             T_contact.setText("");
             T_dir.setText("");
-            T_idPrenda.setText("");
+            T_nombre.setText("");
             T_prod .setText("");
             T_codMaterial.setText("");
             validar.setText("");
@@ -260,7 +267,7 @@ public class proveedor extends JPanel implements ActionListener{
 
 
 
-            public void validarCampos(){
+        public void validarCampos(){
         validar.setText("");
         validar.setForeground(Color.red);
         if (T_nit.getText().isEmpty()) {
@@ -279,25 +286,64 @@ public class proveedor extends JPanel implements ActionListener{
             }  
         }
 
-            public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
         validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
            //Validar si es admin
            if(Objects.equals(tipo, "administrador")){  
             //Si es admin evalua los dos campos
             validarCampos();
-        }else{//Es vendedor y solo evalua llave primaria
+               if (insertar.isSelected()){
+                   int NIT = Integer.parseInt(T_nit.getText());
+                   String Nombre = T_nombre.getText();
+                   String Direccion = T_dir.getText();
+                   String Contacto = T_contact.getText();
+                   String Producto = T_prod.getText();
+                   int codMaterial = Integer.parseInt(T_codMaterial.getText());
+                   controlador control = new controlador();
+                   controlador.agregarProveedor(NIT, Nombre, Direccion, Contacto, Producto, codMaterial, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("               DATO INSERTADO");
+               } else if (actualizar.isSelected()) {
+                   int NIT = Integer.parseInt(T_nit.getText());
+                   String Nombre = T_nombre.getText();
+                   String Direccion = T_dir.getText();
+                   String Contacto = T_contact.getText();
+                   String Producto = T_prod.getText();
+                   int codMaterial = T_codMaterial.getText().isEmpty() ? 0 : Integer.parseInt(T_codMaterial.getText());
+                   controlador control = new controlador();
+                   controlador.actualizarProveedor(NIT, Nombre, Direccion, Contacto, Producto, codMaterial, Tablero);
+                   validar.setForeground(new Color(0,128,0));
+                   validar.setText("                DATO ACTUALIZADO");
+               } else if (consultar.isSelected()) {
+                   int NIT = Integer.parseInt(T_nit.getText());
+                   controlador.consultarProveedor(NIT, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("                RESULTADO DE CONSULTA");
+               } else if (eliminar.isSelected()) {
+                   int NIT = Integer.parseInt(T_nit.getText());
+                   controlador.eliminarProveedor(NIT);
+                   validar.setForeground(new Color(75, 0, 130));
+                   validar.setText("               ELIMINADO");
+               } else {
+                   validar.setForeground(Color.red);
+                   validar.setText("ESCOJA UNA OPCION");
+               }
 
-            if (T_nit.getText().isEmpty()) {
-                validar.setForeground(Color.red);
-                validar.setText("LLENAR EL CAMPO NIT PROVEEDOR!");
-            }else{
-                //En llave primaria hay algo
-                validar.setForeground(Color.black);
-                validar.setText("RESULTADO DE LA CONSULTA");
-            }
-            
-        }
+        }else{//Es vendedor y solo evalua llave primaria
+                if (T_nit.getText().isEmpty()) {
+                    validar.setForeground(Color.red);
+                    validar.setText("LLENAR EL CAMPO NIT PROVEEDOR!");
+                }else{
+                    //En llave primaria hay algo
+                    int NIT = Integer.parseInt(T_nit.getText());
+                    controlador.consultarProveedor(NIT, Tablero);
+
+                    validar.setForeground(Color.black);
+                    validar.setText("RESULTADO DE LA CONSULTA");
+                }
+
+           }
         }
     }
 }
