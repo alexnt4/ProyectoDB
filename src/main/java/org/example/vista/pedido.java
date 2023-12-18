@@ -251,6 +251,10 @@ public class pedido extends JPanel{
         T_monto.setText("");
         T_factura.setText("");
         T_estado.setText("");
+        T_fecha_encargo.setText("");
+        T_fecha_entrega.setText("");
+        T_medida.setText("");
+        T_doc.setText("");
         Tablero.setText("");
         bg.clearSelection();
     }

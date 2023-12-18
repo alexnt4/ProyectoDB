@@ -26,6 +26,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
     inventario_materiales Inventario_Materiales;
     pedido Pedido;
     Usuario usuario;
+    prenda_vestir Prenda_vestir;
     String tipo;
 
     //Construccion
@@ -54,6 +55,9 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         Pedido = new pedido();
         add(Pedido);
+
+        Prenda_vestir = new prenda_vestir(tipo);
+        add(Prenda_vestir);
 
         usuario = new Usuario();
         add(usuario);
@@ -128,7 +132,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         B_prenda_vestir = new JButton("PRENDA VESTIR");
         B_prenda_vestir.setBounds(10, 250,320,40);
-        //B_prenda_vestir.addActionListener(this);
+        B_prenda_vestir.addActionListener(this);
         B_prenda_vestir.setBorder(new LineBorder(Color.gray));
         B_prenda_vestir.setFont(new Font("cooper black",1,20));
         B_prenda_vestir.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
@@ -230,6 +234,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Usuario.vaciarCampos();
             Pedido.setVisible(false);
             pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
         
         if(e.getSource() == B_colegio){
@@ -243,6 +249,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Usuario.vaciarCampos();
             Pedido.setVisible(false);
             pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
 
         if(e.getSource() == B_inventario_materiales){
@@ -256,6 +264,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Usuario.vaciarCampos();
             Pedido.setVisible(false);
             pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
 
         if(e.getSource() == B_usuario){
@@ -269,6 +279,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             usuario.setVisible(true);
             Pedido.setVisible(false);
             pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
 
         if(e.getSource() == B_pedido){
@@ -282,11 +294,27 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             usuario.setVisible(false);
             Pedido.setVisible(true);
             pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
 
         if(e.getSource() == B_back){
             new Login();
             this.dispose();
+        }
+
+        if(e.getSource() == B_prenda_vestir){
+            panel_segundario.setVisible(false);
+            Colegio.setVisible(false);
+            colegio.vaciarCampos();
+            Cliente.setVisible(false);
+            cliente.vaciarCampos();
+            Inventario_Materiales.setVisible(false);
+            inventario_materiales.vaciarCampos();
+            usuario.setVisible(false);
+            Pedido.setVisible(false);
+            pedido.vaciarCampos();
+            Prenda_vestir.setVisible(true);
         }
 
     }
