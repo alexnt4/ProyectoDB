@@ -1,10 +1,11 @@
 package org.example.vista;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,20 +18,22 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
     JTextArea tituloVentana;
     JLabel label;
     JButton B_cliente,B_colegio,B_inventario_materiales,B_pedido,B_prenda_vestir,B_prodterm_X_pedido,
-    B_producto_terminado, B_proveedor,B_uniforme,B_informe,B_usuario;
+    B_producto_terminado, B_proveedor,B_uniforme,B_informe,B_usuario,B_back;
 
     //Declarar las otras vistas
     colegio Colegio;
     cliente Cliente;
     inventario_materiales Inventario_Materiales;
+    pedido Pedido;
     Usuario usuario;
+    prenda_vestir Prenda_vestir;
     String tipo;
 
     //Construccion
     public PantallaPrincipal (String cargo){
         
         super("Base Of Data");
-        setSize(950,700);
+        setSize(1300,700);
         getContentPane().setBackground(new Color(0, 191, 255));
         setLayout(null);
         setLocationRelativeTo(null);
@@ -41,14 +44,20 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
         GenerarGui();
         repaint();//Forzar repintura
 
-        Cliente = new cliente();
+        Cliente = new cliente(tipo);
         add(Cliente);
 
-        Colegio = new colegio();
+        Colegio = new colegio(tipo);
         add(Colegio);
 
-        Inventario_Materiales = new inventario_materiales();
+        Inventario_Materiales = new inventario_materiales(tipo);
         add(Inventario_Materiales);
+
+        Pedido = new pedido();
+        add(Pedido);
+
+        Prenda_vestir = new prenda_vestir(tipo);
+        add(Prenda_vestir);
 
         usuario = new Usuario();
         add(usuario);
@@ -74,7 +83,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         panel_segundario = new JPanel();
         panel_segundario.setBackground(new Color(0, 191, 255));
-        panel_segundario.setBackground(Color.red); //Activelo cuando quiera ver el panel
+        //panel_segundario.setBackground(Color.red); //Activelo cuando quiera ver el panel
         panel_segundario.setBounds(350,5,580,650);
         panel_segundario.setLayout(null);
         panel_segundario.setVisible(true);
@@ -113,7 +122,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         B_pedido= new JButton("PEDIDO");
         B_pedido.setBounds(10, 200,320,40);
-        //B_pedido.addActionListener(this);
+        B_pedido.addActionListener(this);
         B_pedido.setBorder(new LineBorder(Color.gray));
         B_pedido.setFont(new Font("cooper black",1,20));
         B_pedido.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
@@ -123,7 +132,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         B_prenda_vestir = new JButton("PRENDA VESTIR");
         B_prenda_vestir.setBounds(10, 250,320,40);
-        //B_prenda_vestir.addActionListener(this);
+        B_prenda_vestir.addActionListener(this);
         B_prenda_vestir.setBorder(new LineBorder(Color.gray));
         B_prenda_vestir.setFont(new Font("cooper black",1,20));
         B_prenda_vestir.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
@@ -193,6 +202,23 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             panel_principal.add(B_usuario);
         }
 
+        B_back= new JButton("Cerrar Sesión ");
+        B_back.setBounds(10, 620,140,30);
+        B_back.addActionListener(this);
+        B_back.setBorder(new LineBorder(Color.gray));
+        B_back.setFont(new Font("arial",1,14));
+        B_back.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
+        B_back.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
+        B_back.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
+        panel_principal.add(B_back);
+
+        /* 
+        ImageIcon imgOriginal = new ImageIcon(getClass().getResource("/30495.jpg"));
+        ImageIcon imgScalada = new ImageIcon(imgOriginal.getImage().getScaledInstance(570,480,Image.SCALE_SMOOTH));
+        label = new JLabel(imgScalada);
+        label.setBounds(0,0,570,480);
+        panel_segundario.add(label);
+ */
     }
 
     public void actionPerformed(ActionEvent e){
@@ -204,6 +230,12 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Cliente.setVisible(true);
             Inventario_Materiales.setVisible(false);
             inventario_materiales.vaciarCampos();
+            usuario.setVisible(false);
+            Usuario.vaciarCampos();
+            Pedido.setVisible(false);
+            pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
         
         if(e.getSource() == B_colegio){
@@ -213,6 +245,12 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             cliente.vaciarCampos();
             Inventario_Materiales.setVisible(false);
             inventario_materiales.vaciarCampos();
+            usuario.setVisible(false);
+            Usuario.vaciarCampos();
+            Pedido.setVisible(false);
+            pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
 
         if(e.getSource() == B_inventario_materiales){
@@ -222,6 +260,12 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Cliente.setVisible(false);
             cliente.vaciarCampos();
             Inventario_Materiales.setVisible(true);
+            usuario.setVisible(false);
+            Usuario.vaciarCampos();
+            Pedido.setVisible(false);
+            pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
         }
 
         if(e.getSource() == B_usuario){
@@ -233,6 +277,43 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Inventario_Materiales.setVisible(false);
             inventario_materiales.vaciarCampos();
             usuario.setVisible(true);
+            Pedido.setVisible(false);
+            pedido.vaciarCampos();
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
+        }
+
+        if(e.getSource() == B_pedido){
+            panel_segundario.setVisible(false);
+            Colegio.setVisible(false);
+            colegio.vaciarCampos();
+            Cliente.setVisible(false);
+            cliente.vaciarCampos();
+            Inventario_Materiales.setVisible(false);
+            inventario_materiales.vaciarCampos();
+            usuario.setVisible(false);
+            Pedido.setVisible(true);
+            Prenda_vestir.setVisible(false);
+            prenda_vestir.vaciarCampos();
+        }
+
+        if(e.getSource() == B_back){
+            new Login();
+            this.dispose();
+        }
+
+        if(e.getSource() == B_prenda_vestir){
+            panel_segundario.setVisible(false);
+            Colegio.setVisible(false);
+            colegio.vaciarCampos();
+            Cliente.setVisible(false);
+            cliente.vaciarCampos();
+            Inventario_Materiales.setVisible(false);
+            inventario_materiales.vaciarCampos();
+            usuario.setVisible(false);
+            Pedido.setVisible(false);
+            pedido.vaciarCampos();
+            Prenda_vestir.setVisible(true);
         }
 
     }

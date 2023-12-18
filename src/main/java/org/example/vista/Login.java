@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -14,15 +15,13 @@ import org.example.controlador.controlador;
 import org.example.controlador.controladorLogin;
 import org.example.modelo.pedido;
 
-
-
-
 public class Login extends JFrame implements ActionListener {
 
     JPanel panel;
     JTextField T_usuarioTitulo,T_usuario,T_passwordTitulo,T_password;
     JButton listo;
     JTextArea tituloVentana;
+    static JLabel validar;
 
     controlador controlador = new controlador();
     PantallaPrincipal pantallaPrincipal;
@@ -49,7 +48,11 @@ public class Login extends JFrame implements ActionListener {
         add(panel);
 
         tituloVentana = new JTextArea();
+
         tituloVentana.setText(" INICIAR SESION " );
+
+        tituloVentana.setText(" INICIAR SESIÓN " );
+
         tituloVentana.setFocusable(false);
         tituloVentana.setFont(new Font("arial", 3, 33));
         tituloVentana.setEditable(false);
@@ -58,11 +61,11 @@ public class Login extends JFrame implements ActionListener {
         panel.add(tituloVentana);
 
         T_usuarioTitulo = new JTextField();
-        T_usuarioTitulo.setText("   Usuario");
-        T_usuarioTitulo.setFont(new Font("arial", 3, 17));
+        T_usuarioTitulo.setText("   ID USUARIO");
+        T_usuarioTitulo.setFont(new Font("arial", 3, 15));
         T_usuarioTitulo.setEditable(false);
         T_usuarioTitulo.setBorder(new LineBorder(Color.gray));
-        T_usuarioTitulo.setBounds(35,110,100,25);
+        T_usuarioTitulo.setBounds(35,110,120,25);
         panel.add(T_usuarioTitulo);
 
         T_usuario = new JTextField();
@@ -71,11 +74,11 @@ public class Login extends JFrame implements ActionListener {
         panel.add(T_usuario);
 
         T_passwordTitulo = new JTextField();
-        T_passwordTitulo.setText(" Contraseña");
+        T_passwordTitulo.setText(" CONTRASEÑA");
         T_passwordTitulo.setFont(new Font("arial", 3, 15));
         T_passwordTitulo.setEditable(false);
         T_passwordTitulo.setBorder(new LineBorder(Color.gray));
-        T_passwordTitulo.setBounds(35,180,100,25);
+        T_passwordTitulo.setBounds(35,180,120,25);
         panel.add(T_passwordTitulo);
 
         T_password = new JTextField();
@@ -83,8 +86,13 @@ public class Login extends JFrame implements ActionListener {
         T_password.setBorder(new LineBorder(Color.gray));
         panel.add(T_password);
 
+
         listo = new JButton("INGRESAR");
         listo.setBounds(100,280,150,30);
+
+        listo = new JButton("LISTO");
+        listo.setBounds(90,290,150,30);
+
         listo.addActionListener(this);
         listo.setBorder(new LineBorder(Color.gray));
         listo.setFont(new Font("cooper black",2,25));
@@ -93,6 +101,21 @@ public class Login extends JFrame implements ActionListener {
         listo.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
         panel.add(listo);
 
+        validar = new JLabel();
+        validar.setText("");
+        validar.setBounds(120, 250, 250, 30);
+        panel.add(validar);
+
+    }
+
+    public static void textoErroneo(){
+        validar.setForeground(Color.RED);
+        validar.setText("¡¡Datos Erróneos!!!");
+    }
+
+    public static void textoIngreseData(){
+        validar.setForeground(Color.black);
+        validar.setText("Ingrese Datos");
     }
 
     public void actionPerformed(ActionEvent e) {
