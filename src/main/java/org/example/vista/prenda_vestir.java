@@ -248,7 +248,6 @@ public class prenda_vestir extends JPanel{
             add(barraDesplazamiento);
     
 
-            //j
         }
     
         public static void vaciarCampos() {
