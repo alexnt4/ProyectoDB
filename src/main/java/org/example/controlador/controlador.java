@@ -24,15 +24,24 @@ public class controlador {
 
 
 
-    public static void agregarPedido(int numPedido, java.sql.Date fechaEncargo, Double abono, java.sql.Date fechaEntrega, String medPersona, String estado, int docCliente, int facVenta, Double montoTotal) {
+    public static void agregarPedido(int numPedido, java.sql.Date fechaEncargo, Double abono, java.sql.Date fechaEntrega, String medPersona, String estado, int docCliente, int facVenta, Double montoTotal, JTable tabla) {
         org.example.modelo.pedido NuevoPedido = new org.example.modelo.pedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, docCliente, facVenta, montoTotal);
         DAOpedido.agregarPedido(NuevoPedido);
+        tablapedidoid(numPedido,tabla);
     }
 
     public static void consultarPedido(int numPedido, JTable tabla){
         tablapedidoid(numPedido, tabla);
+    }
 
+    public static void actualizarPedido(int numPedido, java.sql.Date fechaEncargo, Double abono, java.sql.Date fechaEntrega, String medPersona, String estado, int docCliente, int facVenta, Double montoTotal, JTable tabla){
+        org.example.modelo.pedido PedidoActualizado = new org.example.modelo.pedido(numPedido, fechaEncargo, abono, fechaEntrega, medPersona, estado, docCliente, facVenta, montoTotal);
+        DAOpedido.actualizarPedido(PedidoActualizado);
+        tablapedidoid(numPedido, tabla);
+    }
 
+    public static void eliminarPedido(int numPedido){
+        DAOpedido.eliminarPedido(numPedido);
     }
 
     /*public static void llenarTablaBuscarPedido(int numPedido, DefaultTableModel table, JTextArea tablero) {
