@@ -1,19 +1,25 @@
 package org.example.vista;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
-public class colegio extends JPanel{
+public class colegio extends JPanel implements ActionListener{
     JTextField T_idTitulo;
     static JTextField T_id;
     JTextField T_nomTitulo;
@@ -25,7 +31,7 @@ public class colegio extends JPanel{
     JTextField T_telefonoTitulo;
     static JTextField T_telefono;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
-    static JTextArea Tablero;
+    static JTable Tablero;
     JScrollPane barraDesplazamiento;
     JButton listo;
     JTextArea tituloVentana;
@@ -33,8 +39,11 @@ public class colegio extends JPanel{
     JRadioButton consultar;
     JRadioButton actualizar;
     JRadioButton eliminar;
+    static JLabel validar;
 
     static String tipo;
+
+
 
     public colegio(String cargo){
         colegio.tipo = cargo;
@@ -59,7 +68,7 @@ public class colegio extends JPanel{
         add(tituloVentana);
 
         T_idTitulo = new JTextField();
-        T_idTitulo.setText(" ID  COLEGIO");
+        T_idTitulo.setText(" ID  COLEGIO *");
         T_idTitulo.setFont(new Font("arial", 3, 17));
         T_idTitulo.setEditable(false);
         T_idTitulo.setBorder(new LineBorder(Color.gray));
@@ -70,6 +79,13 @@ public class colegio extends JPanel{
         T_id .setBounds(225,80,220,31);
         T_id .setBorder(new LineBorder(Color.gray));
         add(T_id );
+
+        
+        validar = new JLabel();
+        validar.setText("");
+        validar.setBounds(160, 610, 660, 30);
+        validar.setFont(new Font("arial",1,30));
+        add(validar);
 
          T_nomTitulo = new JTextField();
          T_nomTitulo.setText(" NOMBRE COLEGIO ");
@@ -125,7 +141,7 @@ public class colegio extends JPanel{
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
-        //listo.addActionListener(this);
+        listo.addActionListener(this);
         listo.setBorder(new LineBorder(Color.gray));
         listo.setForeground(Color.BLACK); //Color de la letra
         listo.setFont(new Font("cooper black",2,25));
@@ -180,12 +196,30 @@ public class colegio extends JPanel{
             bg.add(consultar);
             bg.add(eliminar);
         }
-        Tablero = new JTextArea();
+
+
+        Tablero = new JTable();
         Tablero.setFont(new Font("arial", 2, 15));
-        Tablero.setEditable(true);
+        Tablero.setEnabled(false);
+        // Ajustar el tamaño de la fuente en la tabla
+        Font font = new Font("Arial", Font.PLAIN, 12); // Cambia el tamaño de la fuente según tus preferencias
+        Tablero.setFont(font);
+
+// Ajustar la altura de las filas
+        Tablero.setRowHeight(30); // Cambia la altura de las filas según tus preferencias
+
+// Ajustar el tamaño de la tabla (ancho y alto)
+        int anchoTabla = 800; // Ajusta el ancho de la tabla según tus preferencias
+        int altoTabla = 400; // Ajusta la altura de la tabla según tus preferencias
+        Tablero.setPreferredScrollableViewportSize(new Dimension(anchoTabla, altoTabla));
+
         barraDesplazamiento = new JScrollPane(Tablero);
-        barraDesplazamiento.setBounds(15,340,890,250);
-        barraDesplazamiento.setBorder(new LineBorder(Color.gray));
+        barraDesplazamiento = new JScrollPane(Tablero);
+        barraDesplazamiento.setBounds(15, 340, 890, 250);
+
+// Establecer tamaño preferido para mostrar la tabla correctamente
+        barraDesplazamiento.setPreferredSize(new Dimension(880, 240)); // Ajusta estos valores según tus necesidades
+
         add(barraDesplazamiento);
 
     }
@@ -194,11 +228,42 @@ public class colegio extends JPanel{
         T_id.setText("");
         T_contacto.setText("");
         T_dir.setText("");
-         T_nom.setText("");
+        T_nom.setText("");
         T_telefono.setText("");
-        Tablero.setText("");
+        DefaultTableModel modeloVacio = new DefaultTableModel(); // Crea un nuevo modelo vacío
+        Tablero.setModel(modeloVacio); 
+        validar.setText("");
         if(Objects.equals(tipo, "administrador")){
             bg.clearSelection();
         }
     }
+
+    public void validarCampos(){
+        validar.setText("");
+        validar.setForeground(Color.red);
+        if (T_id.getText().isEmpty()) {
+            validar.setText("LLENAR EL CAMPO ID COLEGIO!");
+        } else {
+            try {
+                int numeroPedido = Integer.parseInt(T_id.getText());
+    
+                // Resto de tu lógica para validar otros campos si es necesario
+                if (!eliminar.isSelected() && !actualizar.isSelected() && !consultar.isSelected() && !insertar.isSelected()) {
+                    validar.setText("       ESCOJA UN CAMPO!");
+                }
+            } catch (NumberFormatException e) {
+                validar.setText("EL CAMPO NUMERO DE PEDIDO DEBE SER UN NÚMERO ENTERO!");
+            }
+        }  
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        validar.setText(""); //Vaciar el texto
+        if (e.getSource() == listo) {
+            //Validar
+            validarCampos();
+        }
+    }
+
+
 }
