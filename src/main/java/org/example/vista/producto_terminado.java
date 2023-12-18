@@ -300,6 +300,7 @@ public class producto_terminado extends JPanel implements ActionListener{
            if(Objects.equals(tipo, "administrador")){  
             //Si es admin evalua los dos campos
             validarCampos();
+
         }else{//Es vendedor y solo evalua llave primaria
 
             if (T_cod.getText().isEmpty()) {
