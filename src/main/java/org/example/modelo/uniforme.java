@@ -1,9 +1,9 @@
 package org.example.modelo;
 
 public class uniforme {
-    private String idPrenda;
+    private int idPrenda;
     private String caracEspecial;
-    private String idColegio;
+    private int idColegio;
 
 
     public uniforme() {
@@ -12,7 +12,7 @@ public class uniforme {
 
 
 
-    public uniforme(String idPrenda, String caracEspecial, String idColegio) {
+    public uniforme(int idPrenda, String caracEspecial, int idColegio) {
         this.idPrenda = idPrenda;
         this.caracEspecial = caracEspecial;
         this.idColegio = idColegio;
@@ -21,11 +21,11 @@ public class uniforme {
 
 
 
-    public String getIdPrenda() {
+    public int getIdPrenda() {
         return idPrenda;
     }
 
-    public void setIdPrenda(String idPrenda) {
+    public void setIdPrenda(int idPrenda) {
         this.idPrenda = idPrenda;
     }
 
@@ -41,11 +41,11 @@ public class uniforme {
 
 
 
-    public String getIdColegio() {
+    public int getIdColegio() {
         return idColegio;
     }
 
-    public void setIdColegio(String idColegio) {
+    public void setIdColegio(int idColegio) {
         this.idColegio = idColegio;
     }
 

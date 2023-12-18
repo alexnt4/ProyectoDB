@@ -2,13 +2,13 @@ package org.example.modelo;
 
 public class telColegio {
     private int idColegio;
-    private String telefonoColegio;
+    private int telefonoColegio;
 
     public telColegio() {
 
     }
 
-    public telColegio(int idColegio, String telefonoColegio) {
+    public telColegio(int idColegio, int telefonoColegio) {
         this.idColegio = idColegio;
         this.telefonoColegio = telefonoColegio;
     }
@@ -22,11 +22,11 @@ public class telColegio {
     }
 
 
-    public String getTelefonoColegio() {
+    public int getTelefonoColegio() {
         return telefonoColegio;
     }
 
-    public void setTelefonoColegio(String telefonoColegio) {
+    public void setTelefonoColegio(int telefonoColegio) {
         this.telefonoColegio = telefonoColegio;
     }
 
