@@ -48,7 +48,7 @@ public class DAOprodTerminado {
                 prodTerminado.add(c);
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la lista de todos: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la lista de todos: " + e.getMessage());
         }
 
         return prodTerminado;
@@ -79,7 +79,7 @@ public class DAOprodTerminado {
 
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la prenda de vestir: " + e.getMessage());
         }
 
         return c;
@@ -107,7 +107,8 @@ public class DAOprodTerminado {
                 r = 0;
             }
         } catch (Exception e) {
-            System.out.println("Error al agregar la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al agregar la prenda de vestir: " + e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         return r;
     }
@@ -187,10 +188,10 @@ public class DAOprodTerminado {
                         isUpdated = true;
                         System.out.println("PRODUCTO TERMINADO actualizado correctamente");
                     } else {
-                        System.out.println("No se encontró el pedido con el número: " + prodTerminadoActualizado.getCodProdTerm());
+                        JOptionPane.showMessageDialog(null,"No se encontró el pedido con el número: " + prodTerminadoActualizado.getCodProdTerm());
                     }
                 } catch (SQLException e) {
-                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                    JOptionPane.showMessageDialog(null,ERROR_ACTUALIZACION + e.getMessage());
                 } finally {
                     conexion.closeConnection();
                 }
@@ -218,7 +219,8 @@ public class DAOprodTerminado {
                 r = 0;
             }
         } catch (Exception e) {
-            System.out.println("Error al eliminar la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al eliminar el producto terminado: " + e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         return r;
     }
