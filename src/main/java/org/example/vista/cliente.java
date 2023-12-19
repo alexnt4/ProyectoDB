@@ -30,7 +30,7 @@ public class cliente extends JPanel implements ActionListener{
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTable Tablero;
     JScrollPane barraDesplazamiento;
-    JButton listo;
+    JButton listo,ConsultarTelefono;
     JTextArea tituloVentana;
     JRadioButton insertar;
     JRadioButton consultar;
@@ -38,7 +38,6 @@ public class cliente extends JPanel implements ActionListener{
     JRadioButton eliminar;
     static JLabel validar;
     static String tipo;
-
 
     public cliente(String cargo){
         cliente.tipo = cargo;
@@ -86,12 +85,10 @@ public class cliente extends JPanel implements ActionListener{
         T_nomTitulo.setEditable(false);
         T_nomTitulo.setBorder(new LineBorder(Color.gray));
         T_nomTitulo.setBounds(15,130,190,30);
-        add(T_nomTitulo);
 
         T_nom = new JTextField();
         T_nom.setBounds(225,130,220,31);
         T_nom.setBorder(new LineBorder(Color.gray));
-        add(T_nom);
 
         T_telefonoTitulo = new JTextField();
         T_telefonoTitulo.setText(" TELEFONO CLIENTE");
@@ -99,12 +96,10 @@ public class cliente extends JPanel implements ActionListener{
         T_telefonoTitulo.setBorder(new LineBorder(Color.gray));
         T_telefonoTitulo.setEditable(false);
         T_telefonoTitulo.setBounds(15,180,190,30);
-        add(T_telefonoTitulo);
 
         T_telefono = new JTextField();
         T_telefono.setBounds(225,180,220,31);
         T_telefono.setBorder(new LineBorder(Color.gray));
-        add(T_telefono);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -118,9 +113,20 @@ public class cliente extends JPanel implements ActionListener{
        
         add(listo);
 
+        ConsultarTelefono= new JButton("Consultar Telefono");
+        ConsultarTelefono.setBounds(15,130,190,30);
+        ConsultarTelefono.addActionListener(this);
+        ConsultarTelefono.setBorder(new LineBorder(Color.gray));
+        ConsultarTelefono.setForeground(Color.BLACK); //Color de la letra
+        ConsultarTelefono.setFont(new Font("arial", 3, 16));
+        ConsultarTelefono.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
+        ConsultarTelefono.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
+        ConsultarTelefono.setFocusPainted(false);
+        add(ConsultarTelefono);
+
         if(Objects.equals(tipo, "administrador")){
             listo.setText("Listo ");
-
+            ConsultarTelefono.setBounds(15,230,190,30);
             insertar = new JRadioButton("insertar");
             insertar.setBounds(15, 280, 115, 30);
             insertar.setFont(new Font("arial",1,15));
@@ -160,7 +166,10 @@ public class cliente extends JPanel implements ActionListener{
             eliminar.setBackground(Color.WHITE);
             add(eliminar);
     
-
+            add(T_telefono);
+            add(T_telefonoTitulo);
+            add(T_nom);
+            add(T_nomTitulo);
             bg = new ButtonGroup();
             bg.add(insertar);
             bg.add(actualizar);
@@ -233,8 +242,6 @@ public class cliente extends JPanel implements ActionListener{
             if(Objects.equals(tipo, "administrador")){  
                 //Si es admin evalua los dos campos
                 validarCampos();
-
-                    
                     if (eliminar.isSelected()) {
                         int idCliente = Integer.parseInt(T_id.getText());
                         String nombreCliente = T_nom.getText();
@@ -279,6 +286,18 @@ public class cliente extends JPanel implements ActionListener{
                     validar.setText("CONSULTAR");
                 }
                 
+            }
+        }
+        if(e.getSource() == ConsultarTelefono){
+            if (T_id.getText().isEmpty()) {
+                validar.setForeground(Color.red);
+                validar.setText("LLENAR EL CAMPO ID CLIENTE!");
+            }else{
+                int doc_cliente = Integer.parseInt(T_id.getText());
+                controlador control = new controlador();
+                controlador.consultarTelCliente(doc_cliente, Tablero);
+                validar.setForeground(Color.black);
+                validar.setText("RESULTADO DE LA CONSULTA");
             }
         }
     }

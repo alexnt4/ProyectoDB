@@ -17,7 +17,7 @@ public class telProveedor {
         return idProveedor;
     }
 
-    public void setIdProveedor(int idProveedor) {
+    public void setNitProveedor(int idProveedor) {
         this.idProveedor= idProveedor;
     }
 

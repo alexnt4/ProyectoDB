@@ -4,55 +4,54 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.example.modelo.*;
 
-public class DAOtelColegio {
+public class DAOtelProveedor {
 
         static PreparedStatement ps;
         static ResultSet rs;
         static Connection conn;
         static ConexionBD conectar = new ConexionBD();
-        static  telColegio c = new telColegio();
+        static  telProveedor p = new telProveedor();
 
 
-    public static telColegio obtenerTelColegio(int idColegio) {
+    public static telProveedor obtenerTelProveedor(int nit_proveedor) {
             try {
                 // hago la conexion y ejecuto la instruccion para obtener todos los datos
                 // almacenandolos en un resultset
                 conectar.openConnection();
                 conn = conectar.getConnection();
-                ps = conn.prepareStatement("SELECT * FROM  TEL_COLEGIO WHERE ID_COLEGIO = ?;");
-                ps.setInt(1, idColegio);
+                ps = conn.prepareStatement("SELECT * FROM  TEL_PROVEEDOR WHERE nit_PROVEEDOR = ?;");
+                ps.setInt(1, nit_proveedor);
                 rs = ps.executeQuery();
 
                 // convierto los datos del resultset en objetos de estudiante y los agrego
                 // a un List de estudiantes que posteriorment retornare
                 while (rs.next()) {
-                    telColegio c = new telColegio();
-                    c.setIdColegio(rs.getInt(1));
-                    c.setTelefonoColegio(rs.getString(2));
+                    telProveedor c = new telProveedor();
+                    p.setNitProveedor(rs.getInt(1));
+                    p.setTelefonoProveedor(rs.getString(2));
 
                 }
             } catch (Exception e) {
-                System.out.println("Error al obtener el telefono del colegio: " + e.getMessage());
+                System.out.println("Error al obtener el telefono del proveedor: " + e.getMessage());
             }
 
-            return c;
+            return p;
 
         }
 
-    public static void tablaTelColegio(int id_colegio, JTable tabla) {
+    public static void tablatelProveedor(int nit_proveedor, JTable tabla) {
         try {
             String q;
-            if (id_colegio != 0) {
-                q = "SELECT * FROM TEL_COLEGIO WHERE ID_COLEGIO = ?";
+            if (nit_proveedor != 0) {
+                q = "SELECT * FROM TEL_PROVEEDOR WHERE nit_PROVEEDOR = ?";
             } else {
-                q = "SELECT * FROM TEL_COLEGIO";
+                q = "SELECT * FROM TEL_PROVEEDOR";
             }
 
             ConexionBD conexion = new ConexionBD();
@@ -62,20 +61,20 @@ public class DAOtelColegio {
             if (connection != null) {
                 PreparedStatement statement = connection.prepareStatement(q);
 
-                if (id_colegio  != 0) {
-                    statement.setInt(1, id_colegio );
+                if (nit_proveedor  != 0) {
+                    statement.setInt(1, nit_proveedor );
                 }
 
                 ResultSet rs = statement.executeQuery();
 
                 DefaultTableModel model = new DefaultTableModel();
-                model.addColumn("ID_COLEGIO");
-                model.addColumn("TEL_COLEGIO");
+                model.addColumn("NIT_PROVEEDOR");
+                model.addColumn("TEL_PROVEEDOR");
 
                 while (rs.next()) {
                     Object[] rowData = {
-                        rs.getInt("ID_COLEGIO"),
-                        rs.getString("TEL_COLEGIO"),
+                        rs.getInt("NIT_PROVEEDOR"),
+                        rs.getString("TEL_PROVEEDOR"),
                     };
                     model.addRow(rowData);
                 }

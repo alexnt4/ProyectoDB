@@ -35,17 +35,14 @@ public class colegio extends JPanel implements ActionListener{
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTable Tablero;
     JScrollPane barraDesplazamiento;
-    JButton listo;
+    JButton listo,ConsultarTelefono;
     JTextArea tituloVentana;
     JRadioButton insertar;
     JRadioButton consultar;
     JRadioButton actualizar;
     JRadioButton eliminar;
     static JLabel validar;
-
     static String tipo;
-
-
 
     public colegio(String cargo){
         colegio.tipo = cargo;
@@ -95,12 +92,10 @@ public class colegio extends JPanel implements ActionListener{
          T_nomTitulo.setEditable(false);
          T_nomTitulo.setBorder(new LineBorder(Color.gray));
          T_nomTitulo.setBounds(15,130,190,30);
-        add( T_nomTitulo);
 
          T_nom = new JTextField();
          T_nom.setBounds(225,130,220,31);
          T_nom.setBorder(new LineBorder(Color.gray));
-        add( T_nom);
 
         T_dirTitulo = new JTextField();
         T_dirTitulo.setText(" DIRECCION  COLEGIO");
@@ -108,12 +103,10 @@ public class colegio extends JPanel implements ActionListener{
         T_dirTitulo.setBorder(new LineBorder(Color.gray));
         T_dirTitulo.setEditable(false);
         T_dirTitulo.setBounds(15,180,190,30);
-        add(T_dirTitulo);
 
         T_dir = new JTextField();
         T_dir.setBounds(225,180,220,31);
         T_dir.setBorder(new LineBorder(Color.gray));
-        add(T_dir);
 
         T_contactoTitulo = new JTextField();
         T_contactoTitulo.setText(" CONTACTO COLEGIO");
@@ -121,12 +114,10 @@ public class colegio extends JPanel implements ActionListener{
         T_contactoTitulo.setBorder(new LineBorder(Color.gray));
         T_contactoTitulo.setEditable(false);
         T_contactoTitulo.setBounds(15,230,190,30);
-        add(T_contactoTitulo);
 
         T_contacto = new JTextField();
         T_contacto.setBounds(225,230,220,30);
         T_contacto.setBorder(new LineBorder(Color.gray));
-        add(T_contacto);
 
         T_telefonoTitulo = new JTextField();
         T_telefonoTitulo.setText(" TELEFONO COLEGIO");
@@ -134,12 +125,10 @@ public class colegio extends JPanel implements ActionListener{
         T_telefonoTitulo.setBorder(new LineBorder(Color.gray));
         T_telefonoTitulo.setEditable(false);
         T_telefonoTitulo.setBounds(475,80,190,30);
-        add(T_telefonoTitulo);
 
         T_telefono = new JTextField();
         T_telefono.setBounds(685,80,220,30);
         T_telefono.setBorder(new LineBorder(Color.gray));
-        add(T_telefono);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -150,8 +139,18 @@ public class colegio extends JPanel implements ActionListener{
         listo.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
         listo.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
         listo.setFocusPainted(false); //desactivar el efecto de resaltado del texto cuando se hace clic en el botón
-       
         add(listo);
+
+        ConsultarTelefono= new JButton("Consultar Telefono");
+        ConsultarTelefono.setBounds(15,130,190,30);
+        ConsultarTelefono.addActionListener(this);
+        ConsultarTelefono.setBorder(new LineBorder(Color.gray));
+        ConsultarTelefono.setForeground(Color.BLACK); //Color de la letra
+        ConsultarTelefono.setFont(new Font("arial", 3, 16));
+        ConsultarTelefono.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
+        ConsultarTelefono.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
+        ConsultarTelefono.setFocusPainted(false);
+        add(ConsultarTelefono);
 
         if(Objects.equals(tipo, "administrador")){
         listo.setText("Listo ");
@@ -191,6 +190,15 @@ public class colegio extends JPanel implements ActionListener{
         eliminar.setBorder(new LineBorder(Color.gray));
         add(eliminar);
 
+        ConsultarTelefono.setBounds(475,130,190,30);
+        add(T_telefono);
+        add(T_telefonoTitulo);
+        add(T_contacto);
+        add(T_contactoTitulo);
+        add(T_dir);
+        add(T_dirTitulo);
+        add( T_nom);
+        add( T_nomTitulo);
 
         bg = new ButtonGroup();
         bg.add(insertar);
@@ -272,9 +280,8 @@ public class colegio extends JPanel implements ActionListener{
                         int idColegio = Integer.parseInt(T_id.getText());
                         controlador control = new controlador();
                         controlador.eliminarColegio(Integer.parseInt(T_id.getText()));
-
-                        validar.setForeground(Color.black);
-                        validar.setText("ELIMINAR");
+                        validar.setForeground(new Color(75, 0, 130));
+                        validar.setText("               ELIMINADO");
                     } else if (actualizar.isSelected()) {
                         int idColegio = Integer.parseInt(T_id.getText());
                         String nombreColegio = T_nom.getText();
@@ -283,14 +290,14 @@ public class colegio extends JPanel implements ActionListener{
                         //int telefonoColegio = Integer.parseInt(T_telefono.getText());
                         controlador control = new controlador();
                         controlador.actualizarColegio(idColegio, nombreColegio, direccionColegio, contactoColegio, Tablero);
-                        validar.setForeground(Color.black);
-                        validar.setText("ACTUALIZAR");
+                        validar.setForeground(new Color(0,128,0));
+                        validar.setText("                DATO ACTUALIZADO");
                     } else if (consultar.isSelected()) {
                         int idColegio = Integer.parseInt(T_id.getText());
                         controlador control = new controlador();
                         controlador.consultarColegio(idColegio, Tablero);
                         validar.setForeground(Color.black);
-                        validar.setText("CONSULTAR");
+                        validar.setText("RESULTADO DE LA CONSULTA");
                     } else if (insertar.isSelected()) {
                         int idColegio = Integer.parseInt(T_id.getText());
                         String nombreColegio = T_nom.getText();
@@ -300,9 +307,8 @@ public class colegio extends JPanel implements ActionListener{
                         controlador control = new controlador();
                         controlador.agregarColegio(idColegio, nombreColegio, direccionColegio, contactoColegio, Tablero);
                         validar.setForeground(Color.black);
-                        validar.setText("INSERTAR");
+                        validar.setText("               DATO INSERTADO");
                     }
-
 
             }else{//Es vendedor y solo evalua llave primaria
  
@@ -317,10 +323,19 @@ public class colegio extends JPanel implements ActionListener{
                     validar.setForeground(Color.black);
                     validar.setText("RESULTADO DE LA CONSULTA");
                 }
-                
+            }
+        }
+        if(e.getSource() == ConsultarTelefono){
+            if (T_id.getText().isEmpty()) {
+                validar.setForeground(Color.red);
+                validar.setText("LLENAR EL CAMPO ID COLEGIO!");
+            }else{
+                int idColegio = Integer.parseInt(T_id.getText());
+                controlador control = new controlador();
+                controlador.consultarTelColegio(idColegio, Tablero);
+                validar.setForeground(Color.black);
+                validar.setText("RESULTADO DE LA CONSULTA");
             }
         }
     }
-
-
 }

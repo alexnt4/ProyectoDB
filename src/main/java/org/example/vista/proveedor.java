@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class proveedor extends JPanel implements ActionListener{
     JTextField T_nitTitulo;
     static JTextField T_nit;
-    JTextField T_idPrendaTitulo;
+    JTextField T_nombreTitulo;
     static JTextField T_nombre;
     JTextField T_dirTitulo;
     static JTextField T_dir ;
@@ -39,8 +39,10 @@ public class proveedor extends JPanel implements ActionListener{
     static JTextField T_codMaterial;
     static ButtonGroup bg; //Boton de grupo para que se seleccione solo uno radio buton
     static JTable Tablero;
+    JTextField T_telefonoTitulo;
+    static JTextField T_telefono;
     JScrollPane barraDesplazamiento;
-    JButton listo;
+    JButton listo,ConsultarTelefono;
     JTextArea tituloVentana;
     JRadioButton insertar;
     JRadioButton consultar;
@@ -92,12 +94,12 @@ public class proveedor extends JPanel implements ActionListener{
         T_nit.setBorder(new LineBorder(Color.gray));
         add(T_nit);
 
-        T_idPrendaTitulo = new JTextField();
-        T_idPrendaTitulo.setText(" NOMBRE ");
-        T_idPrendaTitulo.setFont(new Font("arial", 3, 15));
-        T_idPrendaTitulo.setEditable(false);
-        T_idPrendaTitulo.setBorder(new LineBorder(Color.gray));
-        T_idPrendaTitulo.setBounds(15,130,190,30);
+        T_nombreTitulo = new JTextField();
+        T_nombreTitulo.setText(" NOMBRE ");
+        T_nombreTitulo.setFont(new Font("arial", 3, 15));
+        T_nombreTitulo.setEditable(false);
+        T_nombreTitulo.setBorder(new LineBorder(Color.gray));
+        T_nombreTitulo.setBounds(15,130,190,30);
 
         T_nombre = new JTextField();
         T_nombre.setBounds(225,130,220,31);
@@ -147,6 +149,29 @@ public class proveedor extends JPanel implements ActionListener{
         T_codMaterial.setBounds(685,130,220,30);
         T_codMaterial.setBorder(new LineBorder(Color.gray));
 
+        T_telefonoTitulo = new JTextField();
+        T_telefonoTitulo.setText(" TELEFONO PROVEEDOR ");
+        T_telefonoTitulo.setFont(new Font("arial", 3, 14));
+        T_telefonoTitulo.setBorder(new LineBorder(Color.gray));
+        T_telefonoTitulo.setEditable(false);
+        T_telefonoTitulo.setBounds(475,180,190,30);
+
+
+        T_telefono = new JTextField();
+        T_telefono.setBounds(685,180,220,30);
+        T_telefono.setBorder(new LineBorder(Color.gray));
+
+        ConsultarTelefono= new JButton("Consultar Telefono");
+        ConsultarTelefono.setBounds(15,130,190,30);
+        ConsultarTelefono.addActionListener(this);
+        ConsultarTelefono.setBorder(new LineBorder(Color.gray));
+        ConsultarTelefono.setForeground(Color.BLACK); //Color de la letra
+        ConsultarTelefono.setFont(new Font("arial", 3, 16));
+        ConsultarTelefono.setBorderPainted(true); //Establece si el borde del botón debe ser dibujado o no.
+        ConsultarTelefono.setContentAreaFilled(true); //Establece si el área de contenido del botón debe ser dibujada o no.
+        ConsultarTelefono.setFocusPainted(false);
+        add(ConsultarTelefono);
+
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
         listo.addActionListener(this);
@@ -160,7 +185,7 @@ public class proveedor extends JPanel implements ActionListener{
         add(listo);
 
         if(Objects.equals(tipo, "administrador")){
-            add(T_idPrendaTitulo);
+            add(T_nombreTitulo);
             add(T_nombre);
             add(T_dirTitulo);
             add(T_dir);
@@ -170,8 +195,9 @@ public class proveedor extends JPanel implements ActionListener{
             add(T_prod);
             add(T_codMaterialTitulo);
             add(T_codMaterial);
-
-
+            add(T_telefonoTitulo);
+            add(T_telefono);
+            ConsultarTelefono.setBounds(475,230,190,30);    
             listo.setText("Listo ");
     
             insertar = new JRadioButton("insertar");
@@ -253,6 +279,7 @@ public class proveedor extends JPanel implements ActionListener{
             T_nit.setText("");
             T_contact.setText("");
             T_dir.setText("");
+            T_telefono.setText("");
             T_nombre.setText("");
             T_prod .setText("");
             T_codMaterial.setText("");
@@ -263,9 +290,6 @@ public class proveedor extends JPanel implements ActionListener{
                 bg.clearSelection();
             }
         }
-
-
-
 
         public void validarCampos(){
         validar.setText("");
@@ -342,8 +366,19 @@ public class proveedor extends JPanel implements ActionListener{
                     validar.setForeground(Color.black);
                     validar.setText("RESULTADO DE LA CONSULTA");
                 }
-
            }
+        }
+        if(e.getSource() == ConsultarTelefono){
+            if (T_nit.getText().isEmpty()) {
+                validar.setForeground(Color.red);
+                validar.setText("LLENAR EL CAMPO NIT PROVEEDOR!");
+            }else{
+                int nitProveedor = Integer.parseInt(T_nit.getText());
+                controlador control = new controlador();
+                controlador.consultarTelProveedor(nitProveedor, Tablero);
+                validar.setForeground(Color.black);
+                validar.setText("RESULTADO DE LA CONSULTA");
+            }
         }
     }
 }
