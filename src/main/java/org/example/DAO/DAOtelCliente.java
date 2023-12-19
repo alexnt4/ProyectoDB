@@ -4,55 +4,54 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.example.modelo.*;
 
-public class DAOtelColegio {
+public class DAOtelCliente{
 
         static PreparedStatement ps;
         static ResultSet rs;
         static Connection conn;
         static ConexionBD conectar = new ConexionBD();
-        static  telColegio c = new telColegio();
+        static  telCliente cl = new telCliente();
 
 
-    public static telColegio obtenerTelColegio(int idColegio) {
+    public static telCliente obtenertelCliente(int nit_Cliente) {
             try {
                 // hago la conexion y ejecuto la instruccion para obtener todos los datos
                 // almacenandolos en un resultset
                 conectar.openConnection();
                 conn = conectar.getConnection();
-                ps = conn.prepareStatement("SELECT * FROM  TEL_COLEGIO WHERE ID_COLEGIO = ?;");
-                ps.setInt(1, idColegio);
+                ps = conn.prepareStatement("SELECT * FROM  TEL_Cliente WHERE doc_cliente = ?;");
+                ps.setInt(1, nit_Cliente);
                 rs = ps.executeQuery();
 
                 // convierto los datos del resultset en objetos de estudiante y los agrego
                 // a un List de estudiantes que posteriorment retornare
                 while (rs.next()) {
-                    telColegio c = new telColegio();
-                    c.setIdColegio(rs.getInt(1));
-                    c.setTelefonoColegio(rs.getString(2));
+                    telCliente cl = new telCliente();
+                    cl.setIdCliente(rs.getInt(1));
+                    cl.setTelefonoCliente(rs.getString(2));
 
                 }
             } catch (Exception e) {
-                System.out.println("Error al obtener el telefono del colegio: " + e.getMessage());
+                System.out.println("Error al obtener el telefono del Cliente: " + e.getMessage());
             }
 
-            return c;
+            return cl;
 
         }
 
-    public static void tablaTelColegio(int id_colegio, JTable tabla) {
+    public static void tablatelCliente(int doc_Cliente, JTable tabla) {
         try {
             String q;
-            if (id_colegio != 0) {
-                q = "SELECT * FROM TEL_COLEGIO WHERE ID_COLEGIO = ?";
+            if (doc_Cliente != 0) {
+                q = "SELECT * FROM TEL_Cliente WHERE doc_cliente = ?";
             } else {
-                q = "SELECT * FROM TEL_COLEGIO";
+                q = "SELECT * FROM TEL_Cliente";
             }
 
             ConexionBD conexion = new ConexionBD();
@@ -62,20 +61,20 @@ public class DAOtelColegio {
             if (connection != null) {
                 PreparedStatement statement = connection.prepareStatement(q);
 
-                if (id_colegio  != 0) {
-                    statement.setInt(1, id_colegio );
+                if (doc_Cliente  != 0) {
+                    statement.setInt(1, doc_Cliente );
                 }
 
                 ResultSet rs = statement.executeQuery();
 
                 DefaultTableModel model = new DefaultTableModel();
-                model.addColumn("ID_COLEGIO");
-                model.addColumn("TEL_COLEGIO");
+                model.addColumn("doc_cliente");
+                model.addColumn("TEL_Cliente");
 
                 while (rs.next()) {
                     Object[] rowData = {
-                        rs.getInt("ID_COLEGIO"),
-                        rs.getString("TEL_COLEGIO"),
+                        rs.getInt("doc_cliente"),
+                        rs.getString("TEL_Cliente"),
                     };
                     model.addRow(rowData);
                 }

@@ -1,18 +1,12 @@
 package org.example.controlador;
-
-
 import org.example.DAO.*;
-
 import org.example.modelo.Usuario;
 import org.example.modelo.cliente;
 import org.example.modelo.pedido;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.util.ArrayList;
-
-
 import java.util.Date;
 
 import static org.example.DAO.DAOcliente.tablaclienteID;
@@ -21,9 +15,7 @@ import static org.example.DAO.DAOpedido.tablapedidoid;
 import static org.example.DAO.DAOproveedor.tablaproveedorNIT;
 import static org.example.DAO.DAOuniforme.tablauniformeID;
 import static org.example.DAO.DAOusuario.tablaUsuarioID;
-
 import static org.example.DAO.DAOcolegio.tablacolegioID;
-
 import static org.example.DAO.DAOprendaVestir.tablaprendaid;
 import static org.example.DAO.DAOprodTerminado.tablaProdTerminado;
 
@@ -165,9 +157,14 @@ public class controlador {
     }
 
 
+//------------------------------------------ TEL COLEGIO ------------------------------------------------------
+    public static void consultarTelColegio(int id_colegio, JTable tabla){ DAOtelColegio.tablaTelColegio(id_colegio, tabla); }
 
+//------------------------------------------ TEL PROVEEDOR  ------------------------------------------------------
+    public static void consultarTelProveedor(int Nit_proveedor, JTable tabla){ DAOtelProveedor.tablatelProveedor(Nit_proveedor, tabla); }
 
-
+//------------------------------------------ TEL CLIENTE  ------------------------------------------------------
+    public static void consultarTelCliente(int doc_cliente, JTable tabla){ DAOtelCliente.tablatelCliente(doc_cliente, tabla); }
 
     //--------------------------------  PRENDA DE VESTIR   -----------------------------------------
     public static void agregarPrenda_Vestir(int idPrendaVestir, String sexo, String color, String tela, String tipo, String talla, String diseno, String pieza,JTable tabla) {

@@ -91,12 +91,10 @@ public class inventario_materiales extends JPanel implements ActionListener{
         T_descTitulo.setEditable(false);
         T_descTitulo.setBorder(new LineBorder(Color.gray));
         T_descTitulo.setBounds(15,130,190,30);
-        add(T_descTitulo);
 
         T_desc = new JTextField();
         T_desc.setBounds(225,130,220,31);
         T_desc.setBorder(new LineBorder(Color.gray));
-        add( T_desc);
 
         T_tipoTitulo = new JTextField();
         T_tipoTitulo.setText(" TIPO MATERIAL");
@@ -104,12 +102,11 @@ public class inventario_materiales extends JPanel implements ActionListener{
         T_tipoTitulo.setBorder(new LineBorder(Color.gray));
         T_tipoTitulo.setEditable(false);
         T_tipoTitulo.setBounds(15,180,190,30);
-        add(T_tipoTitulo);
 
         T_tipo = new JTextField();
         T_tipo.setBounds(225,180,220,31);
         T_tipo.setBorder(new LineBorder(Color.gray));
-        add(T_tipo);
+
 
         T_medidaTitulo = new JTextField();
         T_medidaTitulo.setText(" UNIDAD DE MEDIDA");
@@ -117,12 +114,10 @@ public class inventario_materiales extends JPanel implements ActionListener{
         T_medidaTitulo.setBorder(new LineBorder(Color.gray));
         T_medidaTitulo.setEditable(false);
         T_medidaTitulo.setBounds(15,230,190,30);
-        add(T_medidaTitulo);
 
         T_medida = new JTextField();
         T_medida.setBounds(225,230,220,30);
         T_medida.setBorder(new LineBorder(Color.gray));
-        add(T_medida);
 
         T_cantidadTitulo = new JTextField();
         T_cantidadTitulo.setText(" CANTIDAD");
@@ -130,12 +125,10 @@ public class inventario_materiales extends JPanel implements ActionListener{
         T_cantidadTitulo.setBorder(new LineBorder(Color.gray));
         T_cantidadTitulo.setEditable(false);
         T_cantidadTitulo.setBounds(475,80,190,30);
-        add(T_cantidadTitulo);
 
         T_cantidad = new JTextField();
         T_cantidad.setBounds(685,80,220,30);
         T_cantidad.setBorder(new LineBorder(Color.gray));
-        add(T_cantidad);
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -151,7 +144,15 @@ public class inventario_materiales extends JPanel implements ActionListener{
 
         if(Objects.equals(tipo, "administrador")){
             listo.setText("Listo ");
-    
+            add(T_cantidad);
+            add(T_cantidadTitulo);
+            add(T_medida);
+            add(T_medidaTitulo);
+            add(T_tipo);
+            add(T_tipoTitulo);
+            add( T_desc);
+            add(T_descTitulo);
+            
             insertar = new JRadioButton("insertar");
             insertar.setBounds(15, 280, 115, 30);
             insertar.setFont(new Font("arial",1,15));
