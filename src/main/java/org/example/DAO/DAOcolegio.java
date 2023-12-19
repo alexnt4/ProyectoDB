@@ -1,7 +1,5 @@
 package org.example.DAO;
 
-import org.example.modelo.cliente;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
