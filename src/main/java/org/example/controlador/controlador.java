@@ -19,6 +19,8 @@ import static org.example.DAO.DAOpedido.tablapedidoid;
 import static org.example.DAO.DAOproveedor.tablaproveedorNIT;
 import static org.example.DAO.DAOuniforme.tablauniformeID;
 import static org.example.DAO.DAOusuario.tablaUsuarioID;
+import static org.example.DAO.DAOprendaVestir.tablaprendaid;
+import static org.example.DAO.DAOprodTerminado.tablaProdTerminado;
 
 public class controlador {
 
@@ -93,4 +95,49 @@ public class controlador {
     public static void consultarUsuario(String idUsuario, JTable tablero){tablaUsuarioID(idUsuario, tablero);}
 
     public static void eliminarUsuario(String idUsuario){DAOusuario.eliminarUsuario(idUsuario);}
+
+    //--------------------------------  PRENDA DE VESTIR   -----------------------------------------
+    public static void agregarPrenda_Vestir(int idPrendaVestir, String sexo, String color, String tela, String tipo, String talla, String diseno, String pieza,JTable tabla) {
+        org.example.modelo.prendaVestir PrendaVestir = new org.example.modelo.prendaVestir(idPrendaVestir, sexo,color, tela ,tipo, talla,diseno, pieza);
+        DAOprendaVestir.agregarPrendaVestir(PrendaVestir);
+        tablaprendaid(idPrendaVestir, tabla);
+    }
+
+    public static void consultarPrenda(int idPrenda, JTable tabla){
+        tablaprendaid(idPrenda, tabla);
+    }
+
+    public static void actualizarPrenda(String sexo,String color,String tela ,String tipo,String talla,String diseno,String pieza,int idPrendaVestir,JTable tabla){
+        org.example.modelo.prendaVestir PrendaActualizada = new org.example.modelo.prendaVestir(idPrendaVestir, sexo, color, tela, tipo, talla, diseno, pieza);
+        DAOprendaVestir.actualizarPrendaVestir(PrendaActualizada);
+        tablaprendaid(idPrendaVestir, tabla);
+    }
+
+    public static void eliminarPrenda(int idPrenda){
+        DAOprendaVestir.eliminarPrendaVestir(idPrenda);
+    }
+
+//------------------------------------------------ PRODUCTO TERMINADO ------------------------------------------
+
+    public static void agregarProductoTerminado(int codProdTerm, int idPrenda, int codMaterial, String descripcion, Double precio, String encargado, int canTerminados, JTable tabla) {
+        org.example.modelo.prodTerminado ProductTerminado = new org.example.modelo.prodTerminado(codProdTerm, idPrenda, codMaterial, descripcion, precio, encargado, canTerminados);
+        DAOprodTerminado.agregarProdTerminado(ProductTerminado);
+        tablaProdTerminado(codProdTerm, tabla);
+    }
+
+    public static void consultarProdTerminado(int codProdTerm, JTable tabla){
+        tablaProdTerminado(codProdTerm, tabla);
+    }
+
+    public static void actualizarProdTerminados(int codProdTerm, int idPrenda, int codMaterial, String descripcion, Double precio, String encargado, int canTerminados, JTable tabla){
+        org.example.modelo.prodTerminado ProductTerminado = new org.example.modelo.prodTerminado(codProdTerm, idPrenda, codMaterial, descripcion, precio, encargado, canTerminados);
+        DAOprodTerminado.actualizarProdTerminado(ProductTerminado);
+        tablaProdTerminado(codProdTerm, tabla);
+    }
+
+    public static void eliminarProdTerminado(int codProdTerm){
+        DAOprodTerminado.eliminarProdTerminado(codProdTerm);
+    }
+
+
 }
