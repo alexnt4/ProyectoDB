@@ -44,8 +44,8 @@ public class DAOusuario {
                         try(PreparedStatement statement = connection.prepareStatement(sql_guardar)){
                                 // Establecer los valores de los parámetros en la sentencia SQL
                                 statement.setString(1, usuario.getIdUsuario());
-                                statement.setString(2, usuario.getPasswordUsuario());
-                                statement.setString(3, usuario.getNombreUsuario());
+                                statement.setString(2, usuario.getNombreUsuario());
+                                statement.setString(3, usuario.getPasswordUsuario());
                                 statement.setString(4, usuario.getTipoUsuario());
 
 

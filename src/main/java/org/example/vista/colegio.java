@@ -190,11 +190,11 @@ public class colegio extends JPanel implements ActionListener{
         add(eliminar);
 
 
-            bg = new ButtonGroup();
-            bg.add(insertar);
-            bg.add(actualizar);
-            bg.add(consultar);
-            bg.add(eliminar);
+        bg = new ButtonGroup();
+        bg.add(insertar);
+        bg.add(actualizar);
+        bg.add(consultar);
+        bg.add(eliminar);
         }
 
 

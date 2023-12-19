@@ -264,11 +264,13 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
         nombres.setBounds(615,520,300,120);
         panel_segundario.add(nombres);
         
+        /*
         ImageIcon imgOriginal = new ImageIcon(getClass().getResource("/ImagenPrincipal.jpg"));
         ImageIcon imgScalada = new ImageIcon(imgOriginal.getImage().getScaledInstance(915,490,Image.SCALE_SMOOTH));
         label = new JLabel(imgScalada);
         label.setBounds(0,0,915,490);
         panel_segundario.add(label);
+        */
 
     }
     public void actionPerformed(ActionEvent e){

@@ -1,8 +1,4 @@
 package org.example.DAO;
-
-
-
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -52,7 +48,7 @@ public class DAOprendaVestir {
                 prendasVestir.add(c);
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la lista de todos: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la lista de todos: " + e.getMessage());
         }
 
         return prendasVestir;
@@ -84,7 +80,7 @@ public class DAOprendaVestir {
 
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la prenda de vestir: " + e.getMessage());
         }
 
         return c;
@@ -198,10 +194,10 @@ public class DAOprendaVestir {
                         isUpdated = true;
                         System.out.println("PRENDA actualizado correctamente");
                     } else {
-                        System.out.println("No se encontró el pedido con el número: " + prendaVestirActualizada.getIdPrendaVestir());
+                        JOptionPane.showMessageDialog(null,"No se encontró el pedido con el número: " + prendaVestirActualizada.getIdPrendaVestir());
                     }
                 } catch (SQLException e) {
-                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                    JOptionPane.showMessageDialog(null,ERROR_ACTUALIZACION + e.getMessage());
                 } finally {
                     conexion.closeConnection();
                 }
@@ -230,7 +226,8 @@ public class DAOprendaVestir {
                 r = 0;
             }
         } catch (Exception e) {
-            System.out.println("Error al eliminar la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al eliminar la prenda de vestir: " + e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         return r;
     }
