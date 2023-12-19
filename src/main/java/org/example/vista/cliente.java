@@ -1,4 +1,6 @@
 package org.example.vista;
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -231,15 +233,50 @@ public class cliente extends JPanel implements ActionListener{
             if(Objects.equals(tipo, "administrador")){  
                 //Si es admin evalua los dos campos
                 validarCampos();
+
+                    
+                    if (eliminar.isSelected()) {
+                        int idCliente = Integer.parseInt(T_id.getText());
+                        String nombreCliente = T_nom.getText();
+                        controlador control = new controlador();
+                        controlador.eliminarCliente(idCliente);
+                        validar.setForeground(Color.black);
+                        validar.setText("ELIMINAR");
+                    } else if (actualizar.isSelected()) {
+                        int idCliente = Integer.parseInt(T_id.getText());
+                        String nombreCliente = T_nom.getText();
+                        String telefonoCliente = T_telefono.getText();
+                        controlador control = new controlador();
+                        controlador.actualizarCliente(idCliente, nombreCliente, Tablero);
+                        validar.setForeground(Color.black);
+                        validar.setText("ACTUALIZAR");
+                    } else if (consultar.isSelected()) {
+                        int idCliente = Integer.parseInt(T_id.getText());
+                        controlador control = new controlador();
+                        controlador.consultarCliente(idCliente, Tablero);
+                        validar.setForeground(Color.black);
+                        validar.setText("CONSULTAR");
+                    } else if (insertar.isSelected()) {
+                        int idCliente = Integer.parseInt(T_id.getText());
+                        String nombreCliente = T_nom.getText();
+                        String telefonoCliente = T_telefono.getText();
+                        controlador control = new controlador();
+                        controlador.agregarCliente(idCliente, nombreCliente,  Tablero);
+                        validar.setForeground(Color.black);
+                        validar.setText("INSERTAR");
+                    }
+
             }else{//Es vendedor y solo evalua llave primaria
  
                 if (T_id.getText().isEmpty()) {
                     validar.setForeground(Color.red);
                     validar.setText("LLENAR EL CAMPO ID CLIENTE!");
                 }else{
-                    //En llave primaria hay algo
+                    int idCliente = Integer.parseInt(T_id.getText());
+                    controlador control = new controlador();
+                    controlador.consultarCliente(idCliente, Tablero);
                     validar.setForeground(Color.black);
-                    validar.setText("RESULTADO DE LA CONSULTA");
+                    validar.setText("CONSULTAR");
                 }
                 
             }

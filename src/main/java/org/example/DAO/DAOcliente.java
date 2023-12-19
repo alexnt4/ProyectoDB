@@ -9,6 +9,10 @@ import java.util.List;
 
 
 import org.example.modelo.*;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import static org.example.Util.Constantes.*;
 
 //import static org.example.Util.Constantes.ERROR_ACTUALIZACION;
@@ -48,13 +52,59 @@ public class DAOcliente {
         return clientes;
     }
 
+    public static void tablaclienteID(int ID, JTable tabla) {
+        try {
+            String q;
+            if (ID != 0) {
+                q = "SELECT * FROM cliente WHERE DOC_CLIENTE = ?";
+            } else {
+                q = "SELECT * FROM cliente";
+            }
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                PreparedStatement statement = connection.prepareStatement(q);
+
+                if (ID != 0) {
+                    statement.setInt(1, ID);
+                }
+
+                ResultSet rs = statement.executeQuery();
+
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("DOC_CLIENTE");
+                model.addColumn("NOM_CLIENTE");
+
+
+                while (rs.next()) {
+                    Object[] rowData = {
+                            rs.getInt("DOC_CLIENTE"),
+                            rs.getString("NOM_CLIENTE"),
+                    };
+                    model.addRow(rowData);
+                }
+
+                tabla.setModel(model);
+                conexion.closeConnection();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+
     public static cliente obtenerCliente(int idCliente){
         try {
             // hago la conexion y ejecuto la instruccion para obtener todos los datos
             // almacenandolos en un resultset
             conectar.openConnection();
             conn = conectar.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM cliente WHERE idCliente = ?;");
+            ps = conn.prepareStatement("SELECT * FROM cliente WHERE DOC_CLIENTE = ?;");
             ps.setInt(1, idCliente);
             rs = ps.executeQuery();
 
@@ -99,7 +149,7 @@ public class DAOcliente {
     }
 
     public static int actualizarCliente(cliente cliente) {
-        String sqlActualizar = "UPDATE cliente SET DOC_CLIENTE = ?, NOM_CLIENTE = ? WHERE idCliente = ?";
+        String sqlActualizar = "UPDATE cliente SET DOC_CLIENTE = ?, NOM_CLIENTE = ? WHERE DOC_CLIENTE = ?";
 
         int filasAfectadas = 0;
 
@@ -125,7 +175,7 @@ public class DAOcliente {
     }
 
     public static int eliminarCliente(int idCliente) {
-        String sqlEliminar = "DELETE FROM cliente WHERE idCliente = ?";
+        String sqlEliminar = "DELETE FROM cliente WHERE DOC_CLIENTE = ?";
 
         int filasAfectadas = 0;
 

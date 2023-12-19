@@ -1,5 +1,7 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -264,12 +266,44 @@ public class inventario_materiales extends JPanel implements ActionListener{
             if(Objects.equals(tipo, "administrador")){  
                 //Si es admin evalua los dos campos
                 validarCampos();
+                if (eliminar.isSelected()) {
+                    int codMaterial = Integer.parseInt(T_codigo.getText());
+                    controlador.eliminarInventarioMateriales(codMaterial);
+                    validar.setForeground(Color.black);
+                    validar.setText("ELIMINAR");
+                } else if (actualizar.isSelected()) {
+                    int codMaterial = Integer.parseInt(T_codigo.getText());
+                    int cantidad = Integer.parseInt(T_cantidad.getText());
+                    String tipo = T_tipo.getText();
+                    String desMaterial = T_desc.getText();
+                    String uniMedida = T_medida.getText();
+                    controlador.actualizarInventarioMateriales(codMaterial, cantidad, tipo, desMaterial, uniMedida, Tablero);
+                    validar.setForeground(Color.black);
+                    validar.setText("ACTUALIZAR");
+                } else if (consultar.isSelected()) {
+                    int codMaterial = Integer.parseInt(T_codigo.getText());
+                    controlador.consultarInventarioMateriales(codMaterial, Tablero);
+
+                    validar.setForeground(Color.black);
+                    validar.setText("CONSULTAR");
+                } else if (insertar.isSelected()) {
+                    int codMaterial = Integer.parseInt(T_codigo.getText());
+                    int cantidad = Integer.parseInt(T_cantidad.getText());
+                    String tipo = T_tipo.getText();
+                    String desMaterial = T_desc.getText();
+                    String uniMedida = T_medida.getText();
+                    controlador.agregarInventarioMateriales(codMaterial, cantidad, tipo, desMaterial, uniMedida, Tablero);
+                    validar.setForeground(Color.black);
+                    validar.setText("INSERTAR");
+                }
             }else{//Es vendedor y solo evalua llave primaria
  
                 if (T_codigo.getText().isEmpty()) {
                     validar.setForeground(Color.red);
                     validar.setText("LLENAR EL CAMPO CODIGO MATERIAL!");
                 }else{
+                    int codMaterial = Integer.parseInt(T_codigo.getText());
+                    controlador.consultarInventarioMateriales(codMaterial, Tablero);
                     //En llave primaria hay algo
                     validar.setForeground(Color.black);
                     validar.setText("RESULTADO DE LA CONSULTA");

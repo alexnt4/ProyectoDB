@@ -15,12 +15,18 @@ import java.util.ArrayList;
 
 import java.util.Date;
 
+import static org.example.DAO.DAOcliente.tablaclienteID;
+import static org.example.DAO.DAOinventarioMateriales.tablainventarioID;
 import static org.example.DAO.DAOpedido.tablapedidoid;
 import static org.example.DAO.DAOproveedor.tablaproveedorNIT;
 import static org.example.DAO.DAOuniforme.tablauniformeID;
 import static org.example.DAO.DAOusuario.tablaUsuarioID;
+
+import static org.example.DAO.DAOcolegio.tablacolegioID;
+
 import static org.example.DAO.DAOprendaVestir.tablaprendaid;
 import static org.example.DAO.DAOprodTerminado.tablaProdTerminado;
+
 
 public class controlador {
 
@@ -96,6 +102,73 @@ public class controlador {
 
     public static void eliminarUsuario(String idUsuario){DAOusuario.eliminarUsuario(idUsuario);}
 
+
+
+    public static void agregarCliente(int idCliente, String nombreCliente, JTable tabla){
+        cliente NuevoCliente = new cliente(idCliente, nombreCliente);
+        DAOcliente.agregarCliente(NuevoCliente);
+        tablaclienteID(idCliente, tabla);
+    }
+
+    public static void actualizarCliente(int idCliente, String nombreCliente, JTable tabla){
+        cliente ClienteActualizado = new cliente(idCliente, nombreCliente);
+        DAOcliente.actualizarCliente(ClienteActualizado);
+        tablaclienteID(idCliente, tabla);
+    }
+
+    public static void consultarCliente(int idCliente, JTable tabla){
+        tablaclienteID(idCliente, tabla);
+    }
+
+    public static void eliminarCliente(int idCliente){
+        DAOcliente.eliminarCliente(idCliente);
+    }
+
+    public static void agregarColegio(int idColegio, String nombreColegio, String direccionColegio, String contacto, JTable tabla){
+        org.example.modelo.colegio NuevoColegio = new org.example.modelo.colegio(idColegio, nombreColegio, direccionColegio, contacto);
+        DAOcolegio.agregarColegio(NuevoColegio);
+        tablacolegioID(idColegio, tabla);
+    }
+
+    public static void actualizarColegio(int idColegio, String nombreColegio, String direccionColegio, String contacto, JTable tabla){
+        org.example.modelo.colegio ColegioActualizado = new org.example.modelo.colegio(idColegio, nombreColegio, direccionColegio, contacto);
+        DAOcolegio.actualizarColegio(ColegioActualizado);
+        tablacolegioID(idColegio, tabla);
+    }
+
+    public static void consultarColegio(int idColegio, JTable tabla){
+        tablacolegioID(idColegio, tabla);
+    }
+
+    public static void eliminarColegio(int idColegio){
+        DAOcolegio.eliminarColegio(idColegio);
+    }
+
+    public static void agregarInventarioMateriales(int codMaterial, int cantidad, String tipo, String desMaterial, String uniMedida, JTable tabla){
+        org.example.modelo.inventarioMateriales NuevoInventarioMateriales = new org.example.modelo.inventarioMateriales(codMaterial, cantidad, tipo, desMaterial, uniMedida);
+        DAOinventarioMateriales.agregarInventarioMateriales(NuevoInventarioMateriales);
+        tablainventarioID(codMaterial, tabla);
+    }
+
+    public static void actualizarInventarioMateriales(int codMaterial, int cantidad, String tipo, String desMaterial, String uniMedida, JTable tabla){
+        org.example.modelo.inventarioMateriales InventarioMaterialesActualizado = new org.example.modelo.inventarioMateriales(codMaterial, cantidad, tipo, desMaterial, uniMedida);
+        DAOinventarioMateriales.actualizarInventarioMateriales(InventarioMaterialesActualizado);
+        tablainventarioID(codMaterial, tabla);
+    }
+
+    public static void consultarInventarioMateriales(int codMaterial, JTable tabla){
+        tablainventarioID(codMaterial, tabla);
+    }
+
+    public static void eliminarInventarioMateriales(int codMaterial){
+        DAOinventarioMateriales.eliminarInventarioMateriales(codMaterial);
+    }
+
+
+
+
+
+
     //--------------------------------  PRENDA DE VESTIR   -----------------------------------------
     public static void agregarPrenda_Vestir(int idPrendaVestir, String sexo, String color, String tela, String tipo, String talla, String diseno, String pieza,JTable tabla) {
         org.example.modelo.prendaVestir PrendaVestir = new org.example.modelo.prendaVestir(idPrendaVestir, sexo,color, tela ,tipo, talla,diseno, pieza);
@@ -148,4 +221,5 @@ public class controlador {
         if(Opcion == 6) {DAOinforme.tabla6(tablero);}
         if(Opcion == 7) {DAOinforme.tabla7(tablero);}
     }
+
 }

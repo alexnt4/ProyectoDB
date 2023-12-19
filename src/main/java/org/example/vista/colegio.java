@@ -1,5 +1,7 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -261,9 +263,47 @@ public class colegio extends JPanel implements ActionListener{
         validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
             //Validar si es admin
-            if(Objects.equals(tipo, "administrador")){  
+            if(Objects.equals(tipo, "administrador")){
                 //Si es admin evalua los dos campos
                 validarCampos();
+
+                    // Resto de tu lógica para validar otros campos si es necesario
+                    if (eliminar.isSelected()) {
+                        int idColegio = Integer.parseInt(T_id.getText());
+                        controlador control = new controlador();
+                        controlador.eliminarColegio(Integer.parseInt(T_id.getText()));
+
+                        validar.setForeground(Color.black);
+                        validar.setText("ELIMINAR");
+                    } else if (actualizar.isSelected()) {
+                        int idColegio = Integer.parseInt(T_id.getText());
+                        String nombreColegio = T_nom.getText();
+                        String direccionColegio = T_dir.getText();
+                        String contactoColegio = T_contacto.getText();
+                        //int telefonoColegio = Integer.parseInt(T_telefono.getText());
+                        controlador control = new controlador();
+                        controlador.actualizarColegio(idColegio, nombreColegio, direccionColegio, contactoColegio, Tablero);
+                        validar.setForeground(Color.black);
+                        validar.setText("ACTUALIZAR");
+                    } else if (consultar.isSelected()) {
+                        int idColegio = Integer.parseInt(T_id.getText());
+                        controlador control = new controlador();
+                        controlador.consultarColegio(idColegio, Tablero);
+                        validar.setForeground(Color.black);
+                        validar.setText("CONSULTAR");
+                    } else if (insertar.isSelected()) {
+                        int idColegio = Integer.parseInt(T_id.getText());
+                        String nombreColegio = T_nom.getText();
+                        String direccionColegio = T_dir.getText();
+                        String contactoColegio = T_contacto.getText();
+                        //int telefonoColegio = Integer.parseInt(T_telefono.getText());
+                        controlador control = new controlador();
+                        controlador.agregarColegio(idColegio, nombreColegio, direccionColegio, contactoColegio, Tablero);
+                        validar.setForeground(Color.black);
+                        validar.setText("INSERTAR");
+                    }
+
+
             }else{//Es vendedor y solo evalua llave primaria
  
                 if (T_id.getText().isEmpty()) {
@@ -271,6 +311,9 @@ public class colegio extends JPanel implements ActionListener{
                     validar.setText("LLENAR EL CAMPO ID COLEGIO!");
                 }else{
                     //En llave primaria hay algo
+                    int idColegio = Integer.parseInt(T_id.getText());
+                    controlador control = new controlador();
+                    controlador.consultarColegio(idColegio, Tablero);
                     validar.setForeground(Color.black);
                     validar.setText("RESULTADO DE LA CONSULTA");
                 }
