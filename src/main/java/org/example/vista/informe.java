@@ -1,5 +1,7 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -94,20 +96,42 @@ public class informe extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == listo){
+            controlador control = new controlador();
             if(informes.getSelectedIndex() == 1){
                 //Se muestra -> Listado de productos encargados pendientes por entregar
+                int Opcion = informes.getSelectedIndex();
+                int ID = 0;
+                control.tablasInforme(Opcion,ID , Tablero);
             }else if(informes.getSelectedIndex() == 2){
                 //Se muestra -> Por cada cliente, listar los productos encargados que no han sido entregados
+                int Opcion = informes.getSelectedIndex();
+                int ID = 0;
+                control.tablasInforme(Opcion, ID, Tablero);
             }else if(informes.getSelectedIndex() == 3){
                 //Se muestra -> Por cada producto, cantidad en existencia descontando los que están encargados
+                int Opcion = informes.getSelectedIndex();
+                int ID = 0;
+                control.tablasInforme(Opcion, ID, Tablero);
             }else if(informes.getSelectedIndex() == 4){
                 //Se muestra -> Listado de colegios de los que se fabrican uniformes
+                int Opcion = informes.getSelectedIndex();
+                int ID = 0;
+                control.tablasInforme(Opcion, ID, Tablero);
             }else if(informes.getSelectedIndex() == 5){
                 //Se muestra -> Dado un colegio las características de su uniforme
+                int Opcion = informes.getSelectedIndex();
+                int ID = Integer.parseInt(T_colegioId.getText());
+                control.tablasInforme(Opcion, ID, Tablero);
             }else if(informes.getSelectedIndex() == 6){
                 //Se muestra -> Calcular el total de productos vendidos por colegio
+                int Opcion = informes.getSelectedIndex();
+                int ID = 0;
+                control.tablasInforme(Opcion, ID, Tablero);
             }else if(informes.getSelectedIndex() == 7){
                 //Se muestra -> Calcular el total de ventas
+                int Opcion = informes.getSelectedIndex();
+                int ID = 0;
+                control.tablasInforme(Opcion, ID, Tablero);
             }
         }
         if(e.getSource() == informes){
