@@ -139,5 +139,13 @@ public class controlador {
         DAOprodTerminado.eliminarProdTerminado(codProdTerm);
     }
 
-
+    public static void tablasInforme(int Opcion, int IDColegio, JTable tablero){
+        if(Opcion == 1) {DAOinforme.tabla1(tablero);}
+        if(Opcion == 2) {DAOinforme.tabla2(tablero);}
+        if(Opcion == 3) {DAOinforme.tabla3(tablero);}
+        if(Opcion == 4) {DAOinforme.tabla4(tablero);}
+        if(Opcion == 5) {DAOinforme.tabla5(IDColegio, tablero);}
+        if(Opcion == 6) {DAOinforme.tabla6(tablero);}
+        if(Opcion == 7) {DAOinforme.tabla7(tablero);}
+    }
 }
