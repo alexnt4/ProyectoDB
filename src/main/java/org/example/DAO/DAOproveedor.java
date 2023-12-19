@@ -13,99 +13,102 @@ import static org.example.Util.Constantes.ERROR_ACTUALIZACION;
 
 public class DAOproveedor {
 
-        static PreparedStatement ps;
-        static ResultSet rs;
-        static Connection conn;
-        static ConexionBD conectar = new ConexionBD();
-        static  proveedor c = new proveedor();
+    static PreparedStatement ps;
+    static ResultSet rs;
+    static Connection conn;
+    static ConexionBD conectar = new ConexionBD();
+    static  proveedor c = new proveedor();
 
-        public static List<proveedor> obtenerProveedores(){
-            List<proveedor> proveedores = new ArrayList<>();
-            try {
-                // hago la conexion y ejecuto la instruccion para obtener todos los datos
-                // almacenandolos en un resultset
-                conectar.openConnection();
-                conn = conectar.getConnection();
-                ps = conn.prepareStatement("SELECT * FROM PROVEEDOR;");
-                rs = ps.executeQuery();
+    public static List<proveedor> obtenerProveedores(){
+        List<proveedor> proveedores = new ArrayList<>();
+        try {
+            // hago la conexion y ejecuto la instruccion para obtener todos los datos
+            // almacenandolos en un resultset
+            conectar.openConnection();
+            conn = conectar.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM PROVEEDOR;");
+            rs = ps.executeQuery();
 
-                // convierto los datos del resultset en objetos de estudiante y los agrego
-                // a un List de estudiantes que posteriorment retornare
-                while(rs.next()){
-                    proveedor c = new proveedor();
-                    c.setNitProveedor(rs.getInt(1));
-                    c.setNombreProveedor(rs.getString(2));
-                    c.setDireccionProveedor(rs.getString(3));
-                    c.setContacto(rs.getString(4));
-                    c.setProducto(rs.getString(5));
-                    c.setCodMaterial(rs.getInt(6));
+            // convierto los datos del resultset en objetos de estudiante y los agrego
+            // a un List de estudiantes que posteriorment retornare
+            while(rs.next()){
+                proveedor c = new proveedor();
+                c.setNitProveedor(rs.getInt(1));
+                c.setNombreProveedor(rs.getString(2));
+                c.setDireccionProveedor(rs.getString(3));
+                c.setContacto(rs.getString(4));
+                c.setProducto(rs.getString(5));
+                c.setCodMaterial(rs.getInt(6));
 
-                    proveedores.add(c);
-                }
-            } catch (Exception e) {
-                System.out.println("Error al obtener la lista de todos: " + e.getMessage());
+                proveedores.add(c);
             }
-
-            return proveedores;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista de todos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
 
-
-        public static proveedor obtenerProveedor(int nitProveedor) {
-            try {
-                // hago la conexion y ejecuto la instruccion para obtener todos los datos
-                // almacenandolos en un resultset
-                conectar.openConnection();
-                conn = conectar.getConnection();
-                ps = conn.prepareStatement("SELECT * FROM  PROVEEDOR WHERE NIT_PROVEEDOR = ?;");
-                ps.setInt(1, nitProveedor);
-                rs = ps.executeQuery();
-
-                // convierto los datos del resultset en objetos de estudiante y los agrego
-                // a un List de estudiantes que posteriorment retornare
-                while (rs.next()) {
-                    proveedor c = new proveedor();
-                    c.setNitProveedor(rs.getInt(1));
-                    c.setNombreProveedor(rs.getString(2));
-                    c.setDireccionProveedor(rs.getString(3));
-                    c.setContacto(rs.getString(4));
-                    c.setProducto(rs.getString(5));
-                    c.setCodMaterial(rs.getInt(6));
+        return proveedores;
+    }
 
 
-                }
-            } catch (Exception e) {
-                System.out.println("Error al obtener el proveedor: " + e.getMessage());
+    public static proveedor obtenerProveedor(int nitProveedor) {
+        try {
+            // hago la conexion y ejecuto la instruccion para obtener todos los datos
+            // almacenandolos en un resultset
+            conectar.openConnection();
+            conn = conectar.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM  PROVEEDOR WHERE NIT_PROVEEDOR = ?;");
+            ps.setInt(1, nitProveedor);
+            rs = ps.executeQuery();
+
+            // convierto los datos del resultset en objetos de estudiante y los agrego
+            // a un List de estudiantes que posteriorment retornare
+            while (rs.next()) {
+                proveedor c = new proveedor();
+                c.setNitProveedor(rs.getInt(1));
+                c.setNombreProveedor(rs.getString(2));
+                c.setDireccionProveedor(rs.getString(3));
+                c.setContacto(rs.getString(4));
+                c.setProducto(rs.getString(5));
+                c.setCodMaterial(rs.getInt(6));
+
+
             }
-
-            return c;
-
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el proveedor " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
 
+        return c;
 
-        public static int agregarProveedor(proveedor proveedor) {
-            int r = 0;
-            String sql = "INSERT INTO PROVEEDOR (NIT_PROVEEDOR, NOM_PROVEEDOR, DIR_PROVEEDOR, CON_PROVEEDOR, PRODUCTO, CODIGO_MATERIAL) VALUES (?,?,?,?,?,?);";
-            try {
-                conectar.openConnection();
-                conn = conectar.getConnection();
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1, proveedor.getNitProveedor());
-                ps.setString(2, proveedor.getNombreProveedor());
-                ps.setString(3, proveedor.getDireccionProveedor());
-                ps.setString(4, proveedor.getContacto());
-                ps.setString(5, proveedor.getProducto());
-                ps.setInt(6, proveedor.getCodMaterial());
-                r = ps.executeUpdate();
-                if (r == 1) {
-                    r = 1;
-                } else {
-                    r = 0;
-                }
-            } catch (Exception e) {
-                System.out.println("Error al agregar el proveedor: " + e.getMessage());
+    }
+
+
+    public static int agregarProveedor(proveedor proveedor) {
+        int r = 0;
+        String sql = "INSERT INTO PROVEEDOR (NIT_PROVEEDOR, NOM_PROVEEDOR, DIR_PROVEEDOR, CON_PROVEEDOR, PRODUCTO, CODIGO_MATERIAL) VALUES (?,?,?,?,?,?);";
+        try {
+            conectar.openConnection();
+            conn = conectar.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, proveedor.getNitProveedor());
+            ps.setString(2, proveedor.getNombreProveedor());
+            ps.setString(3, proveedor.getDireccionProveedor());
+            ps.setString(4, proveedor.getContacto());
+            ps.setString(5, proveedor.getProducto());
+            ps.setInt(6, proveedor.getCodMaterial());
+            r = ps.executeUpdate();
+            if (r == 1) {
+                r = 1;
+            } else {
+                r = 0;
             }
-            return r;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar el proveedor " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
+        return r;
+    }
 
 
     public static boolean actualizarProveedor(proveedor proveedorModificado) {
@@ -170,12 +173,13 @@ public class DAOproveedor {
 
                     if (rowsUpdated > 0) {
                         isUpdated = true;
-                        System.out.println("Pedido actualizado correctamente");
+                        System.out.println("Proveedor actualizado correctamente");
                     } else {
-                        System.out.println("No se encontró el pedido con el número: " + proveedorModificado.getNitProveedor());
+                        JOptionPane.showMessageDialog(null, "No se encontró el proveedor con el número: " + proveedorModificado.getNitProveedor());
                     }
                 } catch (SQLException e) {
-                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                    JOptionPane.showMessageDialog(null,ERROR_ACTUALIZACION + e.getMessage());
+                    e.printStackTrace();
                 } finally {
                     conexion.closeConnection();
                 }
@@ -187,25 +191,26 @@ public class DAOproveedor {
         return isUpdated;
     }
 
-        public static int eliminarProveedor(int nitProveedor) {
-            int r = 0;
-            String sql = "DELETE FROM PROVEEDOR WHERE NIT_PROVEEDOR = ?;";
-            try {
-                conectar.openConnection();
-                conn = conectar.getConnection();
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1, nitProveedor);
-                r = ps.executeUpdate();
-                if (r == 1) {
-                    r = 1;
-                } else {
-                    r = 0;
-                }
-            } catch (Exception e) {
-                System.out.println("Error al eliminar el proveedor: " + e.getMessage());
+    public static int eliminarProveedor(int nitProveedor) {
+        int r = 0;
+        String sql = "DELETE FROM PROVEEDOR WHERE NIT_PROVEEDOR = ?;";
+        try {
+            conectar.openConnection();
+            conn = conectar.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, nitProveedor);
+            r = ps.executeUpdate();
+            if (r == 1) {
+                r = 1;
+            } else {
+                r = 0;
             }
-            return r;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
+        return r;
+    }
 
     public static void tablaproveedorNIT(int NIT, JTable tabla) {
         try {
