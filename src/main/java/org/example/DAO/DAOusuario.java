@@ -54,7 +54,7 @@ public class DAOusuario {
 
                                 System.out.println("Filas afectadas: " + filasAfectadas);
                         }
-                        catch (SQLException e){System.err.println(ERROR_SENTENCIA_SQL + e.getMessage());}
+                        catch (SQLException e){JOptionPane.showMessageDialog(null,ERROR_SENTENCIA_SQL + e.getMessage());}
                         catch(Exception e){ System.out.println(e); }
                         finally {
                                 // Cerrar la conexión
@@ -85,7 +85,7 @@ public class DAOusuario {
                                 usuarios.add(u);
                         }
                 } catch (SQLException e) {
-                        System.out.println("Error al obtener la lista de todos: " + e.getMessage());
+                        JOptionPane.showMessageDialog(null,"Error al obtener la lista de todos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
                 return usuarios;
@@ -120,7 +120,7 @@ public class DAOusuario {
 
                                 resultSet.close();
                         } catch (SQLException e) {
-                                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+                                JOptionPane.showMessageDialog(null, ERROR_DE_CONSULTA + e.getMessage());
                         } finally {
                                 // Cerrar la conexión
                                 conexion.closeConnection();
@@ -151,12 +151,12 @@ public class DAOusuario {
                                         // Obtener el valor del campo "nombre_usuario"
                                         nombreUsuario = resultSet.getString("nombre");
                                 } else {
-                                        System.out.println(NO_SE_ENCONTRO_USUARIO + idUsuario);
+                                        JOptionPane.showMessageDialog(null, NO_SE_ENCONTRO_USUARIO + idUsuario);
                                 }
 
                                 resultSet.close();
                         } catch (SQLException e) {
-                                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+                                JOptionPane.showMessageDialog(null, ERROR_DE_CONSULTA + e.getMessage());
                         } finally {
                                 // Cerrar la conexión
                                 conexion.closeConnection();
@@ -187,12 +187,12 @@ public class DAOusuario {
                                         // Obtener el valor del campo "nombre_usuario"
                                         tipoUsuario = resultSet.getString("cargo");
                                 } else {
-                                        System.out.println(NO_SE_ENCONTRO_USUARIO + idUsuario);
+                                        JOptionPane.showMessageDialog(null,NO_SE_ENCONTRO_USUARIO + idUsuario);
                                 }
 
                                 resultSet.close();
                         } catch (SQLException e) {
-                                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+                                JOptionPane.showMessageDialog(null,ERROR_DE_CONSULTA + e.getMessage());
                         } finally {
                                 // Cerrar la conexión
                                 conexion.closeConnection();
@@ -302,12 +302,12 @@ public class DAOusuario {
 
                                         if (rowsUpdated > 0) {
                                                 isUpdated = true;
-                                                System.out.println("Pedido actualizado correctamente");
+                                                System.out.println("Usuario actualizado correctamente");
                                         } else {
-                                                System.out.println("No se encontró el pedido con el número: " + usuarioModificado.getIdUsuario());
+                                                JOptionPane.showMessageDialog(null,"No se encontró el usuario con el id: " + usuarioModificado.getIdUsuario());
                                         }
                                 } catch (SQLException e) {
-                                        System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                                        JOptionPane.showMessageDialog(null,ERROR_ACTUALIZACION + e.getMessage());
                                 } finally {
                                         conexion.closeConnection();
                                 }
@@ -335,7 +335,7 @@ public class DAOusuario {
                                 r = 0;
                         }
                 } catch (Exception e) {
-                        System.out.println("Error al eliminar el uniforme: " + e.getMessage());
+                        JOptionPane.showMessageDialog(null,"Error al eliminar el usuario: " + e.getMessage());
                 }
                 return r;
         }

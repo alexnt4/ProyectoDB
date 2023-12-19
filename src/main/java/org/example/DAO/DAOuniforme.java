@@ -40,7 +40,7 @@ public class DAOuniforme {
                 uniformes.add(c);
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la lista de todos: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la lista de todos: " + e.getMessage());
         }
 
         return uniformes;
@@ -65,7 +65,7 @@ public class DAOuniforme {
 
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener el uniforme: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener el uniforme: " + e.getMessage());
         }
 
         return c;
@@ -145,10 +145,10 @@ public class DAOuniforme {
                         isUpdated = true;
                         System.out.println("Pedido actualizado correctamente");
                     } else {
-                        System.out.println("No se encontró el pedido con el número: " + uniformeModificado.getIdPrenda());
+                        JOptionPane.showMessageDialog(null,"No se encontró el pedido con el número: " + uniformeModificado.getIdPrenda());
                     }
                 } catch (SQLException e) {
-                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                    JOptionPane.showMessageDialog(null,ERROR_ACTUALIZACION + e.getMessage());
                 } finally {
                     conexion.closeConnection();
                 }
@@ -176,7 +176,8 @@ public class DAOuniforme {
                 r = 0;
             }
         } catch (Exception e) {
-            System.out.println("Error al eliminar el uniforme: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al eliminar el uniforme: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         return r;
     }
