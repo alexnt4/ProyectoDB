@@ -247,22 +247,22 @@ public class cliente extends JPanel implements ActionListener{
                         String nombreCliente = T_nom.getText();
                         controlador control = new controlador();
                         controlador.eliminarCliente(idCliente);
-                        validar.setForeground(Color.black);
-                        validar.setText("ELIMINAR");
+                        validar.setForeground(new Color(75, 0, 130));
+                        validar.setText("               ELIMINADO");
                     } else if (actualizar.isSelected()) {
                         int idCliente = Integer.parseInt(T_id.getText());
                         String nombreCliente = T_nom.getText();
                         String telefonoCliente = T_telefono.getText();
                         controlador control = new controlador();
                         controlador.actualizarCliente(idCliente, nombreCliente, Tablero);
-                        validar.setForeground(Color.black);
-                        validar.setText("ACTUALIZAR");
+                        validar.setForeground(new Color(0,128,0));
+                        validar.setText("                DATO ACTUALIZADO");
                     } else if (consultar.isSelected()) {
                         int idCliente = Integer.parseInt(T_id.getText());
                         controlador control = new controlador();
                         controlador.consultarCliente(idCliente, Tablero);
-                        validar.setForeground(Color.black);
-                        validar.setText("CONSULTAR");
+                validar.setForeground(Color.black);
+                validar.setText("RESULTADO DE LA CONSULTA");
                     } else if (insertar.isSelected()) {
                         int idCliente = Integer.parseInt(T_id.getText());
                         String nombreCliente = T_nom.getText();
@@ -270,7 +270,7 @@ public class cliente extends JPanel implements ActionListener{
                         controlador control = new controlador();
                         controlador.agregarCliente(idCliente, nombreCliente,  Tablero);
                         validar.setForeground(Color.black);
-                        validar.setText("INSERTAR");
+                        validar.setText("               DATO INSERTADO");
                     }
 
             }else{//Es vendedor y solo evalua llave primaria
