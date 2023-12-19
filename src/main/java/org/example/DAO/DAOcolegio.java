@@ -5,10 +5,15 @@ import org.example.modelo.cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.example.modelo.*;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 public class DAOcolegio {
 
     static PreparedStatement ps;
@@ -45,17 +50,67 @@ public class DAOcolegio {
         return colegios;
     }
 
+    public static void tablacolegioID(int ID, JTable tabla) {
+        try {
+            String q;
+            if (ID != 0) {
+                q = "SELECT * FROM colegio WHERE ID_COLEGIO = ?";
+            } else {
+                q = "SELECT * FROM colegio";
+            }
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                PreparedStatement statement = connection.prepareStatement(q);
+
+                if (ID != 0) {
+                    statement.setInt(1, ID);
+                }
+
+                ResultSet rs = statement.executeQuery();
+
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("ID_COLEGIO");
+                model.addColumn("NOM_COLEGIO");
+                model.addColumn("DIR_COLEGIO");
+                model.addColumn("CONTACTO");
 
 
 
-    public static colegio obtenerColegio(int idCliente){
+                while (rs.next()) {
+                    Object[] rowData = {
+                            rs.getInt("ID_COLEGIO"),
+                            rs.getString("NOM_COLEGIO"),
+                            rs.getString("DIR_COLEGIO"),
+                            rs.getString("CONTACTO"),
+                    };
+                    model.addRow(rowData);
+                }
+
+                tabla.setModel(model);
+                conexion.closeConnection();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+
+
+
+    public static colegio obtenerColegio(int idColegio){
         try {
             // hago la conexion y ejecuto la instruccion para obtener todos los datos
             // almacenandolos en un resultset
             conectar.openConnection();
             conn = conectar.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM cliente WHERE idCliente = ?;");
-            ps.setInt(1, idCliente);
+            ps = conn.prepareStatement("SELECT * FROM colegio WHERE ID_COLEGIO = ?;");
+            ps.setInt(1, idColegio);
             rs = ps.executeQuery();
 
             // convierto los datos del resultset en objetos de estudiante y los agrego
