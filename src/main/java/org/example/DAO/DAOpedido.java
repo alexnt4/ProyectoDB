@@ -40,7 +40,7 @@ public class DAOpedido {
                 filasAfectadas = statement.executeUpdate();
                 System.out.println("Filas afectadas al agregar pedido: " + filasAfectadas);
             } catch (SQLException e) {
-                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al agregar pedido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             } finally {
                 conexion.closeConnection();
             }
@@ -78,7 +78,8 @@ public class DAOpedido {
                     pedidos.add(pedido);
                 }
             } catch (SQLException e) {
-                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al obtener pedidos: " + e.getMessage() + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
             } finally {
                 conexion.closeConnection();
             }
@@ -168,10 +169,11 @@ public class DAOpedido {
                         isUpdated = true;
                         System.out.println("Pedido actualizado correctamente");
                     } else {
-                        System.out.println("No se encontró el pedido con el número: " + pedidoModificado.getNumPedido());
+                        JOptionPane.showMessageDialog(null,"No se encontró el pedido con el número: " + pedidoModificado.getNumPedido());
                     }
                 } catch (SQLException e) {
-                    System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error al actualizar pedido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
                 } finally {
                     conexion.closeConnection();
                 }
@@ -207,7 +209,7 @@ public class DAOpedido {
                     System.out.println("No se encontró el pedido con el número: " + numPedido);
                 }
             } catch (SQLException e) {
-                System.err.println(ERROR_ACTUALIZACION + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al eliminar pedido " + e.getMessage(), "Error ", JOptionPane.ERROR_MESSAGE);
             } finally {
                 conexion.closeConnection();
             }
@@ -244,7 +246,8 @@ public class DAOpedido {
                     pedidoEncontrado.setMontoTotal(resultSet.getDouble("MONTO_TOTAL"));
                 }
             } catch (SQLException e) {
-                System.err.println(ERROR_DE_CONSULTA + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al obtener pedido " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
             } finally {
                 conexion.closeConnection();
             }
@@ -391,4 +394,4 @@ public class DAOpedido {
             e.printStackTrace();
         }
     }
-    }
+}

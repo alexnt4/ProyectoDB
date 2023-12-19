@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.example.controlador.controlador;
+
 public class prenda_vestir extends JPanel implements ActionListener{
     JTextField T_idTitulo;
     static JTextField T_id;
@@ -97,12 +99,12 @@ public class prenda_vestir extends JPanel implements ActionListener{
         T_colorTitulo.setEditable(false);
         T_colorTitulo.setBorder(new LineBorder(Color.gray));
         T_colorTitulo.setBounds(15,130,190,30);
-        add(T_colorTitulo);
+        
 
         T_color = new JTextField();
         T_color.setBounds(225,130,220,31);
         T_color.setBorder(new LineBorder(Color.gray));
-        add( T_color);
+        
 
         T_tipoTitulo = new JTextField();
         T_tipoTitulo.setText(" TIPO DE PRENDA");
@@ -110,12 +112,12 @@ public class prenda_vestir extends JPanel implements ActionListener{
         T_tipoTitulo.setBorder(new LineBorder(Color.gray));
         T_tipoTitulo.setEditable(false);
         T_tipoTitulo.setBounds(15,180,190,30);
-        add(T_tipoTitulo);
+       
 
         T_tipo = new JTextField();
         T_tipo.setBounds(225,180,220,31);
         T_tipo.setBorder(new LineBorder(Color.gray));
-        add(T_tipo);
+        
 
         T_telaTitulo = new JTextField();
         T_telaTitulo.setText(" TELA DE PRENDA ");
@@ -123,12 +125,12 @@ public class prenda_vestir extends JPanel implements ActionListener{
         T_telaTitulo.setBorder(new LineBorder(Color.gray));
         T_telaTitulo.setEditable(false);
         T_telaTitulo.setBounds(15,230,190,30);
-        add(T_telaTitulo);
+        
 
         T_tela = new JTextField();
         T_tela.setBounds(225,230,220,30);
         T_tela.setBorder(new LineBorder(Color.gray));
-        add(T_tela);
+        
 
         T_diseloTitulo = new JTextField();
         T_diseloTitulo.setText(" DISEÑO DE PRENDA");
@@ -136,12 +138,12 @@ public class prenda_vestir extends JPanel implements ActionListener{
         T_diseloTitulo.setBorder(new LineBorder(Color.gray));
         T_diseloTitulo.setEditable(false);
         T_diseloTitulo.setBounds(475,80,190,30);
-        add(T_diseloTitulo);
+        
 
         T_diselo = new JTextField();
         T_diselo.setBounds(685,80,220,30);
         T_diselo.setBorder(new LineBorder(Color.gray));
-        add(T_diselo);
+        
 
         T_tallaTitulo = new JTextField();
         T_tallaTitulo.setText(" TALLA DE PRENDA");
@@ -149,12 +151,12 @@ public class prenda_vestir extends JPanel implements ActionListener{
         T_tallaTitulo.setBorder(new LineBorder(Color.gray));
         T_tallaTitulo.setEditable(false);
         T_tallaTitulo.setBounds(475,130,190,30);
-        add(T_tallaTitulo);
+        
 
         T_talla = new JTextField();
         T_talla.setBounds(685,130,220,30);
         T_talla.setBorder(new LineBorder(Color.gray));
-        add(T_talla);
+        
 
         T_piezaTitulo = new JTextField();
         T_piezaTitulo.setText(" PIEZA DE PRENDA ");
@@ -162,12 +164,12 @@ public class prenda_vestir extends JPanel implements ActionListener{
         T_piezaTitulo.setBorder(new LineBorder(Color.gray));
         T_piezaTitulo.setEditable(false);
         T_piezaTitulo.setBounds(475,180,190,30);
-        add(T_piezaTitulo);
+
 
         T_pieza = new JTextField();
         T_pieza.setBounds(685,180,220,30);
         T_pieza.setBorder(new LineBorder(Color.gray));
-        add(T_pieza);
+
 
         listo = new JButton("Consultar ");
         listo.setBounds(740,15,165,40);
@@ -188,7 +190,6 @@ public class prenda_vestir extends JPanel implements ActionListener{
         M.setFocusPainted(false); //Que no quede seleccionada
         M.setBorder(new LineBorder(Color.gray));
         M.setBackground(Color.white);
-        add(M);
 
         F = new JRadioButton("Femenino");
         F.setBounds(645,230, 150, 30);
@@ -197,7 +198,7 @@ public class prenda_vestir extends JPanel implements ActionListener{
         F.setFocusPainted(false); //Que no quede seleccionada
         F.setBorder(new LineBorder(Color.gray));
         F.setBackground(Color.white);
-        add(F);
+
 
         bg1 = new ButtonGroup();
         bg1.add(M);
@@ -205,6 +206,14 @@ public class prenda_vestir extends JPanel implements ActionListener{
 
         if(Objects.equals(tipo, "administrador")){
             listo.setText("Listo ");
+            add(T_pieza);
+            add(T_piezaTitulo);
+            add(T_colorTitulo);
+            add( T_color); 
+            add(T_tipoTitulo);
+            add(T_tipo);
+            add(T_telaTitulo);add(T_tipo);add(T_telaTitulo);add(T_tela);add(T_diseloTitulo);add(T_diselo);
+            add(T_tallaTitulo);add(T_talla);add(T_piezaTitulo);add(T_pieza);add(F);add(M);
     
             insertar = new JRadioButton("insertar");
             insertar.setBounds(15, 280, 115, 30);
@@ -326,6 +335,53 @@ public class prenda_vestir extends JPanel implements ActionListener{
             if(Objects.equals(tipo, "administrador")){  
                 //Si es admin evalua los dos campos
                 validarCampos();
+                if (insertar.isSelected()){
+                   int id = Integer.parseInt(T_id.getText());
+                   String color = T_color.getText();
+                   String tela = T_tela.getText();
+                   String talla = T_talla.getText();
+                   String tipo = T_tipo.getText();
+                   String diseno = T_diselo.getText();
+                   String pieza = T_pieza.getText();
+                   String sexo = "";
+                   if(M.isSelected()){
+                    sexo = "M";
+                   }
+                   if(F.isSelected()){
+                    sexo = "F";
+                   }
+                   controlador control = new controlador();
+                   controlador.agregarPrenda_Vestir(id, sexo, color, tela, tipo, talla, diseno, pieza, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("               DATO INSERTADO");
+               } else if (actualizar.isSelected()) {
+                   int id = Integer.parseInt(T_id.getText());
+                   String color = T_color.getText();
+                   String tela = T_tela.getText();
+                   String talla = T_talla.getText();
+                   String tipo = T_tipo.getText();
+                   String diseno = T_diselo.getText();
+                   String pieza = T_pieza.getText();
+                   String sexo = "";
+                   controlador control = new controlador();
+                   controlador.actualizarPrenda(sexo, color, tela, tipo, talla, diseno, pieza, id, Tablero);
+                   validar.setForeground(new Color(0,128,0));
+                   validar.setText("                DATO ACTUALIZADO");
+               } else if (consultar.isSelected()) {
+                   int id = Integer.parseInt(T_id.getText());
+                   controlador.consultarPrenda(id, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("                RESULTADO DE CONSULTA");
+               } else if (eliminar.isSelected()) {
+                   int id = Integer.parseInt(T_id.getText());
+                   controlador.eliminarPrenda(id);
+                   validar.setForeground(new Color(75, 0, 130));
+                   vaciarCampos();
+                   validar.setText("               ELIMINADO");
+               } else {
+                   validar.setForeground(Color.red);
+                   validar.setText("ESCOJA UNA OPCION");
+               }
             }else{//Es vendedor y solo evalua llave primaria
  
                 if (T_id.getText().isEmpty()) {
@@ -334,6 +390,9 @@ public class prenda_vestir extends JPanel implements ActionListener{
                 }else{
                     //En llave primaria hay algo
                     validar.setForeground(Color.black);
+                   int id = Integer.parseInt(T_id.getText());
+                    controlador.consultarPrenda(id, Tablero);
+
                     validar.setText("RESULTADO DE LA CONSULTA");
                 }
                 

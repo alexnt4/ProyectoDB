@@ -6,8 +6,8 @@ public class prodTerminado {
     private int idPrenda;
     private int codMaterial;
     private String descripcion;
-    private int precio;
-    private int encargado;
+    private Double precio;
+    private String encargado;
     private int canTerminados;
 
 
@@ -17,7 +17,7 @@ public class prodTerminado {
 
 
 
-    public prodTerminado(int codProdTerm, int idPrenda, int codMaterial, String descripcion, int precio, int encargado, int canTerminados) {
+    public prodTerminado(int codProdTerm, int idPrenda, int codMaterial, String descripcion, Double precio, String encargado, int canTerminados) {
         this.codProdTerm = codProdTerm;
         this.idPrenda = idPrenda;
         this.codMaterial = codMaterial;
@@ -37,8 +37,6 @@ public class prodTerminado {
     public void setCodProdTerm(int codProdTerm) {
         this.codProdTerm = codProdTerm;
     }
-
-
 
 
     public int getIdPrenda() {
@@ -77,24 +75,24 @@ public class prodTerminado {
 
 
 
-    public int getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
+    public void setPrecio(double precio) {
+        this.precio =  precio;
     }
 
 
 
 
-    public int getEncargado() {
+    public String getEncargado() {
         return encargado;
     }
 
 
-    public void setEncargado(int encargado) {
+    public void setEncargado(String encargado) {
         this.encargado = encargado;
     }
 

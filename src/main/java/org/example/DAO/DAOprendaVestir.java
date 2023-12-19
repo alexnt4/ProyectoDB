@@ -1,15 +1,17 @@
 package org.example.DAO;
-
-
-
-
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import org.example.modelo.*;
+import static org.example.Util.Constantes.ERROR_ACTUALIZACION;
 
 public class DAOprendaVestir {
 
@@ -46,7 +48,7 @@ public class DAOprendaVestir {
                 prendasVestir.add(c);
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la lista de todos: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la lista de todos: " + e.getMessage());
         }
 
         return prendasVestir;
@@ -78,7 +80,7 @@ public class DAOprendaVestir {
 
             }
         } catch (Exception e) {
-            System.out.println("Error al obtener la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al obtener la prenda de vestir: " + e.getMessage());
         }
 
         return c;
@@ -113,31 +115,98 @@ public class DAOprendaVestir {
     }
 
 
-    public static int actualizarPrendaVestir(prendaVestir prendaVestir) {
-        int r = 0;
-        String sql = "UPDATE PRENDA_VESTIR SET SEXO = ?, COLOR = ?, TELA = ?, TIPO = ?, TALLA = ?, DISEÑOPRENDA = ?, PIEZA = ? WHERE ID_PRENDA = ?;";
-        try {
-            conectar.openConnection();
-            conn = conectar.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, prendaVestir.getSexo());
-            ps.setString(2, prendaVestir.getColor());
-            ps.setString(3, prendaVestir.getTela());
-            ps.setString(4, prendaVestir.getTipo());
-            ps.setString(5, prendaVestir.getTalla());
-            ps.setString(6, prendaVestir.getDiseno());
-            ps.setString(7, prendaVestir.getPieza());
-            ps.setInt(8, prendaVestir.getIdPrendaVestir());
-            r = ps.executeUpdate();
-            if (r == 1) {
-                r = 1;
-            } else {
-                r = 0;
-            }
-        } catch (Exception e) {
-            System.out.println("Error al actualizar la prenda de vestir: " + e.getMessage());
+    public static boolean actualizarPrendaVestir(prendaVestir prendaVestirActualizada) {
+        boolean isUpdated = false;
+
+        String sqlActualizar = "UPDATE prenda_vestir SET ";
+        String whereClause = " WHERE id_prenda = ?";
+        ArrayList<String> updates = new ArrayList<>();
+        ArrayList<Object> values = new ArrayList<>();
+
+        if (!prendaVestirActualizada.getColor().isEmpty()) {
+            updates.add("COLOR = ?");
+            values.add(prendaVestirActualizada.getColor());
         }
-        return r;
+
+        if (!prendaVestirActualizada.getDiseno().isEmpty()) {
+            updates.add("DISEÑOPRENDA = ?");
+            values.add(prendaVestirActualizada.getDiseno());
+        }
+
+        if (!prendaVestirActualizada.getSexo().isEmpty()){
+            updates.add("SEXO = ?");
+            values.add(prendaVestirActualizada.getSexo());
+        }
+
+        if (!prendaVestirActualizada.getTela().isEmpty()) {
+            updates.add("TELA = ?");
+            values.add(prendaVestirActualizada.getTela());
+        }
+
+        if (!prendaVestirActualizada.getTipo().isEmpty()) {
+            updates.add("TIPO = ?");
+            values.add(prendaVestirActualizada.getTipo());
+        }
+
+        if (!prendaVestirActualizada.getTalla().isEmpty()) {
+            updates.add("TALLA = ?");
+            values.add(prendaVestirActualizada.getTalla());
+        }
+
+        if (!prendaVestirActualizada.getPieza().isEmpty()) {
+            updates.add("PIEZA = ?");
+            values.add(prendaVestirActualizada.getPieza());
+        }
+
+        if (prendaVestirActualizada.getIdPrendaVestir() > 0) {
+            updates.add("id_prenda = ?");
+            values.add(prendaVestirActualizada.getIdPrendaVestir());
+        }
+
+        if (!updates.isEmpty()) {
+            sqlActualizar += String.join(", ", updates) + whereClause;
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                try (PreparedStatement statement = connection.prepareStatement(sqlActualizar)) {
+                    int index = 1;
+
+                    for (Object value : values) {
+                        if (value instanceof Date) {
+                            statement.setDate(index++, (Date) value);
+                        } else if (value instanceof Double) {
+                            statement.setDouble(index++, (Double) value);
+                        } else if (value instanceof Integer) {
+                            statement.setInt(index++, (Integer) value);
+                        } else if (value instanceof String) {
+                            statement.setString(index++, (String) value);
+                        }
+                    }
+
+                    statement.setInt(index, prendaVestirActualizada.getIdPrendaVestir());
+
+                    int rowsUpdated = statement.executeUpdate();
+
+                    if (rowsUpdated > 0) {
+                        isUpdated = true;
+                        System.out.println("PRENDA actualizado correctamente");
+                    } else {
+                        JOptionPane.showMessageDialog(null,"No se encontró el pedido con el número: " + prendaVestirActualizada.getIdPrendaVestir());
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null,ERROR_ACTUALIZACION + e.getMessage());
+                } finally {
+                    conexion.closeConnection();
+                }
+            }
+        } else {
+            System.out.println("No se han proporcionado datos para actualizar.");
+        }
+
+        return isUpdated;
     }
 
 
@@ -157,10 +226,66 @@ public class DAOprendaVestir {
                 r = 0;
             }
         } catch (Exception e) {
-            System.out.println("Error al eliminar la prenda de vestir: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al eliminar la prenda de vestir: " + e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         return r;
     }
 
 
+      public static void tablaprendaid(int idPrenda, JTable tabla) {
+        try {
+            String q;
+            if (idPrenda != 0) {
+                q = "SELECT * FROM prenda_vestir WHERE ID_PRENDA = ?";
+            } else {
+                q = "SELECT * FROM prenda_vestir";
+            }
+
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            if (connection != null) {
+                PreparedStatement statement = connection.prepareStatement(q);
+
+                if (idPrenda  != 0) {
+                    statement.setInt(1, idPrenda );
+                }
+
+                ResultSet rs = statement.executeQuery();
+
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("ID_PRENDA");
+                model.addColumn("SEXO");
+                model.addColumn("COLOR");
+                model.addColumn("TELA");
+                model.addColumn("TIPO");
+                model.addColumn("TALLA");
+                model.addColumn("DISEÑOPRENDA");
+                model.addColumn("PIEZA");
+
+                while (rs.next()) {
+                    Object[] rowData = {
+                            rs.getInt("ID_PRENDA"),
+                            rs.getString("SEXO"),
+                            rs.getString("COLOR"),
+                            rs.getString("TELA"),
+                            rs.getString("TIPO"),
+                            rs.getString("TALLA"),
+                            rs.getString("DISEÑOPRENDA"),
+                            rs.getString("PIEZA"),
+                    };
+                    model.addRow(rowData);
+                }
+
+                tabla.setModel(model);
+                conexion.closeConnection();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
 }
