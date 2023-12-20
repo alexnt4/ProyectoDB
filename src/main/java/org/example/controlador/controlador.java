@@ -12,12 +12,14 @@ import java.util.Date;
 import static org.example.DAO.DAOcliente.tablaclienteID;
 import static org.example.DAO.DAOinventarioMateriales.tablainventarioID;
 import static org.example.DAO.DAOpedido.tablapedidoid;
+//import static org.example.DAO.DAOprodTerm_x_pedido.tablaProdTerm_x_pedido;
 import static org.example.DAO.DAOproveedor.tablaproveedorNIT;
 import static org.example.DAO.DAOuniforme.tablauniformeID;
 import static org.example.DAO.DAOusuario.tablaUsuarioID;
 import static org.example.DAO.DAOcolegio.tablacolegioID;
 import static org.example.DAO.DAOprendaVestir.tablaprendaid;
 import static org.example.DAO.DAOprodTerminado.tablaProdTerminado;
+import static org.example.DAO.DAOprodTerm_x_pedido.tablaProdTerm_x_pedidoID;
 
 
 public class controlador {
@@ -217,6 +219,26 @@ public class controlador {
         if(Opcion == 5) {DAOinforme.tabla5(IDColegio, tablero);}
         if(Opcion == 6) {DAOinforme.tabla6(tablero);}
         if(Opcion == 7) {DAOinforme.tabla7(tablero);}
+    }
+
+    public static void agregarProdTerm_x_pedido(int numPedido, int codProdTerm, JTable tabla){
+        org.example.modelo.prodTerm_x_pedido NuevoProdTerm_x_pedido = new org.example.modelo.prodTerm_x_pedido(numPedido, codProdTerm);
+        DAOprodTerm_x_pedido.insertarprodTerm_x_pedido(NuevoProdTerm_x_pedido);
+        tablaProdTerm_x_pedidoID(numPedido, tabla);
+    }
+
+    public static void consultarProdTerm_x_pedido(int numPedido, JTable tabla){
+        tablaProdTerm_x_pedidoID(numPedido, tabla);
+    }
+
+    public static void actualizarProdTerm_x_pedido(int numPedido, int codProdTerm, JTable tabla){
+        org.example.modelo.prodTerm_x_pedido ProdTerm_x_pedidoActualizado = new org.example.modelo.prodTerm_x_pedido(numPedido, codProdTerm);
+        DAOprodTerm_x_pedido.actualizarprodTerm_x_pedido(ProdTerm_x_pedidoActualizado);
+        tablaProdTerm_x_pedidoID(numPedido, tabla);
+    }
+
+    public static void eliminarProdTerm_x_pedido(int numPedido){
+        DAOprodTerm_x_pedido.eliminarprodTerm_x_pedido(numPedido);
     }
 
 }

@@ -1,5 +1,7 @@
 package org.example.vista;
 
+import org.example.controlador.controlador;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -219,15 +221,45 @@ public class prodterm_x_pedido extends JPanel implements ActionListener{
         validar.setText(""); //Vaciar el texto
         if (e.getSource() == listo) {
            //Validar si es admin
-           if(Objects.equals(tipo, "administrador")){  
-            //Si es admin evalua los dos campos
-            validarCampos();
-        }else{//Es vendedor y solo evalua llave primaria
+           if(Objects.equals(tipo, "administrador")) {
+               //Si es admin evalua los dos campos
+               validarCampos();
+               controlador control = new controlador();
+               if (insertar.isSelected()) {
+                   int numeroPedido = Integer.parseInt(T_id.getText());
+                   int codProdTerm = Integer.parseInt(T_nom.getText());
+                   controlador.agregarProdTerm_x_pedido(numeroPedido, codProdTerm, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("INSERTAR");
+               } else if (actualizar.isSelected()) {
+                   int numeroPedido = Integer.parseInt(T_id.getText());
+                   int codProdTerm = Integer.parseInt(T_nom.getText());
+                   controlador.actualizarProdTerm_x_pedido(numeroPedido, codProdTerm, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("ACTUALIZAR");
+
+               } else if (consultar.isSelected()) {
+                   int numeroPedido = Integer.parseInt(T_id.getText());
+                   controlador.consultarProdTerm_x_pedido(numeroPedido, Tablero);
+                   validar.setForeground(Color.black);
+                   validar.setText("CONSULTAR");
+               } else if (eliminar.isSelected()) {
+                   int numeroPedido = Integer.parseInt(T_id.getText());
+                   controlador.eliminarProdTerm_x_pedido(numeroPedido);
+                   validar.setForeground(Color.black);
+                   validar.setText("ELIMINAR");
+               }
+           }
+
+            else{//Es vendedor y solo evalua llave primaria
 
             if (T_id.getText().isEmpty()) {
                 validar.setForeground(Color.red);
                 validar.setText("LLENAR EL CAMPO NUMERO PEDIDO!");
             }else{
+                int numeroPedido = Integer.parseInt(T_id.getText());
+                controlador control = new controlador();
+                controlador.consultarProdTerm_x_pedido(numeroPedido, Tablero);
                 //En llave primaria hay algo
                 validar.setForeground(Color.black);
                 validar.setText("RESULTADO DE LA CONSULTA");
