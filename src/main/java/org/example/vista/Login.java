@@ -4,13 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionEvent;
 import org.example.controlador.controlador;
@@ -20,7 +14,8 @@ import org.example.modelo.pedido;
 public class Login extends JFrame implements ActionListener {
 
     JPanel panel;
-    JTextField T_usuarioTitulo,T_usuario,T_passwordTitulo,T_password;
+    JTextField T_usuarioTitulo,T_usuario,T_passwordTitulo;
+    JPasswordField T_password;
     JButton listo;
     JTextArea tituloVentana;
     static JLabel validar;
@@ -87,7 +82,7 @@ public class Login extends JFrame implements ActionListener {
         T_passwordTitulo.setBounds(35,180,120,25);
         panel.add(T_passwordTitulo);
 
-        T_password = new JTextField();
+        T_password = new JPasswordField();
         T_password.setBounds(35,210,280,30);
         T_password.setBorder(new LineBorder(Color.gray));
         panel.add(T_password);
