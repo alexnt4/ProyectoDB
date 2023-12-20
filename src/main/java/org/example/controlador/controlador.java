@@ -237,8 +237,8 @@ public class controlador {
         tablaProdTerm_x_pedidoID(numPedido, tabla);
     }
 
-    public static void eliminarProdTerm_x_pedido(int numPedido){
-        DAOprodTerm_x_pedido.eliminarprodTerm_x_pedido(numPedido);
+    public static void eliminarProdTerm_x_pedido(int numPedido, int Pedido){
+        DAOprodTerm_x_pedido.eliminarprodTerm_x_pedido(numPedido, Pedido);
     }
 
 }
