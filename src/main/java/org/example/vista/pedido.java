@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -19,8 +20,6 @@ import static org.example.Util.Constantes.VALIDAR_CAMPOS;
 public class pedido extends JPanel implements ActionListener{
     JTextField T_numTitulo;
     static JTextField T_num;
-    JTextField T_facturaTitulo;
-    static JTextField T_factura;
     JTextField T_montoTitulo;
     static JTextField T_monto;
     JTextField T_abonoTitulo;
@@ -80,18 +79,18 @@ public class pedido extends JPanel implements ActionListener{
         T_num.setBorder(new LineBorder(Color.gray));
         add(T_num );
 
-        T_facturaTitulo = new JTextField();
-        T_facturaTitulo.setText(" FACTURA ");
-        T_facturaTitulo.setFont(new Font("arial", 3, 15));
-        T_facturaTitulo.setEditable(false);
-        T_facturaTitulo.setBorder(new LineBorder(Color.gray));
-        T_facturaTitulo.setBounds(15,130,190,30);
-        add( T_facturaTitulo);
+        T_docTitulo = new JTextField();
+        T_docTitulo.setText(" DOC CLIENTE ");
+        T_docTitulo.setFont(new Font("arial", 3, 15));
+        T_docTitulo.setEditable(false);
+        T_docTitulo.setBorder(new LineBorder(Color.gray));
+        T_docTitulo.setBounds(15,130,190,30);
+        add( T_docTitulo);
 
-        T_factura = new JTextField();
-        T_factura.setBounds(225,130,220,31);
-        T_factura.setBorder(new LineBorder(Color.gray));
-        add( T_factura);
+        T_doc = new JTextField();
+        T_doc.setBounds(225,130,220,31);
+        T_doc.setBorder(new LineBorder(Color.gray));
+        add( T_doc);
 
         T_montoTitulo = new JTextField();
         T_montoTitulo.setText(" MONTO TOTAL");
@@ -170,19 +169,6 @@ public class pedido extends JPanel implements ActionListener{
         T_estado.setBounds(685,230,220,30);
         T_estado.setBorder(new LineBorder(Color.gray));
         add(T_estado);
-
-        T_docTitulo = new JTextField();
-        T_docTitulo.setText(" DOC CLIENTE");
-        T_docTitulo.setFont(new Font("arial", 3, 15));
-        T_docTitulo.setBorder(new LineBorder(Color.gray));
-        T_docTitulo.setEditable(false);
-        T_docTitulo.setBounds(475,280,190,30);
-        add(T_docTitulo);
-
-        T_doc = new JTextField();
-        T_doc.setBounds(685,280,220,30);
-        T_doc.setBorder(new LineBorder(Color.gray));
-        add(T_doc);
 
         listo = new JButton("Listo ");
         listo.setBounds(740,15,165,40);
@@ -297,7 +283,6 @@ public class pedido extends JPanel implements ActionListener{
         T_num.setText("");
         T_abono.setText("");
         T_monto.setText("");
-        T_factura.setText("");
         T_estado.setText("");
         T_fecha_encargo.setText("");
         T_fecha_entrega.setText("");
@@ -322,7 +307,10 @@ public class pedido extends JPanel implements ActionListener{
                     String medPersona = T_medida.getText();
                     String estado = T_estado.getText();
                     int DocCliente = Integer.parseInt(T_doc.getText());
-                    int facVenta = Integer.parseInt(T_factura.getText());
+                    int facVenta = 0;
+                    if(Objects.equals(estado, "Entregado")){
+                        facVenta = DAOpedido.obtenerProximoNumeroFactura();
+                    }
                     Double MontoTotal = Double.valueOf(T_monto.getText());
                     Date fechaEncargo = new Date(sdf.parse(T_fecha_encargo.getText()).getTime());
                     Date fechaEntrega = new Date(sdf.parse(T_fecha_entrega.getText()).getTime());
@@ -337,9 +325,9 @@ public class pedido extends JPanel implements ActionListener{
                     String medPersona = T_medida.getText();
                     String estado = T_estado.getText();
                     int DocCliente = T_doc.getText().isEmpty() ? 0 : Integer.parseInt(T_doc.getText());
-                    int facVenta = T_factura.getText().isEmpty() ? 0 : Integer.parseInt(T_factura.getText());
+                    int facVenta = DAOpedido.obtenerPedidoPorNumero(numPedido).getFacVenta();
+                    System.out.println(facVenta);
                     Double MontoTotal = T_monto.getText().isEmpty() ? 0.0 : Double.valueOf(T_monto.getText());
-
                     Date fechaEncargo = null;
                     Date fechaEntrega = null;
 

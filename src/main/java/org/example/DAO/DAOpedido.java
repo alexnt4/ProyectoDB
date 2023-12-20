@@ -130,9 +130,19 @@ public class DAOpedido {
         }
 
         if (pedidoModificado.getFacVenta() == 0 && Objects.equals(pedidoModificado.getEstado(), "Entregado")) {
+
             int nuevoNumeroFactura = obtenerProximoNumeroFactura(); // Función que obtiene el siguiente número de factura
             updates.add("FACTURA_VENTA = ?");
             values.add(nuevoNumeroFactura);
+        }
+
+        if((pedidoModificado.getFacVenta() == obtenerPedidoPorNumero(pedidoModificado.getNumPedido()).getFacVenta()) &&  Objects.equals(pedidoModificado.getEstado(), "Entregado")){
+            System.out.println("Hola mama");
+        }
+
+        if((pedidoModificado.getFacVenta() != 0) &&  !Objects.equals(pedidoModificado.getEstado(), "Entregado")){
+            updates.add("FACTURA_VENTA = ?");
+            values.add(0);
         }
 
 
