@@ -230,25 +230,26 @@ public class prodterm_x_pedido extends JPanel implements ActionListener{
                    int codProdTerm = Integer.parseInt(T_nom.getText());
                    controlador.agregarProdTerm_x_pedido(numeroPedido, codProdTerm, Tablero);
                    validar.setForeground(Color.black);
-                   validar.setText("INSERTAR");
+                   validar.setText("               DATO INSERTADO");
                } else if (actualizar.isSelected()) {
                    int numeroPedido = Integer.parseInt(T_id.getText());
                    int codProdTerm = Integer.parseInt(T_nom.getText());
                    controlador.actualizarProdTerm_x_pedido(numeroPedido, codProdTerm, Tablero);
-                   validar.setForeground(Color.black);
-                   validar.setText("ACTUALIZAR");
+                   validar.setForeground(new Color(0,128,0));
+                   validar.setText("                DATO ACTUALIZADO");
 
                } else if (consultar.isSelected()) {
                    int numeroPedido = Integer.parseInt(T_id.getText());
                    controlador.consultarProdTerm_x_pedido(numeroPedido, Tablero);
                    validar.setForeground(Color.black);
-                   validar.setText("CONSULTAR");
+                   validar.setText("                RESULTADO DE CONSULTA");
                } else if (eliminar.isSelected()) {
                    int numeroPedido = Integer.parseInt(T_id.getText());
                    int Pedido = Integer.parseInt(T_nom.getText());
                    controlador.eliminarProdTerm_x_pedido(numeroPedido, Pedido);
-                   validar.setForeground(Color.black);
-                   validar.setText("ELIMINAR");
+                   validar.setForeground(new Color(75, 0, 130));
+                   vaciarCampos();
+                   validar.setText("               ELIMINADO");
                }
            }
 
