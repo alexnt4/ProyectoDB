@@ -10,12 +10,12 @@ public class pedido {
     private String medPersona;
     private String estado;
     private int docCliente;
-    private int facVenta;
+    private int facVenta = 0;
     private Double montoTotal;
 
 
     public pedido() {
-
+        
     }
 
 
