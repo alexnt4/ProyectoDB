@@ -36,7 +36,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
     String name;
     JTextArea nombres;
 
-    //Construccion
+    //Constructor de la clase
     public PantallaPrincipal (String cargo,String nombre){
         
         super("Base Of Data");
