@@ -130,14 +130,15 @@ public class DAOpedido {
         }
 
         if (pedidoModificado.getFacVenta() == 0 && Objects.equals(pedidoModificado.getEstado(), "Entregado")) {
-
             int nuevoNumeroFactura = obtenerProximoNumeroFactura(); // Función que obtiene el siguiente número de factura
             updates.add("FACTURA_VENTA = ?");
             values.add(nuevoNumeroFactura);
         }
 
         if((pedidoModificado.getFacVenta() == obtenerPedidoPorNumero(pedidoModificado.getNumPedido()).getFacVenta()) &&  Objects.equals(pedidoModificado.getEstado(), "Entregado")){
-            System.out.println("Hola mama");
+            DAOprodTerminado.eliminarProdTerminado(obtenerPedidoAeliminar(pedidoModificado.getNumPedido()));
+            DAOprodTerm_x_pedido.eliminarprodTerm_x_pedido(pedidoModificado.getNumPedido(), obtenerPedidoAeliminar(pedidoModificado.getNumPedido()));
+
         }
 
         if((pedidoModificado.getFacVenta() != 0) &&  !Objects.equals(pedidoModificado.getEstado(), "Entregado")){
@@ -361,6 +362,43 @@ public class DAOpedido {
 
         return nuevoNumeroFactura;
     }
+
+    public static int obtenerPedidoAeliminar(int numeroPedido) {
+        int CodigoEliminar = 0;
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try {
+                String consultaCodigoEliminar = "SELECT pp.cod_prodterm " +
+                        "FROM producto_terminado pr INNER JOIN prodterm_x_pedido pp ON " +
+                        "pr.cod_prodterm = pp.cod_prodterm " +
+                        "WHERE pp.num_ped = ?";
+
+                PreparedStatement statement = connection.prepareStatement(consultaCodigoEliminar);
+                statement.setInt(1, numeroPedido);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                // Asignar el valor al CodigoEliminar si hay resultados
+                if (resultSet.next()) {
+                    CodigoEliminar = resultSet.getInt(1);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al obtener el codigo a eliminar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } finally {
+                conexion.closeConnection();
+            }
+        } else {
+            System.out.println("Error en la conexión a la base de datos");
+        }
+
+        return CodigoEliminar;
+    }
+
 
 
 

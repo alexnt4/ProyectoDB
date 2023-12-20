@@ -245,7 +245,8 @@ public class prodterm_x_pedido extends JPanel implements ActionListener{
                    validar.setText("CONSULTAR");
                } else if (eliminar.isSelected()) {
                    int numeroPedido = Integer.parseInt(T_id.getText());
-                   controlador.eliminarProdTerm_x_pedido(numeroPedido);
+                   int Pedido = Integer.parseInt(T_nom.getText());
+                   controlador.eliminarProdTerm_x_pedido(numeroPedido, Pedido);
                    validar.setForeground(Color.black);
                    validar.setText("ELIMINAR");
                }

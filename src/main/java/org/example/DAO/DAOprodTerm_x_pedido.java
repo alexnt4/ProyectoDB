@@ -120,18 +120,52 @@ public class DAOprodTerm_x_pedido {
         }
     }
 
-    public static void eliminarprodTerm_x_pedido (int ID) {
+    public static void eliminarprodTerm_x_pedido(int numPedido, int codProdTerm) {
         try {
-            conectar.openConnection();
-            conn = conectar.getConnection();
-            ps = conn.prepareStatement("DELETE FROM prodTerm_x_pedido  WHERE NUM_PED = ?;");
-            ps.setInt(1, ID);
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "prodTerm_x_pedido  eliminado correctamente");
+            ConexionBD conexion = new ConexionBD();
+            conexion.openConnection();
+            Connection connection = conexion.getConnection();
+
+            // Deshabilitar restricciones de clave foránea temporalmente
+            String disableForeignKey = "SET FOREIGN_KEY_CHECKS=0;";
+            String enableForeignKey = "SET FOREIGN_KEY_CHECKS=1;";
+
+            // Eliminar la referencia en PEDIDO
+            String deleteFromPedido = "UPDATE PEDIDO SET COD_PRODTERM = NULL WHERE NUM_PED = ? AND COD_PRODTERM = ?;";
+
+            // Eliminar el registro en PRODTERM_X_PEDIDO
+            String deleteFromProdTermXPedido = "DELETE FROM PRODTERM_X_PEDIDO WHERE NUM_PED = ? AND COD_PRODTERM = ?;";
+
+            if (connection != null) {
+                try (PreparedStatement disableFK = connection.prepareStatement(disableForeignKey);
+                     PreparedStatement enableFK = connection.prepareStatement(enableForeignKey);
+                     PreparedStatement deletePedido = connection.prepareStatement(deleteFromPedido);
+                     PreparedStatement deleteProdTermXPedido = connection.prepareStatement(deleteFromProdTermXPedido)) {
+
+                    // Deshabilitar restricciones de clave foránea
+                    disableFK.executeUpdate();
+
+                    // Eliminar la referencia en PEDIDO
+                    deletePedido.setInt(1, numPedido);
+                    deletePedido.setInt(2, codProdTerm);
+                    deletePedido.executeUpdate();
+
+                    // Eliminar el registro en PRODTERM_X_PEDIDO
+                    deleteProdTermXPedido.setInt(1, numPedido);
+                    deleteProdTermXPedido.setInt(2, codProdTerm);
+                    deleteProdTermXPedido.executeUpdate();
+
+                    // Habilitar restricciones de clave foránea nuevamente
+                    enableFK.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "prodTerm_x_pedido eliminado correctamente");
+                }
+            }
         } catch (SQLException e) {
             System.out.println(ERROR_ACTUALIZACION + e.getMessage());
         }
     }
+
 
 
 }
