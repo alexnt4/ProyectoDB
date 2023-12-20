@@ -36,7 +36,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
     String name;
     JTextArea nombres;
 
-    //Construccion
+    //Constructor de la clase
     public PantallaPrincipal (String cargo,String nombre){
         
         super("Base Of Data");
@@ -44,7 +44,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
         getContentPane().setBackground(new Color(0, 191, 255));
         setLayout(null);
         setLocationRelativeTo(null);
-        //setResizable(false);
+        setResizable(false); //La ventana no se puede agrandar
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.tipo = cargo;
@@ -310,6 +310,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             cliente.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         
@@ -349,7 +351,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             colegio.vaciarCampos();
-  
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         if(e.getSource() == B_inventario_materiales){
@@ -392,6 +395,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             inventario_materiales.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         if(e.getSource() == B_usuario){
@@ -431,6 +436,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Informe.setVisible(false);
             informe.vaciarCampos();
             Usuario.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         if(e.getSource() == B_pedido){
@@ -471,6 +478,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             pedido.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         if(e.getSource() == B_back){
@@ -515,6 +524,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             prenda_vestir.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         if(e.getSource() == B_prodterm_X_pedido){
@@ -554,7 +565,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             prodterm_x_pedido.vaciarCampos();
-            
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
         if(e.getSource() == B_proveedor){
             B_cliente.setBackground(Color.white);
@@ -591,6 +603,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             Uniforme.setVisible(false);
             uniforme.vaciarCampos();
             proveedor.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
         
         if(e.getSource() == B_producto_terminado){
@@ -665,6 +679,8 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
             proveedor.vaciarCampos();  
             Uniforme.setVisible(true); 
             uniforme.vaciarCampos();
+            Informe.setVisible(false);
+            informe.vaciarCampos();
         }
 
         if(e.getSource() == B_informe){
