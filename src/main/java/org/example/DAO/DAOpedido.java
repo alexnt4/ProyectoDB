@@ -136,8 +136,9 @@ public class DAOpedido {
         }
 
         if((pedidoModificado.getFacVenta() == obtenerPedidoPorNumero(pedidoModificado.getNumPedido()).getFacVenta()) &&  Objects.equals(pedidoModificado.getEstado(), "Entregado")){
-            DAOprodTerminado.eliminarProdTerminado(obtenerPedidoAeliminar(pedidoModificado.getNumPedido()));
+            int c = obtenerPedidoAeliminar(pedidoModificado.getNumPedido());
             DAOprodTerm_x_pedido.eliminarprodTerm_x_pedido(pedidoModificado.getNumPedido(), obtenerPedidoAeliminar(pedidoModificado.getNumPedido()));
+            DAOprodTerminado.eliminarProductoTerminado(c);
 
         }
 
@@ -384,7 +385,9 @@ public class DAOpedido {
 
                 // Asignar el valor al CodigoEliminar si hay resultados
                 if (resultSet.next()) {
-                    CodigoEliminar = resultSet.getInt(1);
+                    do {
+                        CodigoEliminar = resultSet.getInt("cod_prodterm");
+                    } while (resultSet.next());
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al obtener el codigo a eliminar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -398,6 +401,7 @@ public class DAOpedido {
 
         return CodigoEliminar;
     }
+
 
 
 

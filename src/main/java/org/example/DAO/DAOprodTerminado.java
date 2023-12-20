@@ -204,25 +204,34 @@ public class DAOprodTerminado {
     }
 
 
-    public static int eliminarProdTerminado(int codProdTerm) {
-        int r = 0;
-        String sql = "DELETE FROM PRODUCTO_TERMINADO WHERE COD_PRODTERM = ?;";
-        try {
-            conectar.openConnection();
-            conn = conectar.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, codProdTerm);
-            r = ps.executeUpdate();
-            if (r == 1) {
-                r = 1;
-            } else {
-                r = 0;
+    public static boolean eliminarProductoTerminado(int codigo) {
+        boolean isDeleted = false;
+
+        String sqlEliminar = "DELETE FROM PRODUCTO_TERMINADO WHERE COD_PRODTERM = ?";
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try (PreparedStatement statement = connection.prepareStatement(sqlEliminar)) {
+                statement.setInt(1, codigo);
+
+                int rowsDeleted = statement.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    isDeleted = true;
+                    System.out.println("Pedido eliminado correctamente");
+                } else {
+                    System.out.println("No se encontró el pedido con el número: " + codigo);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar pedido " + e.getMessage(), "Error ", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                conexion.closeConnection();
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error al eliminar el producto terminado: " + e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
         }
-        return r;
+        return isDeleted;
     }
 
     public static void tablaProdTerminado(int iCodprodTerm, JTable tabla) {
