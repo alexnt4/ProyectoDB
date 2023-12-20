@@ -208,7 +208,7 @@ public class controlador {
     }
 
     public static void eliminarProdTerminado(int codProdTerm){
-        DAOprodTerminado.eliminarProdTerminado(codProdTerm);
+        DAOprodTerminado.eliminarProductoTerminado(codProdTerm);
     }
 
     public static void tablasInforme(int Opcion, int IDColegio, JTable tablero){
