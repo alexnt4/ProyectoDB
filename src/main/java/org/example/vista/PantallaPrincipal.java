@@ -253,7 +253,7 @@ public class PantallaPrincipal extends JFrame implements ActionListener{
 
         nombres = new JTextArea();
         nombres.setText(" PROGRAMADORES: " +
-                        "\n ALEX GACRIA" +
+                        "\n ALEX GARCIA" +
                         "\n STIVEN HENAO" +
                         "\n SEBASTIAN GOMEZ"
         );      

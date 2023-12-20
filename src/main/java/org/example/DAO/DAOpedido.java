@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.example.Util.Constantes.ERROR_ACTUALIZACION;
 import static org.example.Util.Constantes.ERROR_DE_CONSULTA;
@@ -128,10 +129,12 @@ public class DAOpedido {
             values.add(pedidoModificado.getDocCliente());
         }
 
-        if (pedidoModificado.getFacVenta() > 0) {
+        if (pedidoModificado.getFacVenta() == 0 && Objects.equals(pedidoModificado.getEstado(), "Entregado")) {
+            int nuevoNumeroFactura = obtenerProximoNumeroFactura(); // Función que obtiene el siguiente número de factura
             updates.add("FACTURA_VENTA = ?");
-            values.add(pedidoModificado.getFacVenta());
+            values.add(nuevoNumeroFactura);
         }
+
 
         if (pedidoModificado.getMontoTotal() != null && pedidoModificado.getMontoTotal() > 0) {
             updates.add("MONTO_TOTAL = ?");
@@ -315,6 +318,40 @@ public class DAOpedido {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+
+    public static int obtenerProximoNumeroFactura() {
+        int nuevoNumeroFactura = 0;
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.openConnection();
+        Connection connection = conexion.getConnection();
+
+        if (connection != null) {
+            try {
+                // Consulta para obtener el máximo número de factura actual
+                String consultaMaxFactura = "SELECT MAX(FACTURA_VENTA) FROM Pedido";
+
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(consultaMaxFactura);
+
+                if (resultSet.next()) {
+                    int maxFacturaActual = resultSet.getInt(1);
+                    // Incrementar en uno para obtener el siguiente número de factura
+                    nuevoNumeroFactura = maxFacturaActual + 1;
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al obtener el próximo número de factura: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } finally {
+                conexion.closeConnection();
+            }
+        } else {
+            System.out.println("Error en la conexión a la base de datos");
+        }
+
+        return nuevoNumeroFactura;
+    }
+
 
 
 
